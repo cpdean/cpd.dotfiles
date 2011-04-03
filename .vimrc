@@ -24,3 +24,6 @@ set incsearch       " Search as you type the regex
 set hlsearch        " Highlight found search results
 set ruler           " Show the line number and column of cursor position
 set linebreak       " More visually appealing wordwrap
+
+"fix snipmate bug on html <head>
+filetype plugin on
