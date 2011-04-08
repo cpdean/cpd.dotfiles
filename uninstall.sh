@@ -2,7 +2,12 @@
 
 if [ -d ~/.olddotfiles ]
     then
-        cp -rf ~/.olddotfiles/* ~/
+        #Don't know how to do this cleanly
+        mv ~/.olddotfiles/.bashrc ~/
+        mv ~/.olddotfiles/.vimrc ~/
+
+        rm ~/.vim
+        mv ~/.olddotfiles/.vim ~/
         rm -rf ~/.olddotfiles
     else
         echo "You don't have a folder of old dotfiles."
