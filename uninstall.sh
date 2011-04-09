@@ -1,8 +1,12 @@
 #!/bin/bash
-
 if [ -d ~/.olddotfiles ]
     then
-        cp -rf ~/.olddotfiles/* ~/
+        #Don't know how to do this cleanly
+        cp ~/.olddotfiles/.bashrc ~/
+        cp ~/.olddotfiles/.bash_profile ~/
+        cp ~/.olddotfiles/.vimrc ~/
+        cp ~/.olddotfiles/.vim ~/
+
         echo "Finished transfering backed up dot files."
         echo "Check to make sure that the contents of"
         echo "~/.olddotfiles matches the contents of ~/"
