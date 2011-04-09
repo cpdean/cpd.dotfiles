@@ -17,17 +17,4 @@ if [ -d ~/.olddotfiles ]
         installFile .bashrc
         installFile .bash_profile
         installFile .vimrc
-:<<comments
-        mv ~/.vim ~/.olddotfiles/.vim
-        ln -s ~/.dotfiles/.vim ~/.vim
-
-        mv ~/.bashrc ~/.olddotfiles/.bashrc
-        ln -s ~/.dotfiles/.bashrc ~/.bashrc
-
-        mv ~/.bash_profile ~/.olddotfiles/.bash_profile
-        ln -s ~/.dotfiles/.bash_profile ~/.bash_profile
-
-        mv ~/.vimrc ~/.olddotfiles/.vimrc
-        ln -s ~/.dotfiles/.vimrc ~/.vimrc
-comments
 fi

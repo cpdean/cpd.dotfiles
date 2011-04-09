@@ -1,4 +1,5 @@
 #!/bin/bash
+
 replaceLink(){
 # Assumption is that existence of .olddotfiles means deleting the link
 # won't delete anything important.
