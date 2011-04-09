@@ -11,6 +11,9 @@ if [ -d ~/.olddotfiles ]
         mv ~/.bashrc ~/.olddotfiles/.bashrc
         ln -s ~/.dotfiles/.bashrc ~/.bashrc
 
+        mv ~/.bash_profile ~/.olddotfiles/.bash_profile
+        ln -s ~/.dotfiles/.bash_profile ~/.bash_profile
+
         mv ~/.vimrc ~/.olddotfiles/.vimrc
         ln -s ~/.dotfiles/.vimrc ~/.vimrc
 fi
