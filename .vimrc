@@ -27,3 +27,7 @@ set linebreak       " More visually appealing wordwrap
 
 "fix snipmate bug on html <head>
 filetype plugin on
+
+" add <F6> binding for running python code
+" should eventually update it so that I can make <F6> run things based on filetype
+nmap <F6> :w<CR>:!python %<CR>
