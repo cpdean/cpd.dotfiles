@@ -21,6 +21,7 @@ if [ -d ~/.olddotfiles ]
     then
         replaceLink .bashrc
         replaceLink .bash_profile
+        replaceLink .bash_aliases
         replaceLink .vimrc
         replaceLink .vim
 
