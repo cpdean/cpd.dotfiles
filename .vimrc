@@ -15,10 +15,9 @@ set number
 "au BufNewFile,BufRead *.j set filetype=javascript " From internet
 au BufNewFile,BufRead *.j               setf objj " From looking at /etc/share/vim/vim72/filetype.vim
 
-"Need to have BufWinLeave and BufWinEnter after the newfile/buffread events or they don't register?
 " Keep track of code folding
-au BufWinLeave * mkview
-au BufWinEnter * silent loadview
+au BufWinLeave * silent! mkview
+au BufWinEnter * silent! loadview
 
 set incsearch       " Search as you type the regex
 set hlsearch        " Highlight found search results
