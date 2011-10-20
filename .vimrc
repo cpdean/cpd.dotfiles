@@ -2,6 +2,8 @@
 set smartindent
 "shows stuff on bottom
 set showcmd
+"give visual indication of what's available for tab completion
+set wildmenu
 " I don't know what these do, I just do them
 set ts =4
 set expandtab
