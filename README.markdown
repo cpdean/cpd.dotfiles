@@ -11,7 +11,7 @@ Any dot files of yours that would be over-written are saved to `.olddotfiles` an
 
 ### Clone the git repository:
     cd ~/
-    git clone git://github.com/cpdean/gpd.dotfiles.git .dotfiles
+    git clone git://github.com/cpdean/cpd.dotfiles.git .dotfiles
 ### Run the installer
     bash ~/.dotfiles/install.sh
 The install script will move all the dot files that would've been
