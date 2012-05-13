@@ -21,6 +21,9 @@ au BufNewFile,BufRead *.j               setf objj " From looking at /etc/share/v
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
 
+" Search usability
+set ignorecase      " search matches ignore case
+set smartcase       " search matches case if you start using it
 set incsearch       " Search as you type the regex
 set hlsearch        " Highlight found search results
 set ruler           " Show the line number and column of cursor position
