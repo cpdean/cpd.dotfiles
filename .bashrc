@@ -105,5 +105,5 @@ export PATH=opt/mono-2.11/bin:$PATH:~/dev/webs/narwhal/bin
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
 PS1='\h:\W \$ '
-PS1='\[\033[01;30m\]\h\[\033[00m\]:\[\033[00;31m\]\W\[\033[00m\]\$ '
+PS1='\[\033[01;30;47m\]\h\[\033[00m\]:\[\033[00;31m\]\W\[\033[00m\]\$ '
 EDITOR=vim
