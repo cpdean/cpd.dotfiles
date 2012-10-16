@@ -9,6 +9,8 @@ set ts =4
 set expandtab
 set tabstop=4
 set shiftwidth=4
+" for some reason i find out now that html isn't getting indented
+filetype indent on
 syntax on
 "line numbersss
 set number
