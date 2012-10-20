@@ -19,6 +19,10 @@ set number
 "au BufNewFile,BufRead *.j set filetype=javascript " From internet
 au BufNewFile,BufRead *.j               setf objj " From looking at /etc/share/vim/vim72/filetype.vim
 
+" md means markdown, vim.
+au BufNewFile,BufRead *.md               set ft=markdown
+
+
 " Keep track of code folding
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
