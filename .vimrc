@@ -9,11 +9,14 @@ set ts =4
 set expandtab
 set tabstop=4
 set shiftwidth=4
-" for some reason i find out now that html isn't getting indented
-filetype indent on
 syntax on
 "line numbersss
 set number
+" for some reason i find out now that html isn't getting indented
+filetype indent on
+
+" do vundle stuff
+source ~/.vim/.vundle_settings
 
 " adding custom filetype recognition.  Name should correspond to syntax definition in ~/.vim/syntax/<name>.vim
 "au BufNewFile,BufRead *.j set filetype=javascript " From internet
