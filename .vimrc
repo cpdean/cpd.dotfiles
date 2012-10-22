@@ -21,22 +21,19 @@ set hlsearch        " Highlight found search results
 set ruler           " Show the line number and column of cursor position
 set linebreak       " More visually appealing wordwrap
 
-" for some reason i find out now that html isn't getting indented
-filetype indent on
-
-" do vundle stuff
-source ~/.vim/.vundle_settings
-
 
 " md means markdown, vim.
 au BufNewFile,BufRead *.md               set ft=markdown
-
 
 " Keep track of code folding
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
 
-"fix snipmate bug on html <head>
+" do vundle stuff
+source ~/.vim/.vundle_settings
+
+" use filetype plugin indent. i'm told this must come after
+" vundle stuff
 filetype plugin indent on
 
 " add <F6> binding for running python code
