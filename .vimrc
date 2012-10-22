@@ -18,9 +18,6 @@ filetype indent on
 " do vundle stuff
 source ~/.vim/.vundle_settings
 
-" adding custom filetype recognition.  Name should correspond to syntax definition in ~/.vim/syntax/<name>.vim
-"au BufNewFile,BufRead *.j set filetype=javascript " From internet
-au BufNewFile,BufRead *.j               setf objj " From looking at /etc/share/vim/vim72/filetype.vim
 
 " md means markdown, vim.
 au BufNewFile,BufRead *.md               set ft=markdown
@@ -39,31 +36,7 @@ set ruler           " Show the line number and column of cursor position
 set linebreak       " More visually appealing wordwrap
 
 "fix snipmate bug on html <head>
-filetype plugin on
-
-"Vala syntax settings: http://live.gnome.org/Vala/Vim
-autocmd BufRead *.vala set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
-autocmd BufRead *.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
-au BufRead,BufNewFile *.vala            setfiletype vala
-au BufRead,BufNewFile *.vapi            setfiletype vala
-
-"Optional vala settings
-" Disable valadoc syntax highlight
-"let vala_ignore_valadoc = 1
-
-" Enable comment strings
-let vala_comment_strings = 1
-
-" Highlight space errors
-"let vala_space_errors = 1
-" Disable trailing space errors
-"let vala_no_trail_space_error = 1
-" Disable space-tab-space errors
-let vala_no_tab_space_error = 1
-
-" Minimum lines used for comment syncing (default 50)
-"let vala_minlines = 120
-
+filetype plugin indent on
 
 " Mappings
 nmap <leader>f :FufCoverageFile<CR>
