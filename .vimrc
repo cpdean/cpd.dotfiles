@@ -12,6 +12,15 @@ set shiftwidth=4
 syntax on
 "line numbersss
 set number
+
+" Search usability
+set ignorecase      " search matches ignore case
+set smartcase       " search matches case if you start using it
+set incsearch       " Search as you type the regex
+set hlsearch        " Highlight found search results
+set ruler           " Show the line number and column of cursor position
+set linebreak       " More visually appealing wordwrap
+
 " for some reason i find out now that html isn't getting indented
 filetype indent on
 
@@ -26,14 +35,6 @@ au BufNewFile,BufRead *.md               set ft=markdown
 " Keep track of code folding
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
-
-" Search usability
-set ignorecase      " search matches ignore case
-set smartcase       " search matches case if you start using it
-set incsearch       " Search as you type the regex
-set hlsearch        " Highlight found search results
-set ruler           " Show the line number and column of cursor position
-set linebreak       " More visually appealing wordwrap
 
 "fix snipmate bug on html <head>
 filetype plugin indent on
