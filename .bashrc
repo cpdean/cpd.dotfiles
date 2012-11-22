@@ -101,7 +101,7 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-export PATH=~/.dotfiles/custom-scripts:opt/mono-2.11/bin:$PATH:~/dev/webs/narwhal/bin
+export PATH=~/.dotfiles/custom-scripts:/usr/local/share/python:$PATH
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
 PS1='\h:\W \$ '

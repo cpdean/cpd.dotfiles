@@ -11,5 +11,8 @@ Bundle 'gmarik/vundle'
 " original repos on github
 Bundle 'msanders/snipmate.vim'
 Bundle 'kien/ctrlp.vim'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'vim-scripts/Jinja'
+Bundle 'scrooloose/syntastic'
 
 filetype plugin indent on

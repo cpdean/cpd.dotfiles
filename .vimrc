@@ -32,6 +32,11 @@ au BufWinEnter * silent! loadview
 " do vundle stuff
 source ~/.vim/.vundle_settings
 
+" powerline
+set nocompatible   " Disable vi-compatibility
+set laststatus=2   " Always show the statusline
+set encoding=utf-8 " Necessary to show Unicode glyphs
+
 " use filetype plugin indent. i'm told this must come after
 " vundle stuff
 filetype plugin indent on
