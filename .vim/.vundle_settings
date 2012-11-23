@@ -14,5 +14,6 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'vim-scripts/Jinja'
 Bundle 'scrooloose/syntastic'
+Bundle 'vim-scripts/VimClojure'
 
 filetype plugin indent on
