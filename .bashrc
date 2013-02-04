@@ -101,7 +101,12 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-export PATH=~/.dotfiles/custom-scripts:/usr/local/share/python:$PATH
+
+CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
+PYTHON_FOR_OSX=/usr/local/share/python
+NODE_FOR_OSX=/usr/local/share/npm/bin
+export PATH=$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
+
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
 PS1='\h:\W \$ '
