@@ -48,6 +48,7 @@ Bundle 'vim-scripts/Jinja'
 Bundle 'pangloss/vim-javascript'
 Bundle 'scrooloose/syntastic'
 Bundle 'vim-scripts/VimClojure'
+Bundle 'puppetlabs/puppet-syntax-vim'
 
 filetype plugin indent on
 " /do vundle stuff ###############
