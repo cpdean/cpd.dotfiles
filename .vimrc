@@ -45,14 +45,17 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " original repos on github
-Bundle 'msanders/snipmate.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Lokaltog/vim-powerline'
+" syntax stuff
+Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'vim-scripts/Jinja'
 Bundle 'pangloss/vim-javascript'
-Bundle 'scrooloose/syntastic'
 Bundle 'vim-scripts/VimClojure'
-Bundle 'puppetlabs/puppet-syntax-vim'
+" ui features
+Bundle 'kien/ctrlp.vim'
+Bundle 'msanders/snipmate.vim'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'scrooloose/syntastic'
+Bundle 'xolox/vim-easytags'
 
 filetype plugin indent on
 " /do vundle stuff ###############
