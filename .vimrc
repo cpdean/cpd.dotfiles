@@ -25,6 +25,10 @@ set linebreak       " More visually appealing wordwrap
 " md means markdown, vim.
 au BufNewFile,BufRead *.md               set ft=markdown
 
+" cljs might as well be clojure
+au BufNewFile,BufRead *.cljs             set ft=clojure
+
+
 " Keep track of code folding
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
