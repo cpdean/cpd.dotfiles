@@ -62,6 +62,10 @@ filetype plugin indent on
 
 
 " plugin settings ########
+" syntastic disable html checking
+let g:syntastic_mode_map={ 'mode': 'active',
+                     \ 'active_filetypes': [],
+                     \ 'passive_filetypes': ['html'] }
 
 " powerline
 set nocompatible   " Disable vi-compatibility
