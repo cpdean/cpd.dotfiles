@@ -120,3 +120,12 @@ export CLICOLOR=1
 if [ -f ~/.dotfiles/.git-completion.bash ]; then
     . ~/.dotfiles/.git-completion.bash
 fi
+
+# virtualenvwrapper stuff
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/dev
+# init virtualenvwrapper on mac
+if [ -f  /usr/local/bin/virtualenvwrapper.sh]; then
+    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
