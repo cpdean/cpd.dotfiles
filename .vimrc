@@ -55,7 +55,6 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'msanders/snipmate.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
-Bundle 'xolox/vim-easytags'
 
 filetype plugin indent on
 " /do vundle stuff ###############
