@@ -115,3 +115,8 @@ EDITOR=vim
 
 # set ls to use colors
 export CLICOLOR=1 
+
+# hook into git compeletion for bash
+if [ -f ~/.dotfiles/.git-completion.bash ]; then
+    . ~/.dotfiles/.git-completion.bash
+fi
