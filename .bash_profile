@@ -4,6 +4,7 @@ fi
 #eval `ssh-agent`  # This doesn't really work. too many processes left behind
 
 export PATH="/usr/local/bin:$PATH"
+export AWS_CREDENTIAL_FILE=/Users/deanc/.aws_credential_file
 
 
 # startup virtualenv-burrito
