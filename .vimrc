@@ -58,6 +58,8 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'msanders/snipmate.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
+Bundle 'rking/ag.vim'
+"Bundle 'klen/python-mode'
 
 filetype plugin indent on
 " /do vundle stuff ###############
@@ -77,6 +79,7 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
+nmap <leader>f :vim <C-R><C-W> **/*.py
 
 "noremap j <NOP>
 "noremap k <NOP>
