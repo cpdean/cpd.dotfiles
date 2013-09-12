@@ -105,7 +105,8 @@ fi
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
 PYTHON_FOR_OSX=/usr/local/share/python
 NODE_FOR_OSX=/usr/local/share/npm/bin
-export PATH=$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
+AWS_STUFF=~/.dotfiles/custom-scripts/aws/eb/macosx/python2.7
+export PATH=$AWS_STUFF:$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
 
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
@@ -125,7 +126,7 @@ fi
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
-if [ -f  /usr/local/bin/virtualenvwrapper.sh]; then
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
     source /usr/local/bin/virtualenvwrapper.sh
 fi
