@@ -76,6 +76,13 @@ set nocompatible   " Disable vi-compatibility
 set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
 
+" ctrl p stuff
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v([\/]\.(git|hg|svn)|node_modules)$',
+  \ 'file': '\v\.(exe|so|dll|class|)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
