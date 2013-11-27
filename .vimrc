@@ -83,6 +83,9 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
+" Unfuck my screen
+noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
