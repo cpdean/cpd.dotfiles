@@ -90,6 +90,7 @@ noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
 nmap <leader>f :vim <C-R><C-W> **/*.py
+nmap <leader>s :Ag 
 
 "noremap j <NOP>
 "noremap k <NOP>
