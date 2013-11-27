@@ -91,6 +91,7 @@ noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
 nmap <F6> :w<CR>:!python %<CR>
 nmap <leader>f :vim <C-R><C-W> **/*.py
 nmap <leader>s :Ag 
+nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 "noremap j <NOP>
 "noremap k <NOP>
