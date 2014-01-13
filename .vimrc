@@ -78,10 +78,17 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 
 " ctrl p stuff
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v([\/]\.(git|hg|svn)|node_modules)$',
+  \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
   \ 'file': '\v\.(exe|so|dll|class|)$',
-  \ 'link': 'some_bad_symbolic_links',
   \ }
+
+let g:ctrlp_user_command = {
+            \ 'types': {
+                \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+                \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+            \ },
+            \ 'fallback': 'find %s -type f'
+\ }
 
 " Unfuck my screen
 noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
