@@ -53,6 +53,8 @@ Bundle 'vim-scripts/VimClojure'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'repos-scala/scala-vundle'
 Bundle 'digitaltoad/vim-jade'
+Bundle 'tpope/vim-markdown'
+
 " ui features
 Bundle 'kien/ctrlp.vim'
 Bundle 'msanders/snipmate.vim'
@@ -84,7 +86,7 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_user_command = {
             \ 'types': {
-                \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others | grep -v node_modules'],
+                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules'],
                 \ 2: ['.hg', 'hg --cwd %s locate -I .'],
             \ },
             \ 'fallback': 'find %s -type f'
