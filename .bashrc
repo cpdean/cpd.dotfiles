@@ -101,6 +101,7 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+complete -C aws_completer aws
 
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
 PYTHON_FOR_OSX=/usr/local/share/python
