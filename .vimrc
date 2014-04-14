@@ -61,6 +61,7 @@ Bundle 'msanders/snipmate.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
 Bundle 'rking/ag.vim'
+Bundle 'goldfeld/vim-seek'
 "Bundle 'klen/python-mode'
 
 filetype plugin indent on
