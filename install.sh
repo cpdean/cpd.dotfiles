@@ -18,4 +18,5 @@ if [ -d ~/.olddotfiles ]
         installFile .bash_profile
         installFile .bash_aliases
         installFile .vimrc
+        installFile .pythonrc
 fi
