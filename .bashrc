@@ -122,6 +122,9 @@ if [ -f ~/.dotfiles/.git-completion.bash ]; then
     . ~/.dotfiles/.git-completion.bash
 fi
 
+# tab completion for python, and maybe other stuff
+export PYTHONSTARTUP=~/.pythonrc
+
 # virtualenvwrapper stuff
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
