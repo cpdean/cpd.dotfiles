@@ -55,6 +55,8 @@ Bundle 'repos-scala/scala-vundle'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'chase/vim-ansible-yaml'
 Bundle 'wting/rust.vim'
+Bundle 'tpope/vim-markdown'
+
 " ui features
 Bundle 'kien/ctrlp.vim'
 Bundle 'msanders/snipmate.vim'
@@ -82,13 +84,19 @@ set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
 
 " ctrl p stuff
-let g:ctrlp_user_command = 'git ls-files %s'       " MacOSX/Linux
-" custom_ignore is not used when user_command is defined
-"let g:ctrlp_custom_ignore = {
-"  \ 'dir':  '\v([\/]\.(git|hg|svn)|node_modules|target)$',
-"  \ 'file': '\v\.(exe|so|dll|class|)$',
-"  \ 'link': 'some_bad_symbolic_links',
-"  \ }
+
+let g:ctrlp_user_command = {
+            \ 'types': {
+                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules'],
+                \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+            \ },
+            \ 'fallback': 'find %s -type f'
+\ }
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
+  \ 'file': '\v\.(exe|so|dll|class|)$',
+  \ }
 
 " jedi vim
 "
@@ -112,11 +120,19 @@ nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 " more savings
 nmap <silent> <leader>w :w<CR>
 
+" Unfuck my screen
+noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
 nmap <leader>f :vim <C-R><C-W> **/*.py
+
+" mapping for ag.vim silver_searcher
 nmap <leader>s :Ag
+
+" auto insert a breakpoint
+nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 "noremap j <NOP>
 "noremap k <NOP>
