@@ -11,3 +11,6 @@ export AWS_CREDENTIAL_FILE=/Users/deanc/.aws_credential_file
 if [ -f $HOME/.venvburrito/startup.sh ]; then
     . $HOME/.venvburrito/startup.sh
 fi
+
+# added by Anaconda 1.9.1 installer
+#export PATH="/Users/deanc/anaconda/bin:$PATH"
