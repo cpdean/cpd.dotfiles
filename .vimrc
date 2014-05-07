@@ -53,6 +53,8 @@ Bundle 'vim-scripts/VimClojure'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'repos-scala/scala-vundle'
 Bundle 'digitaltoad/vim-jade'
+Bundle 'chase/vim-ansible-yaml'
+Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-markdown'
 
 " ui features
@@ -62,6 +64,8 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
 Bundle 'rking/ag.vim'
 Bundle 'goldfeld/vim-seek'
+Bundle 'davidhalter/jedi-vim'
+Bundle 'benmills/vimux'
 "Bundle 'klen/python-mode'
 
 filetype plugin indent on
@@ -80,10 +84,6 @@ set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
 
 " ctrl p stuff
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
-  \ 'file': '\v\.(exe|so|dll|class|)$',
-  \ }
 
 let g:ctrlp_user_command = {
             \ 'types': {
@@ -93,6 +93,33 @@ let g:ctrlp_user_command = {
             \ 'fallback': 'find %s -type f'
 \ }
 
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
+  \ 'file': '\v\.(exe|so|dll|class|)$',
+  \ }
+
+" jedi vim
+"
+" don't spawn a new tab. keep it in buffer
+" so i maintain jumpstack for moving back/forth
+let g:jedi#use_tabs_not_buffers = 0
+
+" tmuxing
+"
+" init new window to the side
+let g:VimuxHeight = "40"
+let g:VimuxOrientation = "h"
+
+" basic control mappings
+nmap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
+map <leader>tq :VimuxCloseRunner<CR>
+
+" mad rerun skills
+nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
+
+" more savings
+nmap <silent> <leader>w :w<CR>
+
 " Unfuck my screen
 noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
 
@@ -100,7 +127,11 @@ noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
 nmap <leader>f :vim <C-R><C-W> **/*.py
-nmap <leader>s :Ag 
+
+" mapping for ag.vim silver_searcher
+nmap <leader>s :Ag
+
+" auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 "noremap j <NOP>
