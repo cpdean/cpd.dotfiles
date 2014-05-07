@@ -19,4 +19,5 @@ if [ -d ~/.olddotfiles ]
         installFile .bash_aliases
         installFile .vimrc
         installFile .pythonrc
+        installFile .tmux.conf
 fi
