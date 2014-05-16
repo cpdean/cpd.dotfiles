@@ -129,7 +129,7 @@ nmap <F6> :w<CR>:!python %<CR>
 nmap <leader>f :vim <C-R><C-W> **/*.py
 
 " mapping for ag.vim silver_searcher
-nmap <leader>s :Ag
+nmap <leader>s :Ag 
 
 " auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
