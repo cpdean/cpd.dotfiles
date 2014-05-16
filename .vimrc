@@ -135,6 +135,7 @@ nmap <leader>s :Ag
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 " On OSX
+" otherwise should compile vim with +clipboard
 " TODO: Won't work in tmux till you fix the userspace thing
 "       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
 vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
