@@ -134,6 +134,12 @@ nmap <leader>s :Ag
 " auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
+" On OSX
+" TODO: Won't work in tmux till you fix the userspace thing
+"       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
+vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
+nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
+
 "noremap j <NOP>
 "noremap k <NOP>
 "noremap l <NOP>
