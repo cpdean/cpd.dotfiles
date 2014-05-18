@@ -132,10 +132,17 @@ nmap <F6> :w<CR>:!python %<CR>
 nmap <leader>f :vim <C-R><C-W> **/*.py
 
 " mapping for ag.vim silver_searcher
-nmap <leader>s :Ag
+nmap <leader>s :Ag 
 
 " auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
+
+" On OSX
+" otherwise should compile vim with +clipboard
+" TODO: Won't work in tmux till you fix the userspace thing
+"       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
+vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
+nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
 
 "noremap j <NOP>
 "noremap k <NOP>

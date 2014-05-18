@@ -126,6 +126,9 @@ if [ -f ~/.dotfiles/.git-completion.bash ]; then
     . ~/.dotfiles/.git-completion.bash
 fi
 
+# fix colors in tmux
+alias tmux="TERM=screen-256color-bce tmux"
+
 # tab completion for python, and maybe other stuff
 export PYTHONSTARTUP=~/.pythonrc
 
