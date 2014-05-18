@@ -104,6 +104,9 @@ let g:ctrlp_custom_ignore = {
 " so i maintain jumpstack for moving back/forth
 let g:jedi#use_tabs_not_buffers = 0
 
+" disable completion when you type the dot after an id, "my_obj."
+let g:jedi#popup_on_dot = 0
+
 " tmuxing
 "
 " init new window to the side
