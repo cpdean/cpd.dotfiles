@@ -60,10 +60,14 @@ Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-markdown'
 
 " ui features
+" ===========
 Bundle 'kien/ctrlp.vim'
+" absolutely essential
+
 Bundle 'msanders/snipmate.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/syntastic'
+" weird errors on html
 Bundle 'rking/ag.vim'
 Bundle 'goldfeld/vim-seek'
 Bundle 'davidhalter/jedi-vim'
