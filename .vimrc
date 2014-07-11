@@ -21,6 +21,8 @@ set hlsearch        " Highlight found search results
 set ruler           " Show the line number and column of cursor position
 set linebreak       " More visually appealing wordwrap
 
+colorscheme desert
+
 
 " md means markdown, vim.
 au BufNewFile,BufRead *.md               set ft=markdown
