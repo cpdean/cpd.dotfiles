@@ -70,9 +70,13 @@ Bundle 'scrooloose/syntastic'
 " weird errors on html
 Bundle 'rking/ag.vim'
 Bundle 'goldfeld/vim-seek'
-Bundle 'davidhalter/jedi-vim'
 Bundle 'benmills/vimux'
-"Bundle 'klen/python-mode'
+Bundle 'tpope/vim-fugitive'
+
+" Bundle 'davidhalter/jedi-vim'
+" autocomplete slows down vim to a crawl and uses up 100% cpu
+
+"Bundle 'klen/python-mode'  " messes with some regular key mappings
 
 filetype plugin indent on
 " /do vundle stuff ###############
@@ -128,6 +132,10 @@ nmap <silent> <leader>w :w<CR>
 
 " Unfuck my screen
 noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+
+" fugitive.vim bindings
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gg :Gcommit<CR>
 
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
