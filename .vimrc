@@ -99,7 +99,7 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 " jedi vim
-"
+
 " don't spawn a new tab. keep it in buffer
 " so i maintain jumpstack for moving back/forth
 let g:jedi#use_tabs_not_buffers = 0
@@ -110,6 +110,20 @@ let g:jedi#popup_on_dot = 0
 " showing call signatures make vim grind to a halt on every keystroke :(
 let g:jedi#show_call_signatures = 0
 
+" and, actually?  I don't want anything messing with my <leader> space
+" disabling jedi's auto stuff
+
+" show_call_signatures
+let g:jedi#auto_initialization = 0
+
+" pick features ala carte
+" --
+" go to where the item was defined, following import trail
+nnoremap <leader>d :call jedi#goto_definitions()<CR>
+" go to where item was defined for this file
+nnoremap <leader>g :call jedi#goto_assignments()<CR>
+
+execute "nnoremap <buffer> ".g:jedi#goto_assignments_command." <CR>"
 " tmuxing
 "
 " init new window to the side
