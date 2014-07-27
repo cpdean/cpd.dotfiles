@@ -107,6 +107,9 @@ let g:jedi#use_tabs_not_buffers = 0
 " disable completion when you type the dot after an id, "my_obj."
 let g:jedi#popup_on_dot = 0
 
+" showing call signatures make vim grind to a halt on every keystroke :(
+let g:jedi#show_call_signatures = 0
+
 " tmuxing
 "
 " init new window to the side
