@@ -137,6 +137,9 @@ map <leader>tq :VimuxCloseRunner<CR>
 " mad rerun skills
 nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 
+" send selected text to the shell :D!
+vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
+
 " more savings
 nmap <silent> <leader>w :w<CR>
 
