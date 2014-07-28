@@ -58,16 +58,18 @@ Bundle 'digitaltoad/vim-jade'
 Bundle 'chase/vim-ansible-yaml'
 Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-markdown'
+Bundle 'autowitch/hive.vim'
+
 
 " ui features
 " ===========
-Bundle 'kien/ctrlp.vim'
 " absolutely essential
+Bundle 'kien/ctrlp.vim'
 
 Bundle 'msanders/snipmate.vim'
 Bundle 'Lokaltog/vim-powerline'
+" syntastic has weird errors on html
 Bundle 'scrooloose/syntastic'
-" weird errors on html
 Bundle 'rking/ag.vim'
 Bundle 'goldfeld/vim-seek'
 Bundle 'benmills/vimux'
@@ -76,7 +78,8 @@ Bundle 'tpope/vim-fugitive'
 " Bundle 'davidhalter/jedi-vim'
 " autocomplete slows down vim to a crawl and uses up 100% cpu
 
-"Bundle 'klen/python-mode'  " messes with some regular key mappings
+" python-mode messes with some regular key mappings
+"Bundle 'klen/python-mode'
 
 filetype plugin indent on
 " /do vundle stuff ###############
