@@ -74,9 +74,7 @@ Bundle 'rking/ag.vim'
 Bundle 'goldfeld/vim-seek'
 Bundle 'benmills/vimux'
 Bundle 'tpope/vim-fugitive'
-
-" Bundle 'davidhalter/jedi-vim'
-" autocomplete slows down vim to a crawl and uses up 100% cpu
+Bundle 'davidhalter/jedi-vim'
 
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
