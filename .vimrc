@@ -130,11 +130,13 @@ let g:jedi#auto_initialization = 0
 " pick features ala carte
 " --
 " go to where the item was defined, following import trail
-nnoremap <leader>d :call jedi#goto_definitions()<CR>
+autocmd FileType python nnoremap <buffer> <leader>d :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
-nnoremap <leader>g :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> <leader>g :call jedi#goto_assignments()<CR>
 
-execute "nnoremap <buffer> ".g:jedi#goto_assignments_command." <CR>"
+"why doesn't the hive syntax plugin do this already??
+autocmd BufNewFile,BufRead *.hql set filetype=hive
+
 " tmuxing
 "
 " init new window to the side
