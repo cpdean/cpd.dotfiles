@@ -21,6 +21,8 @@ set hlsearch        " Highlight found search results
 set ruler           " Show the line number and column of cursor position
 set linebreak       " More visually appealing wordwrap
 
+colorscheme desert
+
 
 " md means markdown, vim.
 au BufNewFile,BufRead *.md               set ft=markdown
@@ -56,16 +58,25 @@ Bundle 'digitaltoad/vim-jade'
 Bundle 'chase/vim-ansible-yaml'
 Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-markdown'
+Bundle 'autowitch/hive.vim'
+
 
 " ui features
+" ===========
+" absolutely essential
 Bundle 'kien/ctrlp.vim'
+
 Bundle 'msanders/snipmate.vim'
 Bundle 'Lokaltog/vim-powerline'
+" syntastic has weird errors on html
 Bundle 'scrooloose/syntastic'
 Bundle 'rking/ag.vim'
 Bundle 'goldfeld/vim-seek'
-Bundle 'davidhalter/jedi-vim'
 Bundle 'benmills/vimux'
+Bundle 'tpope/vim-fugitive'
+Bundle 'davidhalter/jedi-vim'
+
+" python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
 
 filetype plugin indent on
@@ -119,11 +130,13 @@ let g:jedi#auto_initialization = 0
 " pick features ala carte
 " --
 " go to where the item was defined, following import trail
-nnoremap <leader>d :call jedi#goto_definitions()<CR>
+autocmd FileType python nnoremap <buffer> <leader>d :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
-nnoremap <leader>g :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> <leader>g :call jedi#goto_assignments()<CR>
 
-execute "nnoremap <buffer> ".g:jedi#goto_assignments_command." <CR>"
+"why doesn't the hive syntax plugin do this already??
+autocmd BufNewFile,BufRead *.hql set filetype=hive
+
 " tmuxing
 "
 " init new window to the side
@@ -145,6 +158,10 @@ nmap <silent> <leader>w :w<CR>
 
 " Unfuck my screen
 noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+
+" fugitive.vim bindings
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gg :Gcommit<CR>
 
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
