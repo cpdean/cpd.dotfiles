@@ -21,6 +21,11 @@ set hlsearch        " Highlight found search results
 set ruler           " Show the line number and column of cursor position
 set linebreak       " More visually appealing wordwrap
 
+" new splits happen in the parts of the screen you visualize as
+" happening "after", or "in the future".  at least in right-to-left reading
+set splitbelow
+set splitright
+
 colorscheme desert
 
 
@@ -59,6 +64,9 @@ Bundle 'chase/vim-ansible-yaml'
 Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-markdown'
 Bundle 'autowitch/hive.vim'
+Bundle 'fatih/vim-go'
+" React jsx
+Bundle 'mxw/vim-jsx'
 
 
 " ui features
@@ -130,9 +138,9 @@ let g:jedi#auto_initialization = 0
 " pick features ala carte
 " --
 " go to where the item was defined, following import trail
-autocmd FileType python nnoremap <buffer> <leader>d :call jedi#goto_definitions()<CR>
+autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
-autocmd FileType python nnoremap <buffer> <leader>g :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
 
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
