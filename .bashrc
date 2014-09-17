@@ -112,6 +112,11 @@ export PATH=$AWS_STUFF:$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
 #android path things for fennec
 export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/build-tools:$HOME/android/adt-bundle-mac-x86_64-20130729ac/sdk/platform-tools
 
+# not really sure why go enforces all code to live in one place, but i guess
+# that probably can eliminate name colisions
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
 PS1='\h:\W \$ '
