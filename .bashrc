@@ -106,11 +106,15 @@ complete -C aws_completer aws
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
 PYTHON_FOR_OSX=/usr/local/share/python
 NODE_FOR_OSX=/usr/local/share/npm/bin
+CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
 AWS_STUFF=~/.dotfiles/custom-scripts/aws/eb/macosx/python2.7
 export PATH=$AWS_STUFF:$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
 
 #android path things for fennec
 export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/build-tools:$HOME/android/adt-bundle-mac-x86_64-20130729ac/sdk/platform-tools
+
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
