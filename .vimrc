@@ -171,6 +171,18 @@ noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gg :Gcommit<CR>
 
+" better list navigation
+" move through spaces in the quickfix list by hitting arrow keys
+" jumps to next spot, opens folds and recenters the window
+
+" quickfix
+nnoremap <left>  :cprev<cr>zvzz
+nnoremap <right> :cnext<cr>zvzz
+" location list?
+nnoremap <up>    :lprev<cr>zvzz
+nnoremap <down>  :lnext<cr>zvzz
+
+
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
