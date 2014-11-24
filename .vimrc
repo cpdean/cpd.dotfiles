@@ -83,6 +83,8 @@ Bundle 'goldfeld/vim-seek'
 Bundle 'benmills/vimux'
 Bundle 'tpope/vim-fugitive'
 Bundle 'davidhalter/jedi-vim'
+" manipulate lisp forms with your mind
+Bundle 'kovisoft/paredit'
 
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
