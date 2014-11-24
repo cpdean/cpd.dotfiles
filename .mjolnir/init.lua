@@ -48,6 +48,7 @@ local create_mjm_switcher = function(key_register)
 end
 
 -- add some bindings
-create_mjm_switcher("i")
+create_mjm_switcher("y")
 create_mjm_switcher("u")
+create_mjm_switcher("i")
 create_mjm_switcher("o")
