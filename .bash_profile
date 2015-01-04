@@ -16,3 +16,10 @@ export AWS_CREDENTIAL_FILE=/Users/deanc/.aws_credential_file
 
 # added by Anaconda 1.9.1 installer
 #export PATH="/Users/deanc/anaconda/bin:$PATH"
+
+#Add oracle stuff for oracleDB.
+# https://github.dowjones.net/NewsCloud/DJInsights-hadoop/tree/master/celery_jobs
+export ORACLE_HOME=/usr/local/lib/instantclient
+export LD_LIBRARY_PATH=$ORACLE_HOME
+export DYLD_LIBRARY_PATH=$ORACLE_HOME
+export VERSIONER_PYTHON_PREFER_32_BIT=yes

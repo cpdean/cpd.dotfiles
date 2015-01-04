@@ -50,9 +50,7 @@ call vundle#rc()
 " let Vundle Manage Vundle
 " required!
 Bundle 'gmarik/vundle'
-
-" original repos on github
-" syntax stuff
+" original repos on github " syntax stuff
 Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'vim-scripts/Jinja'
 Bundle 'pangloss/vim-javascript'
@@ -65,6 +63,7 @@ Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-markdown'
 Bundle 'autowitch/hive.vim'
 Bundle 'fatih/vim-go'
+Bundle 'msanders/cocoa.vim'
 " React jsx
 Bundle 'mxw/vim-jsx'
 
@@ -85,6 +84,11 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'davidhalter/jedi-vim'
 " manipulate lisp forms with your mind
 Bundle 'kovisoft/paredit'
+
+" first time i've ever needed to use a class outline tool
+" in python.  you'll never guess what consultancy
+" writes shitty python code!
+Bundle 'majutsushi/tagbar'
 
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
@@ -177,6 +181,9 @@ vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
 
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
+
+" this contractor should have never written python
+nmap <F8> :TagbarToggle<CR>
 
 " more savings
 nmap <silent> <leader>w :w<CR>
