@@ -147,6 +147,18 @@ autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
 
+" clojure paredit has silly mappings
+" don't want to bounce between paredit leader and shift
+function! ConradPareditBindings()
+    call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
+    call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()') 
+endfunction
+au FileType lisp      call ConradPareditBindings()
+au FileType *clojure* call ConradPareditBindings()
+au FileType scheme    call ConradPareditBindings()
+au FileType racket    call ConradPareditBindings()
+" maybe someday i'll try out the short mappings instead
+
 " tmuxing
 "
 " init new window to the side
@@ -162,6 +174,9 @@ nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 
 " send selected text to the shell :D!
 vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
+
+" for clojure, select this form and send it to repl
+nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
 " more savings
 nmap <silent> <leader>w :w<CR>
