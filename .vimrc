@@ -179,6 +179,15 @@ let g:VimuxOrientation = "h"
 nmap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
 map <leader>tq :VimuxCloseRunner<CR>
 
+" wut wut wut wut wut wut wut
+" only for ipython
+function! Cpaste_Send()
+    call VimuxRunCommand("%cpaste")
+    call VimuxRunCommand(@")
+    call VimuxRunCommand("^D")
+endfunction
+vnoremap <leader>te y:call Cpaste_Send()<CR>
+
 " mad rerun skills
 nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 
