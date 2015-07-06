@@ -104,11 +104,12 @@ fi
 complete -C aws_completer aws
 
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
+TERRAFORM=~/terraform_0.6.0_darwin_amd64
 PYTHON_FOR_OSX=/usr/local/share/python
 NODE_FOR_OSX=/usr/local/share/npm/bin
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
 AWS_STUFF=~/.dotfiles/custom-scripts/aws/eb/macosx/python2.7
-export PATH=$AWS_STUFF:$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
+export PATH=$TERRAFORM:$AWS_STUFF:$CUSTOM_SCRIPTS:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
 
 #android path things for fennec
 export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/build-tools:$HOME/android/adt-bundle-mac-x86_64-20130729ac/sdk/platform-tools
@@ -144,3 +145,13 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
     source /usr/local/bin/virtualenvwrapper.sh
 fi
+
+
+export PATH=/Users/deanc/torch/install/bin:$PATH  # Added automatically by torch-dist
+export LD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
+export DYLD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
+
+
+export PATH=/Users/deanc/torch/install/bin:$PATH  # Added automatically by torch-dist
+export LD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
+export DYLD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist

@@ -1,10 +1,11 @@
+export PATH="/usr/local/bin:$PATH"
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi
 #eval `ssh-agent`  # This doesn't really work. too many processes left behind
 
-export PATH="/usr/local/bin:$PATH"
 export AWS_CREDENTIAL_FILE=/Users/deanc/.aws_credential_file
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 
 #DISABLING BURRITO FOR NOW.
@@ -19,7 +20,13 @@ export AWS_CREDENTIAL_FILE=/Users/deanc/.aws_credential_file
 
 #Add oracle stuff for oracleDB.
 # https://github.dowjones.net/NewsCloud/DJInsights-hadoop/tree/master/celery_jobs
-export ORACLE_HOME=/usr/local/lib/instantclient
-export LD_LIBRARY_PATH=$ORACLE_HOME
-export DYLD_LIBRARY_PATH=$ORACLE_HOME
-export VERSIONER_PYTHON_PREFER_32_BIT=yes
+# export ORACLE_HOME=/usr/local/lib/instantclient
+# export LD_LIBRARY_PATH=$ORACLE_HOME
+# export DYLD_LIBRARY_PATH=$ORACLE_HOME
+# export VERSIONER_PYTHON_PREFER_32_BIT=yes
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/deanc/google-cloud-sdk/path.bash.inc'
+
+# The next line enables bash completion for gcloud.
+source '/Users/deanc/google-cloud-sdk/completion.bash.inc'
