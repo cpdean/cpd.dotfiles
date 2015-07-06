@@ -109,6 +109,7 @@ complete -C aws_completer aws
 
 BREW_STUFF=/usr/local/bin
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
+TERRAFORM=~/terraform_0.6.0_darwin_amd64
 PYTHON_FOR_OSX=/usr/local/share/python
 NODE_FOR_OSX=/usr/local/share/npm/bin
 DUNNO=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
