@@ -5,6 +5,8 @@ fi
 #eval `ssh-agent`  # This doesn't really work. too many processes left behind
 
 export AWS_CREDENTIAL_FILE=/Users/deanc/.aws_credential_file
+export AWS_SECRET_ACCESS_KEY=$(cat $AWS_CREDENTIAL_FILE | grep -i secret | cut -d "=" -f 2)
+export AWS_ACCESS_KEY_ID=$(cat $AWS_CREDENTIAL_FILE | grep -i access | cut -d "=" -f 2)
 export JAVA_HOME=$(/usr/libexec/java_home)
 
 
