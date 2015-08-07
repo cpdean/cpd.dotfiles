@@ -36,15 +36,22 @@ local create_mjm_switcher = function(key_register)
     end)
 
     hotkey.bind(usual, key_register, function()
-        local current = window.focusedwindow():id()
-        if current == this_id then
-            window.windowforid(this_previous):focus()
-            center_cursor_on(window.windowforid(this_previous))
-        else
-            this_previous = current
-            window.windowforid(this_id):focus()
-            center_cursor_on(window.windowforid(this_id))
+        local switcher = function()
+            if this_id ~= 0 then
+                local current = window.focusedwindow():id()
+                if current == this_id then
+                    window.windowforid(this_previous):focus()
+                    center_cursor_on(window.windowforid(this_previous))
+                else
+                    this_previous = current
+                    window.windowforid(this_id):focus()
+                    center_cursor_on(window.windowforid(this_id))
+                end
+            else
+                alert.show("'" .. key_register .. "' not yet bound")
+            end
         end
+        switcher()
     end)
 
 end

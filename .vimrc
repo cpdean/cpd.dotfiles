@@ -71,6 +71,7 @@ Bundle 'msanders/cocoa.vim'
 " maybe i'll get other things for free
 Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'mitsuhiko/vim-python-combined'
+Bundle 'leafgarland/typescript-vim'
 " React jsx
 Bundle 'mxw/vim-jsx'
 
