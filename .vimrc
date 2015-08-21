@@ -56,15 +56,22 @@ Bundle 'vim-scripts/Jinja'
 Bundle 'pangloss/vim-javascript'
 Bundle 'vim-scripts/VimClojure'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'repos-scala/scala-vundle'
+"Bundle 'repos-scala/scala-vundle'
+Bundle 'derekwyatt/vim-scala'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'chase/vim-ansible-yaml'
 Bundle 'rust-lang/rust.vim'
 Bundle 'cespare/vim-toml'
+Bundle 'markcornick/vim-hashicorp-tools'
 Bundle 'tpope/vim-markdown'
 Bundle 'autowitch/hive.vim'
 Bundle 'fatih/vim-go'
 Bundle 'msanders/cocoa.vim'
+" python syntax features
+" doing this because i'm fed up with un-indent on # comments
+" maybe i'll get other things for free
+Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'mitsuhiko/vim-python-combined'
 Bundle 'leafgarland/typescript-vim'
 " React jsx
 Bundle 'mxw/vim-jsx'
@@ -114,7 +121,7 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 
 let g:ctrlp_user_command = {
             \ 'types': {
-                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules | grep -v bower_components | grep -v ^build'],
+                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules | grep -v bower_components | grep -v ^build/'],
                 \ 2: ['.hg', 'hg --cwd %s locate -I .'],
             \ },
             \ 'fallback': 'find %s -type f'
