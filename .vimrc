@@ -186,8 +186,6 @@ nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 nmap <F8> :TagbarToggle<CR>
 
 
-"does clever indenting--syntax awareness
-set smartindent
 "shows stuff on bottom
 set showcmd
 "give visual indication of what's available for tab completion
