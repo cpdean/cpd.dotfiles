@@ -1,56 +1,27 @@
-"does clever indenting--syntax awareness
-set smartindent
-"shows stuff on bottom
-set showcmd
-"give visual indication of what's available for tab completion
-set wildmenu
-" I don't know what these do, I just do them
-set ts =4
-set expandtab
-set tabstop=4
-set shiftwidth=4
-syntax on
-"line numbersss
-set number
-
-" Search usability
-set ignorecase      " search matches ignore case
-set smartcase       " search matches case if you start using it
-set incsearch       " Search as you type the regex
-set hlsearch        " Highlight found search results
-set ruler           " Show the line number and column of cursor position
-set linebreak       " More visually appealing wordwrap
-
-" new splits happen in the parts of the screen you visualize as
-" happening "after", or "in the future".  at least in right-to-left reading
-set splitbelow
-set splitright
-
-colorscheme desert
+" cpdean's .vimrc
+"
+" 1. vundle stuff
+" 2. vundle plugins
+" 3. vundle plugin config
+" 4. native vim-specific settings
 
 
-" md means markdown, vim.
-au BufNewFile,BufRead *.md               set ft=markdown
+"" 1. Vundle Stuff
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" cljs might as well be clojure
-au BufNewFile,BufRead *.cljs             set ft=clojure
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/vundle
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-" Keep track of code folding
-au BufWinLeave * silent! mkview
-au BufWinEnter * silent! loadview
+" 2. Vundle Plugins
 
-" do vundle stuff ##################
-set nocompatible
-filetype off  " required!
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle Manage Vundle
-" required!
-Bundle 'gmarik/vundle'
-" original repos on github " syntax stuff
+" syntax plugins
 Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'vim-scripts/Jinja'
 Bundle 'pangloss/vim-javascript'
@@ -102,9 +73,20 @@ Bundle 'majutsushi/tagbar'
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
 
-filetype plugin indent on
-" /do vundle stuff ###############
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
 
 " plugin settings ########
 " syntastic disable html checking
@@ -202,6 +184,49 @@ nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
 " this contractor should have never written python
 nmap <F8> :TagbarToggle<CR>
+
+
+"does clever indenting--syntax awareness
+set smartindent
+"shows stuff on bottom
+set showcmd
+"give visual indication of what's available for tab completion
+set wildmenu
+" I don't know what these do, I just do them
+set ts =4
+set expandtab
+set tabstop=4
+set shiftwidth=4
+syntax on
+"line numbersss
+set number
+
+" Search usability
+set ignorecase      " search matches ignore case
+set smartcase       " search matches case if you start using it
+set incsearch       " Search as you type the regex
+set hlsearch        " Highlight found search results
+set ruler           " Show the line number and column of cursor position
+set linebreak       " More visually appealing wordwrap
+
+" new splits happen in the parts of the screen you visualize as
+" happening "after", or "in the future".  at least in right-to-left reading
+set splitbelow
+set splitright
+
+colorscheme desert
+
+
+" md means markdown, vim.
+au BufNewFile,BufRead *.md               set ft=markdown
+
+" cljs might as well be clojure
+au BufNewFile,BufRead *.cljs             set ft=clojure
+
+
+" Keep track of code folding
+au BufWinLeave * silent! mkview
+au BufWinEnter * silent! loadview
 
 " more savings
 nmap <silent> <leader>w :w<CR>
