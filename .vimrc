@@ -70,6 +70,14 @@ Bundle 'kovisoft/paredit'
 " writes shitty python code!
 Bundle 'majutsushi/tagbar'
 
+" add auto complete and 'go to def' for rust files
+" be sure to include path to rust source
+" and racer on your path by setting these in bashrc or profile
+" somewhere
+" export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/src
+" export PATH=/Users/conrad/dev/foss/racer/target/release:$PATH
+Bundle 'racer-rust/vim-racer'
+
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
 
