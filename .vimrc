@@ -169,7 +169,8 @@ let g:VimuxHeight = "40"
 let g:VimuxOrientation = "h"
 
 " basic control mappings
-nmap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
+nnoremap <leader>tt :call VimuxRunCommand("")<Left><Left>
+autocmd FileType python nnoremap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
 map <leader>tq :VimuxCloseRunner<CR>
 
 " wut wut wut wut wut wut wut
