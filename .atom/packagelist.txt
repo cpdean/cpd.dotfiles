@@ -1,0 +1,10 @@
+editorconfig@1.2.0
+language-babel@0.15.7
+language-haskell@1.4.11
+language-javascript-jsx@0.3.7
+language-rust@0.4.5
+linter@1.8.1
+linter-jscs@3.1.1
+minimap@4.13.4
+react@0.12.10
+

@@ -1,0 +1,20 @@
+"*":
+  "exception-reporting":
+    userId: "e3524431-f198-7212-3233-a34c0077ea0f"
+  welcome:
+    showOnStartup: false
+  core:
+    ignoredNames: [
+      "build/*"
+      "node_modules/*"
+    ]
+  editor:
+    invisibles: {}
+    tabLength: 2
+    showIndentGuide: true
+    showInvisibles: true
+  minimap: {}
+  "language-babel": {}
+  react: {}
+  "linter-jscs":
+    displayAs: "jscs Warning"
