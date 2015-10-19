@@ -46,6 +46,7 @@ Bundle 'mitsuhiko/vim-python-combined'
 Bundle 'leafgarland/typescript-vim'
 " React jsx
 Bundle 'mxw/vim-jsx'
+Bundle 'groenewege/vim-less'
 
 
 " ui features
@@ -89,6 +90,7 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 
 " plugin settings ########
+let g:syntastic_python_checkers=['flake8']
 " syntastic disable html checking
 let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
@@ -135,6 +137,7 @@ let g:jedi#auto_initialization = 0
 " pick features ala carte
 " --
 " go to where the item was defined, following import trail
+autocmd FileType python nnoremap <buffer> gd :call jedi#goto_definitions()<CR>
 autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
 autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
