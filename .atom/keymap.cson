@@ -1,0 +1,8 @@
+'atom-text-editor.vim-mode.command-mode':
+    '\\ w': 'core:save'
+
+'atom-text-editor':
+  'cmd-k 0': 'custom:close-panes'
+
+'atom-text-editor:not([mini])':
+  'cmd-i': 'editor:auto-indent'
