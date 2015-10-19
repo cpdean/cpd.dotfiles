@@ -20,4 +20,5 @@ if [ -d ~/.olddotfiles ]
         installFile .vimrc
         installFile .pythonrc
         installFile .tmux.conf
+        installFile .atom
 fi
