@@ -103,6 +103,8 @@ let g:syntastic_python_checkers=['flake8']
 let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
                      \ 'passive_filetypes': ['html'] }
+" create the loc list so you can jump between errors with arrow keys
+let g:syntastic_always_populate_loc_list = 1
 
 " powerline
 set nocompatible   " Disable vi-compatibility
@@ -253,9 +255,11 @@ nmap <leader>gg :Gcommit<CR>
 " jumps to next spot, opens folds and recenters the window
 
 " quickfix
+" nav between ag search results
 nnoremap <left>  :cprev<cr>zvzz
 nnoremap <right> :cnext<cr>zvzz
 " location list?
+" nav between syntastic results
 nnoremap <up>    :lprev<cr>zvzz
 nnoremap <down>  :lnext<cr>zvzz
 
