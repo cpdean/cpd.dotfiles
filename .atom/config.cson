@@ -1,4 +1,5 @@
 "*":
+<<<<<<< HEAD
   "exception-reporting":
     userId: "e3524431-f198-7212-3233-a34c0077ea0f"
   welcome:
@@ -18,3 +19,40 @@
   react: {}
   "linter-jscs":
     displayAs: "jscs Warning"
+=======
+  "autocomplete-plus":
+    enableAutoActivation: false
+  core:
+    audioBeep: false
+    ignoredNames: [
+      "build/*"
+      "node_modules"
+      ".tox/*"
+      "*.pyc"
+      "src/public/bower_components/*"
+    ]
+  editor:
+    fontSize: 12
+    invisibles: {}
+    showIndentGuide: true
+    showInvisibles: true
+    tabLength: 2
+  "exception-reporting":
+    userId: "e3524431-f198-7212-3233-a34c0077ea0f"
+  "language-babel": {}
+  linter:
+    lintOnFlyInterval: 500
+    showErrorInline: false
+    showErrorPanel: false
+  "linter-jscs":
+    displayAs: "jscs Warning"
+    esnext: true
+    fixOnSave: true
+  "linter-pep257": {}
+  minimap: {}
+  react: {}
+  "tree-view":
+    showOnRightSide: true
+  welcome:
+    showOnStartup: false
+>>>>>>> 2d2a54f... merge conflict fix on git stash pop: ugh i need to sync more

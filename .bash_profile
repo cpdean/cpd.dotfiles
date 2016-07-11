@@ -6,6 +6,10 @@ fi
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 
+#from brad
+. ~/aws_spark_config
+
+
 
 #DISABLING BURRITO FOR NOW.
 # i want a more legit venv setup

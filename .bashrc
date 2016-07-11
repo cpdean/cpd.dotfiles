@@ -161,7 +161,12 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
+## some db things
+.  /Users/cdean/dw_db_inits
 
-export PATH=/Users/deanc/torch/install/bin:$PATH  # Added automatically by torch-dist
-export LD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
-export DYLD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
+eval `opam config env`
+
+# ive ruined this
+#export PATH="/Users/cdean/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"

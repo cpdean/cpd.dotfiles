@@ -82,9 +82,13 @@ Bundle 'racer-rust/vim-racer'
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
 
+"Bundle 'lambdatoast/elm.vim'
+Bundle 'elmcast/elm-vim'
+Bundle 'cpdean/vim-seeker'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+" /do vundle stuff ###############
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -110,6 +114,15 @@ let g:syntastic_always_populate_loc_list = 1
 set nocompatible   " Disable vi-compatibility
 set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
+
+" elm-format
+let g:elm_format_autosave = 1
+
+"trying to merlin this up for Ocaml
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+let g:syntastic_ocaml_checkers = ['merlin']
+
 
 " ctrl p stuff
 
@@ -148,9 +161,12 @@ let g:jedi#auto_initialization = 0
 " --
 " go to where the item was defined, following import trail
 autocmd FileType python nnoremap <buffer> gd :call jedi#goto_definitions()<CR>
+autocmd FileType python nnoremap <buffer> gu :call jedi#usages()<CR>
 autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
 autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
+" this is not working suddenly... attempting to use this other apio
 
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
@@ -176,6 +192,8 @@ let g:VimuxOrientation = "h"
 " basic control mappings
 nnoremap <leader>tt :call VimuxRunCommand("")<Left><Left>
 autocmd FileType python nnoremap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
+" run selected test
+autocmd FileType python nnoremap <leader>ts :call VimuxRunCommand("time docker-compose run dwcore py.test ".expand("%:@")."::<C-r><C-w>")<CR>
 map <leader>tq :VimuxCloseRunner<CR>
 
 " wut wut wut wut wut wut wut
@@ -192,6 +210,8 @@ nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 
 " send selected text to the shell :D!
 vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
+" i always need to rely on system paste
+vnoremap <leader>tp :call system("pbcopy", getreg("\""))<cr>:call VimuxRunCommand("%paste")<cr>
 
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
