@@ -148,6 +148,10 @@ alias tmux="TERM=screen-256color-bce tmux"
 # tab completion for python, and maybe other stuff
 export PYTHONSTARTUP=~/.pythonrc
 
+
+# prevent global python from getting accidentally messed up
+export PIP_REQUIRE_VIRTUALENV=true
+
 # virtualenvwrapper stuff
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
