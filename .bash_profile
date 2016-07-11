@@ -23,3 +23,18 @@ export AWS_CREDENTIAL_FILE=/Users/conrad/.aws_credential_file
 #export LD_LIBRARY_PATH=$ORACLE_HOME
 #export DYLD_LIBRARY_PATH=$ORACLE_HOME
 #export VERSIONER_PYTHON_PREFER_32_BIT=yes
+
+# broke this trying to upgrade and then un upgrade python and
+# now looking at getting pyenv to work and good god why does jedi-vim
+# no longer work
+#source /usr/local/bin/virtualenvwrapper.sh
+
+
+# Add GHC 7.10.3 to the PATH, via https://ghcformacosx.github.io/
+export GHC_DOT_APP="/Applications/ghc-7.10.3.app"
+if [ -d "$GHC_DOT_APP" ]; then
+  export PATH="${HOME}/.local/bin:${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
+fi
+
+# OPAM configuration
+. /Users/cdean/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
