@@ -120,6 +120,12 @@ export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/a
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+# rust stuff
+
+export RUST_SRC_PATH=$HOME/dev/foss/rust/rust/src
+
+export MULTIRUST_BIN=$HOME/.multirust/toolchains/stable/cargo/bin
+export PATH=$MULTIRUST_BIN:$PATH
 
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
