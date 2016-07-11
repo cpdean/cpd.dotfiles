@@ -1,10 +1,10 @@
+export PATH="/usr/local/bin:$PATH"
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi
 #eval `ssh-agent`  # This doesn't really work. too many processes left behind
 
-#export PATH="/usr/local/bin:$PATH"
-export AWS_CREDENTIAL_FILE=/Users/conrad/.aws_credential_file
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 
 #DISABLING BURRITO FOR NOW.

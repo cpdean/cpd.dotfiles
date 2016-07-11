@@ -109,6 +109,7 @@ complete -C aws_completer aws
 
 BREW_STUFF=/usr/local/bin
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
+TERRAFORM=~/terraform_0.6.0_darwin_amd64
 PYTHON_FOR_OSX=/usr/local/share/python
 NODE_FOR_OSX=/usr/local/share/npm/bin
 DUNNO=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
@@ -160,3 +161,13 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
     source /usr/local/bin/virtualenvwrapper.sh
 fi
+
+
+export PATH=/Users/deanc/torch/install/bin:$PATH  # Added automatically by torch-dist
+export LD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
+export DYLD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
+
+
+export PATH=/Users/deanc/torch/install/bin:$PATH  # Added automatically by torch-dist
+export LD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
+export DYLD_LIBRARY_PATH=/Users/deanc/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
