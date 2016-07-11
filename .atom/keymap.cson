@@ -1,13 +1,6 @@
 'atom-text-editor.vim-mode.command-mode':
     '\\ w': 'core:save'
 
-<<<<<<< HEAD
-'atom-text-editor':
-  'cmd-k 0': 'custom:close-panes'
-
-'atom-text-editor:not([mini])':
-  'cmd-i': 'editor:auto-indent'
-=======
 'atom-text-editor:not([mini])':
   'cmd-i': 'editor:auto-indent'
 
@@ -18,4 +11,3 @@
 
 '.platform-darwin atom-workspace':
   'ctrl-cmd-t': 'terminal-plus:insert-selected-text'
->>>>>>> 2d2a54f... merge conflict fix on git stash pop: ugh i need to sync more
