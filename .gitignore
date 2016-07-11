@@ -1,3 +1,9 @@
 .vim/view/*
 .vim/bundle/*
 .vim/.netrwhist*
+ M .bash_profile
+.atom/.apm/*
+.atom/.node-gyp/*
+.atom/blob-store/*
+.atom/compile-cache/*
+.atom/storage/*
