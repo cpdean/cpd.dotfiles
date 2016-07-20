@@ -143,7 +143,13 @@ export PYTHONSTARTUP=~/.pythonrc
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
+#if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    #export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+    #source /usr/local/bin/virtualenvwrapper.sh
+#fi
+
+
+export PATH="/Users/conrad/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+pyenv virtualenvwrapper_lazy
