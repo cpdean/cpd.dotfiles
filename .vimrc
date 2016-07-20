@@ -46,6 +46,12 @@ Bundle 'mitsuhiko/vim-python-combined'
 Bundle 'leafgarland/typescript-vim'
 " React jsx
 Bundle 'mxw/vim-jsx'
+"Bundle 'lambdatoast/elm.vim'
+Bundle 'elmcast/elm-vim'
+Bundle 'bitc/vim-hdevtools'
+Bundle 'leafo/moonscript-vim'
+Bundle 'tikhomirov/vim-glsl'
+
 
 
 " ui features
@@ -77,6 +83,8 @@ Bundle 'majutsushi/tagbar'
 " export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/src
 " export PATH=/Users/conrad/dev/foss/racer/target/release:$PATH
 Bundle 'racer-rust/vim-racer'
+
+Bundle 'cpdean/vim-seeker'
 
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
@@ -146,6 +154,8 @@ let g:jedi#auto_initialization = 0
 autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
 autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> gd :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
@@ -193,6 +203,18 @@ nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
 " this contractor should have never written python
 nmap <F8> :TagbarToggle<CR>
+
+" hope that you have elm-format on your path
+"autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
+
+" lets see how horrible haskell tooling can be
+au FileType haskell nnoremap <buffer> <leader>ee :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <leader>ec :HdevtoolsClear<CR>
+" hothasktags suggested this
+au FileType haskell set iskeyword=a-z,A-Z,_,.,39
+
+" writing a lot more
+au FileType markdown setlocal spell spelllang=en_us
 
 
 "shows stuff on bottom
