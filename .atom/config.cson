@@ -8,6 +8,9 @@
       "build/*"
       "node_modules/*"
     ]
+    disabledPackages: [
+      "linter-jscs"
+    ]
   editor:
     invisibles: {}
     tabLength: 2
