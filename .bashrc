@@ -170,3 +170,5 @@ eval `opam config env`
 #export PATH="/Users/cdean/.pyenv/bin:$PATH"
 #eval "$(pyenv init -)"
 #eval "$(pyenv virtualenv-init -)"
+
+. $HOME/work_ansible_settings
