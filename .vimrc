@@ -1,5 +1,222 @@
-"does clever indenting--syntax awareness
-set smartindent
+" cpdean's .vimrc
+"
+" 1. vundle stuff
+" 2. vundle plugins
+" 3. vundle plugin config
+" 4. native vim-specific settings
+
+
+"" 1. Vundle Stuff
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" 2. Vundle Plugins
+
+" syntax plugins
+Bundle 'puppetlabs/puppet-syntax-vim'
+Bundle 'vim-scripts/Jinja'
+Bundle 'pangloss/vim-javascript'
+Bundle 'vim-scripts/VimClojure'
+Bundle 'kchmck/vim-coffee-script'
+"Bundle 'repos-scala/scala-vundle'
+Bundle 'derekwyatt/vim-scala'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'chase/vim-ansible-yaml'
+Bundle 'rust-lang/rust.vim'
+Bundle 'cespare/vim-toml'
+Bundle 'markcornick/vim-hashicorp-tools'
+Bundle 'tpope/vim-markdown'
+Bundle 'autowitch/hive.vim'
+Bundle 'fatih/vim-go'
+Bundle 'msanders/cocoa.vim'
+" python syntax features
+" doing this because i'm fed up with un-indent on # comments
+" maybe i'll get other things for free
+Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'mitsuhiko/vim-python-combined'
+Bundle 'leafgarland/typescript-vim'
+" React jsx
+Bundle 'mxw/vim-jsx'
+"Bundle 'lambdatoast/elm.vim'
+Bundle 'elmcast/elm-vim'
+Bundle 'bitc/vim-hdevtools'
+Bundle 'leafo/moonscript-vim'
+Bundle 'tikhomirov/vim-glsl'
+
+
+
+" ui features
+" ===========
+" absolutely essential
+Bundle 'kien/ctrlp.vim'
+
+Bundle 'msanders/snipmate.vim'
+Bundle 'Lokaltog/vim-powerline'
+" syntastic has weird errors on html
+Bundle 'scrooloose/syntastic'
+Bundle 'rking/ag.vim'
+Bundle 'goldfeld/vim-seek'
+Bundle 'benmills/vimux'
+Bundle 'tpope/vim-fugitive'
+Bundle 'davidhalter/jedi-vim'
+" manipulate lisp forms with your mind
+Bundle 'kovisoft/paredit'
+
+" first time i've ever needed to use a class outline tool
+" in python.  you'll never guess what consultancy
+" writes shitty python code!
+Bundle 'majutsushi/tagbar'
+
+" add auto complete and 'go to def' for rust files
+" be sure to include path to rust source
+" and racer on your path by setting these in bashrc or profile
+" somewhere
+" export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/src
+" export PATH=/Users/conrad/dev/foss/racer/target/release:$PATH
+Bundle 'racer-rust/vim-racer'
+
+Bundle 'cpdean/vim-seeker'
+
+" python-mode messes with some regular key mappings
+"Bundle 'klen/python-mode'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+
+" plugin settings ########
+" syntastic disable html checking
+let g:syntastic_mode_map={ 'mode': 'active',
+                     \ 'active_filetypes': [],
+                     \ 'passive_filetypes': ['html'] }
+
+" powerline
+set nocompatible   " Disable vi-compatibility
+set laststatus=2   " Always show the statusline
+set encoding=utf-8 " Necessary to show Unicode glyphs
+
+" ctrl p stuff
+
+let g:ctrlp_user_command = {
+            \ 'types': {
+                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules | grep -v bower_components | grep -v ^build/'],
+                \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+            \ },
+            \ 'fallback': 'find %s -type f'
+\ }
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
+  \ 'file': '\v\.(exe|so|dll|class|)$',
+  \ }
+
+" jedi vim
+
+" don't spawn a new tab. keep it in buffer
+" so i maintain jumpstack for moving back/forth
+let g:jedi#use_tabs_not_buffers = 0
+
+" disable completion when you type the dot after an id, "my_obj."
+let g:jedi#popup_on_dot = 0
+
+" showing call signatures make vim grind to a halt on every keystroke :(
+let g:jedi#show_call_signatures = 0
+
+" and, actually?  I don't want anything messing with my <leader> space
+" disabling jedi's auto stuff
+
+" show_call_signatures
+let g:jedi#auto_initialization = 0
+
+" pick features ala carte
+" --
+" go to where the item was defined, following import trail
+autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
+" go to where item was defined for this file
+autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> gd :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
+
+"why doesn't the hive syntax plugin do this already??
+autocmd BufNewFile,BufRead *.hql set filetype=hive
+
+" clojure paredit has silly mappings
+" don't want to bounce between paredit leader and shift
+function! ConradPareditBindings()
+    call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
+    call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()') 
+endfunction
+au FileType lisp      call ConradPareditBindings()
+au FileType *clojure* call ConradPareditBindings()
+au FileType scheme    call ConradPareditBindings()
+au FileType racket    call ConradPareditBindings()
+" maybe someday i'll try out the short mappings instead
+
+" tmuxing
+"
+" init new window to the side
+let g:VimuxHeight = "40"
+let g:VimuxOrientation = "h"
+
+" basic control mappings
+nnoremap <leader>tt :call VimuxRunCommand("")<Left><Left>
+autocmd FileType python nnoremap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
+map <leader>tq :VimuxCloseRunner<CR>
+
+" wut wut wut wut wut wut wut
+" only for ipython
+function! Cpaste_Send()
+    call VimuxRunCommand("%cpaste")
+    call VimuxRunCommand(@")
+    call VimuxRunCommand("^D")
+endfunction
+vnoremap <leader>te y:call Cpaste_Send()<CR>
+
+" mad rerun skills
+nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
+
+" send selected text to the shell :D!
+vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
+
+" for clojure, select this form and send it to repl
+nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
+
+" this contractor should have never written python
+nmap <F8> :TagbarToggle<CR>
+
+" hope that you have elm-format on your path
+"autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
+
+" lets see how horrible haskell tooling can be
+au FileType haskell nnoremap <buffer> <leader>ee :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <leader>ec :HdevtoolsClear<CR>
+" hothasktags suggested this
+au FileType haskell set iskeyword=a-z,A-Z,_,.,39
+
+" writing a lot more
+au FileType markdown setlocal spell spelllang=en_us
+
+
 "shows stuff on bottom
 set showcmd
 "give visual indication of what's available for tab completion
@@ -40,161 +257,6 @@ au BufNewFile,BufRead *.cljs             set ft=clojure
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
 
-" do vundle stuff ##################
-set nocompatible
-filetype off  " required!
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle Manage Vundle
-" required!
-Bundle 'gmarik/vundle'
-" original repos on github " syntax stuff
-Bundle 'puppetlabs/puppet-syntax-vim'
-Bundle 'vim-scripts/Jinja'
-Bundle 'pangloss/vim-javascript'
-Bundle 'vim-scripts/VimClojure'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'repos-scala/scala-vundle'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'chase/vim-ansible-yaml'
-Bundle 'wting/rust.vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'autowitch/hive.vim'
-Bundle 'fatih/vim-go'
-Bundle 'msanders/cocoa.vim'
-Bundle 'leafgarland/typescript-vim'
-" React jsx
-Bundle 'mxw/vim-jsx'
-
-
-" ui features
-" ===========
-" absolutely essential
-Bundle 'kien/ctrlp.vim'
-
-Bundle 'msanders/snipmate.vim'
-Bundle 'Lokaltog/vim-powerline'
-" syntastic has weird errors on html
-Bundle 'scrooloose/syntastic'
-Bundle 'rking/ag.vim'
-Bundle 'goldfeld/vim-seek'
-Bundle 'benmills/vimux'
-Bundle 'tpope/vim-fugitive'
-Bundle 'davidhalter/jedi-vim'
-" manipulate lisp forms with your mind
-Bundle 'kovisoft/paredit'
-
-" first time i've ever needed to use a class outline tool
-" in python.  you'll never guess what consultancy
-" writes shitty python code!
-Bundle 'majutsushi/tagbar'
-
-" python-mode messes with some regular key mappings
-"Bundle 'klen/python-mode'
-
-filetype plugin indent on
-" /do vundle stuff ###############
-
-
-" plugin settings ########
-" syntastic disable html checking
-let g:syntastic_mode_map={ 'mode': 'active',
-                     \ 'active_filetypes': [],
-                     \ 'passive_filetypes': ['html'] }
-
-" powerline
-set nocompatible   " Disable vi-compatibility
-set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs
-
-" ctrl p stuff
-
-let g:ctrlp_user_command = {
-            \ 'types': {
-                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules | grep -v bower_components | grep -v ^build'],
-                \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-            \ },
-            \ 'fallback': 'find %s -type f'
-\ }
-
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
-  \ 'file': '\v\.(exe|so|dll|class|)$',
-  \ }
-
-" jedi vim
-
-" don't spawn a new tab. keep it in buffer
-" so i maintain jumpstack for moving back/forth
-let g:jedi#use_tabs_not_buffers = 0
-
-" disable completion when you type the dot after an id, "my_obj."
-let g:jedi#popup_on_dot = 0
-
-" showing call signatures make vim grind to a halt on every keystroke :(
-let g:jedi#show_call_signatures = 0
-
-" and, actually?  I don't want anything messing with my <leader> space
-" disabling jedi's auto stuff
-
-" show_call_signatures
-let g:jedi#auto_initialization = 0
-
-" pick features ala carte
-" --
-" go to where the item was defined, following import trail
-autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
-" go to where item was defined for this file
-autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
-
-"why doesn't the hive syntax plugin do this already??
-autocmd BufNewFile,BufRead *.hql set filetype=hive
-
-" clojure paredit has silly mappings
-" don't want to bounce between paredit leader and shift
-function! ConradPareditBindings()
-    call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
-    call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()') 
-endfunction
-au FileType lisp      call ConradPareditBindings()
-au FileType *clojure* call ConradPareditBindings()
-au FileType scheme    call ConradPareditBindings()
-au FileType racket    call ConradPareditBindings()
-" maybe someday i'll try out the short mappings instead
-
-" tmuxing
-"
-" init new window to the side
-let g:VimuxHeight = "40"
-let g:VimuxOrientation = "h"
-
-" basic control mappings
-nmap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
-map <leader>tq :VimuxCloseRunner<CR>
-
-" wut wut wut wut wut wut wut
-" only for ipython
-function! Cpaste_Send()
-    call VimuxRunCommand("%cpaste")
-    call VimuxRunCommand(@")
-    call VimuxRunCommand("^D")
-endfunction
-vnoremap <leader>te y:call Cpaste_Send()<CR>
-
-" mad rerun skills
-nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
-
-" send selected text to the shell :D!
-vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
-
-" for clojure, select this form and send it to repl
-nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
-
-" this contractor should have never written python
-nmap <F8> :TagbarToggle<CR>
-
 " more savings
 nmap <silent> <leader>w :w<CR>
 
@@ -229,11 +291,44 @@ nmap <leader>s :Ag
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 " On OSX
-" otherwise should compile vim with +clipboard
+" otherwise should compile vim10m with +clipboard
 " TODO: Won't work in tmux till you fix the userspace thing
 "       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
 vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
 nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
+nmap <leader>z :source ~/.vimrc<CR>
+
+function! Scrolling(cmd, slide)
+    let initial_scroll_jump = ((2 * &scroll) - a:slide)
+    if a:cmd == 'j'
+        " Scroll down.
+        let tob = line('$')
+        let vbl = 'w$'
+        let move_disp_cmd = "\<C-E>"
+    else
+        " Scroll up.
+        let tob = 1
+        let vbl = 'w0'
+        let move_disp_cmd = "\<C-Y>"
+    endif
+    " do the scroll
+    execute 'normal! '.initial_scroll_jump.move_disp_cmd
+
+    let i = 0
+    let friction = 40
+    while i < a:slide
+        let s = (i * friction)
+        redraw
+        execute 'normal! '.move_disp_cmd
+        execute 'sleep '.(s + 1).'m'
+        let i += 1
+    endwhile
+endfunction
+
+nmap <C-f> :call Scrolling('j', 4)<CR>
+nmap <C-b> :call Scrolling('k', 4)<CR>
+
+
 
 "noremap j <NOP>
 "noremap k <NOP>

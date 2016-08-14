@@ -28,9 +28,11 @@ local create_mjm_switcher = function(key_register)
     -- create app binding at runtime
     hotkey.bind(intense, key_register, function()
         this_id = window.focusedwindow():id()
-        alert.show("setting new '" .. key_register .. "' binding", 2)
-        alert.show(window.windowforid(this_id):id(), 2)
-        alert.show(window.windowforid(this_id):title(), 2)
+        alert.show(
+            "setting new '" .. key_register .. "' binding" .. "\n" ..
+            window.windowforid(this_id):title() .. " ::: " ..
+            window.windowforid(this_id):id()
+        , 2)
     end)
 
     hotkey.bind(usual, key_register, function()
@@ -55,7 +57,7 @@ local create_mjm_switcher = function(key_register)
 end
 
 -- add some bindings
-create_mjm_switcher("y")
-create_mjm_switcher("u")
 create_mjm_switcher("i")
+create_mjm_switcher("u")
 create_mjm_switcher("o")
+create_mjm_switcher("p")

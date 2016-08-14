@@ -103,12 +103,15 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 complete -C aws_completer aws
 
+BREW_STUFF=/usr/local/bin
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
-# no longer needed i think
-#PYTHON_FOR_OSX=/usr/local/share/python
+PERSONAL_BIN=~/.bin
 NODE_FOR_OSX=/usr/local/share/npm/bin
+DUNNO=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
 AWS_STUFF=~/.dotfiles/custom-scripts/aws/eb/macosx/python2.7
-export PATH=$AWS_STUFF:$CUSTOM_SCRIPTS:$NODE_FOR_OSX:$PATH
+CABAL=$HOME/Library/Haskell/bin
+
+export PATH=$PERSONAL_BIN:$CABAL:$BREW_STUFF:$AWS_STUFF:$CUSTOM_SCRIPTS:$DUNNO:$NODE_FOR_OSX:$PATH
 
 #android path things for fennec
 export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/build-tools:$HOME/android/adt-bundle-mac-x86_64-20130729ac/sdk/platform-tools
@@ -141,13 +144,8 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
 
-#DISABLING FOR A SEC
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
 
-
-export PATH=/Users/conrad/torch/install/bin:$PATH  # Added automatically by torch-dist
-export LD_LIBRARY_PATH=/Users/conrad/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
-export DYLD_LIBRARY_PATH=/Users/conrad/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
+export PATH="/Users/conrad/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+pyenv virtualenvwrapper_lazy
