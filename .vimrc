@@ -299,7 +299,7 @@ nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
 nmap <leader>z :source ~/.vimrc<CR>
 
 function! Scrolling(cmd, slide)
-    let initial_scroll_jump = ((2 * &scroll) - a:slide)
+    let initial_scroll_jump = ((2 * &scroll) - (2 * a:slide))
     if a:cmd == 'j'
         " Scroll down.
         let tob = line('$')
@@ -312,10 +312,21 @@ function! Scrolling(cmd, slide)
         let move_disp_cmd = "\<C-Y>"
     endif
     " do the scroll
+    " ease in, jump, ease out
+    let friction = 10
+
+    let j = 0
+    while j < a:slide
+        let s = ((a:slide - j) * friction)
+        redraw
+        execute 'normal! '.move_disp_cmd
+        execute 'sleep '.(s + 1).'m'
+        let j += 1
+    endwhile
+
     execute 'normal! '.initial_scroll_jump.move_disp_cmd
 
     let i = 0
-    let friction = 40
     while i < a:slide
         let s = (i * friction)
         redraw
@@ -325,8 +336,8 @@ function! Scrolling(cmd, slide)
     endwhile
 endfunction
 
-nmap <C-f> :call Scrolling('j', 4)<CR>
-nmap <C-b> :call Scrolling('k', 4)<CR>
+nmap <C-f> :call Scrolling('j', 3)<CR>
+nmap <C-b> :call Scrolling('k', 3)<CR>
 
 
 
