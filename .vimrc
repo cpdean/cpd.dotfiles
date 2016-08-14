@@ -291,11 +291,44 @@ nmap <leader>s :Ag
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 " On OSX
-" otherwise should compile vim with +clipboard
+" otherwise should compile vim10m with +clipboard
 " TODO: Won't work in tmux till you fix the userspace thing
 "       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
 vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
 nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
+nmap <leader>z :source ~/.vimrc<CR>
+
+function! Scrolling(cmd, slide)
+    let initial_scroll_jump = ((2 * &scroll) - a:slide)
+    if a:cmd == 'j'
+        " Scroll down.
+        let tob = line('$')
+        let vbl = 'w$'
+        let move_disp_cmd = "\<C-E>"
+    else
+        " Scroll up.
+        let tob = 1
+        let vbl = 'w0'
+        let move_disp_cmd = "\<C-Y>"
+    endif
+    " do the scroll
+    execute 'normal! '.initial_scroll_jump.move_disp_cmd
+
+    let i = 0
+    let friction = 40
+    while i < a:slide
+        let s = (i * friction)
+        redraw
+        execute 'normal! '.move_disp_cmd
+        execute 'sleep '.(s + 1).'m'
+        let i += 1
+    endwhile
+endfunction
+
+nmap <C-f> :call Scrolling('j', 4)<CR>
+nmap <C-b> :call Scrolling('k', 4)<CR>
+
+
 
 "noremap j <NOP>
 "noremap k <NOP>
