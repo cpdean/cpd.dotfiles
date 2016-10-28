@@ -208,13 +208,15 @@ function! Cpaste_Send()
     call VimuxRunCommand(@")
     call VimuxRunCommand("^D")
 endfunction
-vnoremap <leader>te y:call Cpaste_Send()<CR>
 
 " mad rerun skills
 nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 
 " send selected text to the shell :D!
 vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
+" ugh its all worthless just use my fucking clipboard
+vnoremap <leader>tw "+y:call VimuxRunCommand("%paste")<cr>
+vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<CR>
 " i always need to rely on system paste
 vnoremap <leader>tp :call system("pbcopy", getreg("\""))<cr>:call VimuxRunCommand("%paste")<cr>
 
