@@ -23,3 +23,8 @@ export AWS_CREDENTIAL_FILE=/Users/conrad/.aws_credential_file
 #export LD_LIBRARY_PATH=$ORACLE_HOME
 #export DYLD_LIBRARY_PATH=$ORACLE_HOME
 #export VERSIONER_PYTHON_PREFER_32_BIT=yes
+export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/rust/src
+export PATH=/Users/conrad/dev/foss/rust/racer/target/release:$PATH
+
+# OPAM configuration
+. /Users/conrad/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true

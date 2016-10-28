@@ -47,6 +47,10 @@ Bundle 'leafgarland/typescript-vim'
 " React jsx
 Bundle 'mxw/vim-jsx'
 Bundle 'groenewege/vim-less'
+"Bundle 'lambdatoast/elm.vim'
+Bundle 'elmcast/elm-vim'
+Bundle 'bitc/vim-hdevtools'
+
 
 
 " ui features
@@ -78,6 +82,8 @@ Bundle 'majutsushi/tagbar'
 " export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/src
 " export PATH=/Users/conrad/dev/foss/racer/target/release:$PATH
 Bundle 'racer-rust/vim-racer'
+
+Bundle 'cpdean/vim-seeker'
 
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
@@ -151,6 +157,8 @@ autocmd FileType python nnoremap <buffer> gd :call jedi#goto_definitions()<CR>
 autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
 autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> gd :call jedi#goto_assignments()<CR>
+autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
@@ -198,6 +206,18 @@ nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
 " this contractor should have never written python
 nmap <F8> :TagbarToggle<CR>
+
+" hope that you have elm-format on your path
+"autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
+
+" lets see how horrible haskell tooling can be
+au FileType haskell nnoremap <buffer> <leader>ee :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <leader>ec :HdevtoolsClear<CR>
+" hothasktags suggested this
+au FileType haskell set iskeyword=a-z,A-Z,_,.,39
+
+" writing a lot more
+au FileType markdown setlocal spell spelllang=en_us
 
 
 "shows stuff on bottom
@@ -276,11 +296,60 @@ nmap <leader>s :Ag
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 " On OSX
-" otherwise should compile vim with +clipboard
+" otherwise should compile vim10m with +clipboard
 " TODO: Won't work in tmux till you fix the userspace thing
 "       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
 vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
 nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
+nmap <leader>z :source ~/.vimrc<CR>
+
+function! Scrolling(cmd, slide)
+    let initial_scroll_jump = ((2 * &scroll) - (2 * a:slide))
+    if a:cmd == 'j'
+        " Scroll down.
+        let tob = line('$')
+        let vbl = 'w$'
+        let move_disp_cmd = "\<C-E>"
+    else
+        " Scroll up.
+        let tob = 1
+        let vbl = 'w0'
+        let move_disp_cmd = "\<C-Y>"
+    endif
+    " do the scroll
+    " ease in, jump, ease out
+    let friction = 10
+
+    let j = 0
+    while j < a:slide
+        let s = ((a:slide - j) * friction)
+        redraw
+        execute 'normal! '.move_disp_cmd
+        execute 'sleep '.(s + 1).'m'
+        let j += 1
+    endwhile
+
+    execute 'normal! '.initial_scroll_jump.move_disp_cmd
+
+    let i = 0
+    while i < a:slide
+        let s = (i * friction)
+        redraw
+        execute 'normal! '.move_disp_cmd
+        execute 'sleep '.(s + 1).'m'
+        let i += 1
+    endwhile
+endfunction
+
+nmap <C-f> :call Scrolling('j', 3)<CR>
+nmap <C-b> :call Scrolling('k', 3)<CR>
+
+" manually install merlin for ocaml support
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+autocmd FileType ocaml nnoremap <buffer> gd :MerlinLocate<CR>
+
+
 
 "noremap j <NOP>
 "noremap k <NOP>

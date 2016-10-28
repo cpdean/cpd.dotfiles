@@ -105,11 +105,13 @@ complete -C aws_completer aws
 
 BREW_STUFF=/usr/local/bin
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
-PYTHON_FOR_OSX=/usr/local/share/python
+PERSONAL_BIN=~/.bin
 NODE_FOR_OSX=/usr/local/share/npm/bin
 DUNNO=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
 AWS_STUFF=~/.dotfiles/custom-scripts/aws/eb/macosx/python2.7
-export PATH=$BREW_STUFF:$AWS_STUFF:$CUSTOM_SCRIPTS:$DUNNO:$PYTHON_FOR_OSX:$NODE_FOR_OSX:$PATH
+CABAL=$HOME/Library/Haskell/bin
+
+export PATH=$PERSONAL_BIN:$CABAL:$BREW_STUFF:$AWS_STUFF:$CUSTOM_SCRIPTS:$DUNNO:$NODE_FOR_OSX:$PATH
 
 #android path things for fennec
 export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/build-tools:$HOME/android/adt-bundle-mac-x86_64-20130729ac/sdk/platform-tools
@@ -141,7 +143,9 @@ export PYTHONSTARTUP=~/.pythonrc
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
+
+
+export PATH="/Users/conrad/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+pyenv virtualenvwrapper_lazy
