@@ -1,23 +1,23 @@
 "*":
-  "exception-reporting":
-    userId: "e3524431-f198-7212-3233-a34c0077ea0f"
-  welcome:
-    showOnStartup: false
   core:
+    disabledPackages: [
+      "linter-jscs"
+    ]
     ignoredNames: [
       "build/*"
       "node_modules/*"
     ]
-    disabledPackages: [
-      "linter-jscs"
-    ]
   editor:
     invisibles: {}
-    tabLength: 2
     showIndentGuide: true
     showInvisibles: true
-  minimap: {}
+    tabLength: 2
+  "exception-reporting":
+    userId: "e3524431-f198-7212-3233-a34c0077ea0f"
   "language-babel": {}
-  react: {}
   "linter-jscs":
     displayAs: "jscs Warning"
+  minimap: {}
+  react: {}
+  welcome:
+    showOnStartup: false
