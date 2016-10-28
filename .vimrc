@@ -34,7 +34,6 @@ Bundle 'chase/vim-ansible-yaml'
 Bundle 'rust-lang/rust.vim'
 Bundle 'cespare/vim-toml'
 Bundle 'markcornick/vim-hashicorp-tools'
-Bundle 'tpope/vim-markdown'
 Bundle 'autowitch/hive.vim'
 Bundle 'fatih/vim-go'
 Bundle 'msanders/cocoa.vim'
@@ -85,6 +84,12 @@ Bundle 'racer-rust/vim-racer'
 "Bundle 'lambdatoast/elm.vim'
 Bundle 'elmcast/elm-vim'
 Bundle 'cpdean/vim-seeker'
+
+" writing
+Bundle 'tpope/vim-markdown'
+"Bundle 'junegunn/goyo.vim'
+Bundle 'junegunn/limelight.vim'
+Bundle 'reedes/vim-pencil'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
