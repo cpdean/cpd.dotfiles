@@ -344,12 +344,3 @@ autocmd FileType yaml set nosmartindent
 autocmd FileType yaml set copyindent
 autocmd FileType yaml set autoindent
 autocmd FileType yaml set sw=2
-
-
-if 0
-i
-ugh
-
-
-.
-endif
