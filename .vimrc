@@ -314,3 +314,42 @@ nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
 "noremap k <NOP>
 "noremap l <NOP>
 "noremap h <NOP>
+
+" WRITING
+" =======
+" config to make writing english in vim better
+autocmd FileType markdown setlocal spell spelllang=en_us
+autocmd FileType gitcommit setlocal spell spelllang=en_us
+" enable ctrl+n/p autocomplete on english words
+"set complete+=kspell
+
+function! ConradWritingSettings()
+    let g:limelight_conceal_ctermfg = 'gray'
+    Limelight
+    " format paragraph at cursor
+    nmap <leader>f gwap
+    "call pencil#init()
+endfunction
+
+" WHY THE FUCK DOES THIS TURN ON DURING DOCKERFILE HUH???
+" au group for vim-pencil
+"augroup pencil
+    "autocmd!
+    "autocmd FileType markdown,mkd call ConradWritingSettings()
+    "autocmd FileType text         call ConradWritingSettings()
+"augroup END
+
+" ansible yaml drives me wild
+autocmd FileType yaml set nosmartindent
+autocmd FileType yaml set copyindent
+autocmd FileType yaml set autoindent
+autocmd FileType yaml set sw=2
+
+
+if 0
+i
+ugh
+
+
+.
+endif
