@@ -339,6 +339,11 @@ endfunction
 nmap <C-f> :call Scrolling('j', 3)<CR>
 nmap <C-b> :call Scrolling('k', 3)<CR>
 
+" manually install merlin for ocaml support
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+autocmd FileType ocaml nnoremap <buffer> gd :MerlinLocate<CR>
+
 
 
 "noremap j <NOP>
