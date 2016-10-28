@@ -294,7 +294,8 @@ nnoremap <down>  :lnext<cr>zvzz
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
 nmap <F6> :w<CR>:!python %<CR>
-nmap <leader>f :vim <C-R><C-W> **/*.py
+"nmap <leader>f :vim <C-R><C-W> **/*.py "deprecating, should probably remove
+
 
 " mapping for ag.vim silver_searcher
 nmap <leader>s :Ag 
