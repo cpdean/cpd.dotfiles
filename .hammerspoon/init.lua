@@ -1,73 +1,50 @@
---[[
-local intense = {"ctrl", "shift", "alt"}
-local usual = {"ctrl", "shift"}
-
--- disabled because it conflicts with amethyst
--- I don't need to update my mjolnir settings constantly
--- hotkey.bind(intense, "r", function() mjolnir.reload(); mjolnir.openconsole() end)
-
-hotkey.bind(intense, "p", function()
-    alert.show(important, 1)
-end)
-
-
-local center_cursor_on = function(win_obj)
-    local f = win_obj:frame()
-    cursor.warptopoint(f.x + (f.w / 2), f.y + (f.h / 2))
-end
-
--- create a new switcher, assumes "intense" and "usual" modifiers
-local create_mjm_switcher = function(key_register)
-    local this_id = 0 -- store window id
-    local this_previous = 0  -- store window before switching focus
-
-    -- create app binding at runtime
-    hotkey.bind(intense, key_register, function()
-        this_id = window.focusedwindow():id()
-        alert.show(
-            "setting new '" .. key_register .. "' binding" .. "\n" ..
-            window.windowforid(this_id):title() .. " ::: " ..
-            window.windowforid(this_id):id()
-        , 2)
-    end)
-
-    hotkey.bind(usual, key_register, function()
-        local switcher = function()
-            if this_id ~= 0 then
-                local current = window.focusedwindow():id()
-                if current == this_id then
-                    window.windowforid(this_previous):focus()
-                    center_cursor_on(window.windowforid(this_previous))
-                else
-                    this_previous = current
-                    window.windowforid(this_id):focus()
-                    center_cursor_on(window.windowforid(this_id))
-                end
-            else
-                alert.show("'" .. key_register .. "' not yet bound")
-            end
-        end
-        switcher()
-    end)
-
-end
-
--- add some bindings
-create_mjm_switcher("i")
-create_mjm_switcher("u")
-create_mjm_switcher("o")
-create_mjm_switcher("p")
-]]
-
 --hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
   --hs.alert.show("Hello World!")
 --end)
+--hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+  --hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
+--end)
+
 
 local intense = {"ctrl", "shift", "alt"}
 local usual = {"ctrl", "shift"}
 
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-  hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
+hs.hotkey.bind(usual, "K", function()
+    local current = hs.window.focusedWindow()
+    local screen = current:screen()
+    current:setFrame({
+        x=0,
+        y=0,
+        w=screen:currentMode().w,
+        h=screen:currentMode().h
+    })
+end)
+
+local half_width = function(screenMode)
+    return {
+        x=0,
+        y=0,
+        h=screenMode.h,
+        w=screenMode.w / 2
+    }
+end
+
+hs.hotkey.bind(usual, "H", function()
+    local current = hs.window.focusedWindow()
+    local hwidth = half_width(current:screen():currentMode())
+    current:setFrame(hwidth)
+end)
+
+hs.hotkey.bind(usual, "L", function()
+    local current = hs.window.focusedWindow()
+    local hwidth = half_width(current:screen():currentMode())
+    hwidth = {
+        x=hwidth.x + hwidth.w,
+        y=hwidth.y,
+        w=hwidth.w,
+        h=hwidth.h
+    }
+    current:setFrame(hwidth)
 end)
 
 local center_cursor_on = function(win_obj)
