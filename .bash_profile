@@ -6,9 +6,9 @@ fi
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 
-#from brad
-. ~/aws_spark_config
-
+if [ -f ~/aws_spark_config ]; then
+    . ~/aws_spark_config
+fi
 
 
 #DISABLING BURRITO FOR NOW.
