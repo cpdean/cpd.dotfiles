@@ -1,0 +1,5 @@
+#!/bin/bash -e
+mkdir -p ~/conlog
+TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+DAY=$(date -u +"%Y-%m-%d")
+echo $TS: $@ >> ~/conlog/$DAY.log

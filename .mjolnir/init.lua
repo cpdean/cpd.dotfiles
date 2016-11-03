@@ -8,7 +8,9 @@ local cursor = require "mjolnir.jstevenson.cursor"
 local intense = {"ctrl", "shift", "alt"}
 local usual = {"ctrl", "shift"}
 
-hotkey.bind(intense, "r", function() mjolnir.reload(); mjolnir.openconsole() end)
+-- disabled because it conflicts with amethyst
+-- I don't need to update my mjolnir settings constantly
+-- hotkey.bind(intense, "r", function() mjolnir.reload(); mjolnir.openconsole() end)
 
 hotkey.bind(intense, "p", function()
     alert.show(important, 1)

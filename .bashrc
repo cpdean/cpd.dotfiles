@@ -95,6 +95,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+if [ -f ~/.work_aliases ]; then
+    . ~/.work_aliases
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -118,11 +122,18 @@ export PATH=$PATH:$HOME/android/adt-bundle-mac-x86_64-20130729/sdk/tools:$HOME/a
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+# rust stuff
+
+export RUST_SRC_PATH=$HOME/dev/foss/rust/rust/src
+
+export MULTIRUST_BIN=$HOME/.multirust/toolchains/stable/cargo/bin
+export PATH=$MULTIRUST_BIN:$PATH
 
 #PS1='\h:\W \u\$ '
 PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
 PS1='\h:\W \$ '
 PS1='\[\033[01;30;47m\]\h\[\033[00m\]:\[\033[00;31m\]\W\[\033[00m\]\$ '
+export LSCOLORS=gxfxcxdxbxegedabagacad
 EDITOR=vim
 
 # set ls to use colors
@@ -139,13 +150,40 @@ alias tmux="TERM=screen-256color-bce tmux"
 # tab completion for python, and maybe other stuff
 export PYTHONSTARTUP=~/.pythonrc
 
+
+# prevent global python from getting accidentally messed up
+export PIP_REQUIRE_VIRTUALENV=true
+
 # virtualenvwrapper stuff
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
 
 
-export PATH="/Users/conrad/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-pyenv virtualenvwrapper_lazy
+if [ `whoami` = 'conrad' ]; then
+    export PATH="/Users/conrad/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    pyenv virtualenvwrapper_lazy
+fi
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+## some db things
+if [ -f /Users/cdean/dw_db_inits ]; then
+    .  /Users/cdean/dw_db_inits
+fi
+
+eval `opam config env`
+
+# ive ruined this
+#export PATH="/Users/cdean/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+
+if [ -f $HOME/work_ansible_settings ]; then
+    . $HOME/work_ansible_settings
+fi

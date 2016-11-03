@@ -1,5 +1,5 @@
 atom.commands.add 'atom-text-editor',
-'custom:close-panes', ->
+'custom:close-other-panes', ->
     panes = atom.workspace.getPaneItems()
     activePane = atom.workspace.getActivePane()
     for pane in panes

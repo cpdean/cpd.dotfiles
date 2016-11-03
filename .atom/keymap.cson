@@ -1,9 +1,6 @@
 'atom-text-editor.vim-mode.command-mode':
     '\\ w': 'core:save'
 
-'atom-text-editor':
-  'cmd-k 0': 'custom:close-panes'
-
 'atom-text-editor:not([mini])':
   'cmd-i': 'editor:auto-indent'
 
@@ -12,3 +9,10 @@
   'ctrl-o':     'cursor-history:prev'
   'ctrl-cmd-i': 'cursor-history:next-within-editor'
   'ctrl-cmd-o': 'cursor-history:prev-within-editor'
+'atom-text-editor': # TODO: cson linter to detect duplicate selector keys
+  'alt-up': 'editor:move-to-beginning-of-previous-paragraph'
+  'alt-down': 'editor:move-to-beginning-of-next-paragraph'
+  'cmd-k 0': 'custom:close-other-panes'
+
+'.platform-darwin atom-workspace':
+  'ctrl-cmd-t': 'terminal-plus:insert-selected-text'
