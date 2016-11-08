@@ -205,7 +205,6 @@ autocmd FileType python nnoremap <leader>tt :call VimuxRunCommand("py.test ".exp
 autocmd FileType python nnoremap <leader>ts :call VimuxRunCommand("time docker-compose run dwcore py.test ".expand("%:@")."::<C-r><C-w>")<CR>
 map <leader>tq :VimuxCloseRunner<CR>
 
-" wut wut wut wut wut wut wut
 " only for ipython
 function! Cpaste_Send()
     call VimuxRunCommand("%cpaste")
@@ -218,11 +217,13 @@ nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
 
 " send selected text to the shell :D!
 vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
-" ugh its all worthless just use my fucking clipboard
-vnoremap <leader>tw "+y:call VimuxRunCommand("%paste")<cr>
-vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<CR>
-" i always need to rely on system paste
-vnoremap <leader>tp :call system("pbcopy", getreg("\""))<cr>:call VimuxRunCommand("%paste")<cr>
+" and double register to `te` because i have indescriminate
+" muscle memory and 'te' is the only thing that uses %paste
+vnoremap <leader>te y:call VimuxRunCommand(@")<cr>
+
+" do wierd clipboard based msg buffer because
+" ipython is awful now
+autocmd FileType python vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<CR>
 
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
