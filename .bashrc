@@ -187,3 +187,7 @@ eval `opam config env`
 if [ -f $HOME/work_ansible_settings ]; then
     . $HOME/work_ansible_settings
 fi
+
+# for great 'gres
+PGAPP_BIN_DIR=/Applications/Postgres.app/Contents/Versions/latest/bin
+export PATH=$PGAPP_BIN_DIR:$PATH
