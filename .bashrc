@@ -168,8 +168,11 @@ if [ `whoami` = 'conrad' ]; then
 fi
 
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    # use lazy loader for virtualenv
+    # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
     export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-    source /usr/local/bin/virtualenvwrapper.sh
+    export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+    source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 
 ## some db things
