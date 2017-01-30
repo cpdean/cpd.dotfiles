@@ -191,6 +191,16 @@ if [ -f $HOME/work_ansible_settings ]; then
     . $HOME/work_ansible_settings
 fi
 
+if [ -f $HOME/more_work_stuff ]; then
+    . $HOME/more_work_stuff
+fi
+
+# notify
+# usage: 'quack the build is finished'
+quack(){
+    EAT_IT=$@ osascript -e 'display notification (system attribute "EAT_IT") with title "THE TERMINAL IS NEEDY AGAIN"'
+}
+
 # for great 'gres
 PGAPP_BIN_DIR=/Applications/Postgres.app/Contents/Versions/latest/bin
 export PATH=$PGAPP_BIN_DIR:$PATH
