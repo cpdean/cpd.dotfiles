@@ -1,0 +1,21 @@
+[user]
+    name = Conrad Dean
+    email = conrad.p.dean@gmail.com
+	username = cpdean
+[credential]
+    helper = "cache --timeout=3600"
+[branch]
+    # autosetuprebase = always  # actually, not sure about rebasing. it will modify your history
+    autosetupmerge = always  # auto track things when i make new branches
+[push]
+    default = current
+[core]
+    ignorecase = false
+    autocrlf = input
+	editor = /usr/bin/vim
+
+[alias]
+    shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
+
+[includeIf "gitdir:~/dev/work/"]
+    path = .gitconfig-sqsp
