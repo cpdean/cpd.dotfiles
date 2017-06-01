@@ -21,6 +21,8 @@ Plugin 'VundleVim/Vundle.vim'
 
 " 2. Vundle Plugins
 
+Bundle 'tomasr/molokai'
+Bundle 'altercation/vim-colors-solarized'
 " syntax plugins
 Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'vim-scripts/Jinja'
@@ -37,6 +39,8 @@ Bundle 'markcornick/vim-hashicorp-tools'
 Bundle 'autowitch/hive.vim'
 Bundle 'fatih/vim-go'
 Bundle 'msanders/cocoa.vim'
+" ocp-indent might be sketch 'cause author doesnt mention bundle
+"Bundle 'let-def/ocp-indent-vim'
 " python syntax features
 " doing this because i'm fed up with un-indent on # comments
 " maybe i'll get other things for free
@@ -123,6 +127,9 @@ let g:syntastic_always_populate_loc_list = 1
 set nocompatible   " Disable vi-compatibility
 set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
+
+" racer rust stuff
+set hidden
 
 " elm-format
 let g:elm_format_autosave = 1
@@ -284,8 +291,10 @@ au BufNewFile,BufRead *.cljs             set ft=clojure
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
 
-" more savings
+" faster save
 nmap <silent> <leader>w :w<CR>
+" bail instant
+nmap <silent> <leader>q :q!<CR>
 
 " Unfuck my screen
 noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
@@ -293,6 +302,8 @@ noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
 " fugitive.vim bindings
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gg :Gcommit<CR>
+" of course
+nmap <leader>gb :Gblame<CR>
 
 " better list navigation
 " move through spaces in the quickfix list by hitting arrow keys
