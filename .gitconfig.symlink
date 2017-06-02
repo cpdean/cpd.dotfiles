@@ -13,6 +13,7 @@
     ignorecase = false
     autocrlf = input
 	editor = /usr/bin/vim
+	excludesfile = ~/.gitignore_global
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
