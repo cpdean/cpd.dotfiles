@@ -340,25 +340,31 @@ nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
 nmap <leader>z :source ~/.vimrc<CR>
 
 function! Scrolling(cmd, slide)
+    " MINI PLUGIN - This adds an ease-in/ease-out function for page-wise
+    " scrolling in vim.  Because scrolling in vim is an instantaneous redraw,
+    " you lose the intuitive context of what has happened when you scroll a
+    " page down or up.  This adds a couple tweening frames to try to get the
+    " effect of motion.
     let initial_scroll_jump = ((2 * &scroll) - (2 * a:slide))
     if a:cmd == 'j'
         " Scroll down.
-        let tob = line('$')
-        let vbl = 'w$'
+        " let tob = line('$') " last line in the current buffer
+        " let vbl = 'w$'
         let move_disp_cmd = "\<C-E>"
     else
         " Scroll up.
-        let tob = 1
-        let vbl = 'w0'
+        " let tob = 1
+        " let vbl = 'w0'
         let move_disp_cmd = "\<C-Y>"
     endif
     " do the scroll
     " ease in, jump, ease out
-    let friction = 10
+    let get_up_to_speed = 4
+    let slowdown = 16
 
     let j = 0
     while j < a:slide
-        let s = ((a:slide - j) * friction)
+        let s = ((a:slide - j) * get_up_to_speed)
         redraw
         execute 'normal! '.move_disp_cmd
         execute 'sleep '.(s + 1).'m'
@@ -369,7 +375,7 @@ function! Scrolling(cmd, slide)
 
     let i = 0
     while i < a:slide
-        let s = (i * friction)
+        let s = (i * slowdown)
         redraw
         execute 'normal! '.move_disp_cmd
         execute 'sleep '.(s + 1).'m'
@@ -377,8 +383,8 @@ function! Scrolling(cmd, slide)
     endwhile
 endfunction
 
-nmap <C-f> :call Scrolling('j', 3)<CR>
-nmap <C-b> :call Scrolling('k', 3)<CR>
+nmap <C-f> :call Scrolling('j', 5)<CR>
+nmap <C-b> :call Scrolling('k', 5)<CR>
 
 " manually install merlin for ocaml support
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
