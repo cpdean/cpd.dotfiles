@@ -109,7 +109,7 @@ complete -C aws_completer aws
 
 BREW_STUFF=/usr/local/bin
 CUSTOM_SCRIPTS=~/.dotfiles/custom-scripts
-PERSONAL_BIN=~/.bin
+PERSONAL_BIN=~/.bin:~/bin
 NODE_FOR_OSX=/usr/local/share/npm/bin
 DUNNO=~/.dotfiles/custom-scripts/0.1.0_darwin_amd64
 AWS_STUFF=~/.dotfiles/custom-scripts/aws/eb/macosx/python2.7
@@ -204,3 +204,14 @@ quack(){
 # for great 'gres
 PGAPP_BIN_DIR=/Applications/Postgres.app/Contents/Versions/latest/bin
 export PATH=$PGAPP_BIN_DIR:$PATH
+
+# brew install fasd
+# thx @lepht
+eval "$(fasd --init auto)"
+# and an alias for it
+alias v='fasd -e vim -f'
+
+# activate fzf hooks
+# from `brew install fzf`
+# `/usr/local/opt/fzf/install`
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

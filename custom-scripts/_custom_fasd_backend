@@ -1,0 +1,6 @@
+#!/bin/bash
+cat ~/.viminfo |
+    awk '/^-/ {print $4}' |
+    sort | uniq -c |
+    awk '{print $2 "|" $1}' |
+    python -c 'from __future__ import print_function; import sys, os; map(print, [os.path.expanduser(i).strip() for i in sys.stdin.readlines()])'
