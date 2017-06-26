@@ -9,6 +9,11 @@
 local intense = {"ctrl", "shift", "alt"}
 local usual = {"ctrl", "shift"}
 
+-- lock_screen
+hs.hotkey.bind(usual, "\\", function()
+    hs.caffeinate.startScreensaver()
+end)
+
 hs.hotkey.bind(usual, "K", function()
     local current = hs.window.focusedWindow()
     local screen = current:screen()
