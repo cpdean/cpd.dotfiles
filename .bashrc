@@ -129,10 +129,13 @@ export RUST_SRC_PATH=$HOME/dev/foss/rust/rust/src
 export MULTIRUST_BIN=$HOME/.multirust/toolchains/stable/cargo/bin
 export PATH=$MULTIRUST_BIN:$PATH
 
-#PS1='\h:\W \u\$ '
-PS1='\h:\e[0;31m\W \e[0;32m\$\[\e[0m\] ' # Why is this guy broken?
-PS1='\h:\W \$ '
-PS1='\[\033[01;30;47m\]\h\[\033[00m\]:\[\033[00;31m\]\W\[\033[00m\]\$ '
+# host and current directory
+# PS1='\h:\W \$ '
+# host and current directory, with some color fiddling
+# PS1='\[\033[01;30;47m\]\h\[\033[00m\]:\[\033[00;31m\]\W\[\033[00m\]\$ '
+# playing with colors in general, so want to remove as much lower-level customization while i find something that works.
+# -- the $? will give you the return code of the last command
+PS1='\W $? > '
 export LSCOLORS=gxfxcxdxbxegedabagacad
 EDITOR=vim
 
