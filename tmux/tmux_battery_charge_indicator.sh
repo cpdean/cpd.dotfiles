@@ -23,9 +23,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-HEART='â™¥'
+# HEART='â™¥'
 # yeah that font is not working out
-HEART='*'
+FULL='*'
+EMPTY='-'
 
 if [[ `uname` == 'Linux' ]]; then
   current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
@@ -42,9 +43,10 @@ if [[ $charged_slots -gt 10 ]]; then
 fi
 
 echo -n '#[fg=red]'
-for i in `seq 1 $charged_slots`; do echo -n "$HEART"; done
+for i in `seq 1 $charged_slots`; do echo -n "$FULL"; done
 
 if [[ $charged_slots -lt 10 ]]; then
   echo -n '#[fg=white]'
-  for i in `seq 1 $(echo "10-$charged_slots" | bc)`; do echo -n "$HEART"; done
+  for i in `seq 1 $(echo "10-$charged_slots" | bc)`; do echo -n "$EMPTY"; done
 fi
+echo -n '#[fg=default]'
