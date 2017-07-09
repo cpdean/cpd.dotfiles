@@ -297,7 +297,18 @@ nmap <silent> <leader>w :w<CR>
 nmap <silent> <leader>q :q!<CR>
 
 " Unfuck my screen
-noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+noremap <leader>r :call ConradClearScreen()<cr>
+
+function! ConradClearScreen()
+    " replace the regular screen cleaner below:
+    "noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+    " with the same function but add something to close
+    " ag.vim search result window
+    execute ':syntax sync fromstart'
+    execute ':redraw!'
+    " close quickfix window, which ag.vim uses
+    execute ':cclose'
+endfunction
 
 " fugitive.vim bindings
 nmap <leader>gs :Gstatus<CR>
@@ -327,6 +338,8 @@ nmap <F6> :w<CR>:!python %<CR>
 
 " mapping for ag.vim silver_searcher
 nmap <leader>s :Ag 
+" search word under cursor, now!
+nmap <leader>S :Ag <C-R><C-W><cr>
 
 " auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
