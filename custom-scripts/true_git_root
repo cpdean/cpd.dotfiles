@@ -1,0 +1,30 @@
+#!/bin/bash
+# need a way to print the "actual git root" since the normal methods are
+# broken when you are in the submodule of a git repo
+# this only works  one layer deep. if things get awful enough that i have 
+# submodules in submodules, this could be rewritten to be recurisve where
+# the basecase is checking for when we've finally exited the nested repositories
+
+# hide stderr https://unix.stackexchange.com/a/184807/12579
+exec 3>&2
+exec 2> /dev/null
+function is_submodule() 
+{       
+    (cd "$(git rev-parse --show-toplevel)/.." && 
+    git rev-parse --is-inside-work-tree) | grep -q true
+}
+if is_submodule; then
+    (cd "$(git rev-parse --show-toplevel)/.." && git rev-parse --show-toplevel)
+else
+    if $(git rev-parse --is-inside-work-tree); then
+        git rev-parse --show-toplevel
+    else
+        # restore stderr https://unix.stackexchange.com/a/184807/12579
+        exec 2>&3
+        # trigger normal git error msg
+        git status
+    fi
+
+fi
+# restore stderr https://unix.stackexchange.com/a/184807/12579
+exec 2>&3

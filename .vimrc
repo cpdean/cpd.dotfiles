@@ -156,9 +156,15 @@ let g:syntastic_ocaml_checkers = ['merlin']
 
 " ctrl p stuff
 
+
+" 'true_git_root' is basically 'git rev-parse --show-toplevel' which works in
+" submodules
+"
+" using ag -l because it is much better than anything else for traversing into
+" submodules
 let g:ctrlp_user_command = {
             \ 'types': {
-                \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others . | grep -v node_modules | grep -v bower_components | grep -v ^build/'],
+                \ 1: ['.git', 'cd %s && cd `true_git_root` && ag -l .'],
                 \ 2: ['.hg', 'hg --cwd %s locate -I .'],
             \ },
             \ 'fallback': 'find %s -type f'
