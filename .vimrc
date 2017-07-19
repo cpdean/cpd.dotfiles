@@ -39,6 +39,8 @@ Bundle 'markcornick/vim-hashicorp-tools'
 Bundle 'autowitch/hive.vim'
 Bundle 'fatih/vim-go'
 Bundle 'msanders/cocoa.vim'
+" just the elixir syntax, IDE features in alchemist below
+Bundle 'elixir-lang/vim-elixir'
 " ocp-indent might be sketch 'cause author doesnt mention bundle
 "Bundle 'let-def/ocp-indent-vim'
 " python syntax features
@@ -70,6 +72,14 @@ Bundle 'goldfeld/vim-seek'
 Bundle 'benmills/vimux'
 Bundle 'tpope/vim-fugitive'
 Bundle 'davidhalter/jedi-vim'
+" IDE-like features for elixir projects
+" todo: need to worry about installing https://github.com/tonini/alchemist-server
+" going to comment this out so i don't have to deal with that
+Bundle 'slashmili/alchemist.vim'
+
+" erlang vim support seems more spotty.  only found somethign with tags :(
+Bundle 'vim-erlang/vim-erlang-tags'
+
 " manipulate lisp forms with your mind
 Bundle 'kovisoft/paredit'
 
@@ -85,6 +95,7 @@ Bundle 'majutsushi/tagbar'
 " export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/src
 " export PATH=/Users/conrad/dev/foss/racer/target/release:$PATH
 Bundle 'racer-rust/vim-racer'
+Bundle 'tpope/vim-dispatch'
 
 Bundle 'cpdean/vim-seeker'
 
@@ -130,6 +141,9 @@ set encoding=utf-8 " Necessary to show Unicode glyphs
 
 " racer rust stuff
 set hidden
+
+" set elixir path so that alchemist can jump to it
+let g:alchemist#elixir_erlang_src = "/Users/cdean/dev/foss/elixir"
 
 " elm-format
 let g:elm_format_autosave = 1
@@ -308,6 +322,8 @@ function! ConradClearScreen()
     execute ':redraw!'
     " close quickfix window, which ag.vim uses
     execute ':cclose'
+    " close the help window
+    execute ':helpc'
 endfunction
 
 " fugitive.vim bindings
