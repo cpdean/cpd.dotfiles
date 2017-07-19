@@ -218,3 +218,21 @@ alias v='fasd -e vim -f'
 # from `brew install fzf`
 # `/usr/local/opt/fzf/install`
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if [ `whoami` = 'cdean' ]; then
+    # on worklaptop
+    # intalling maek through brew results in this dumb shit of having all make tools
+    # prefixed with a 'g'. gmake instead of make.
+    # turns out when you change the name of a command, all build scripts of open source projects
+    # do not work.
+
+    # have to explicitly add all these things
+    # from their install notice:
+    #
+    # If you need to use these commands with their normal names, you
+    # can add a "gnubin" directory to your PATH from your bashrc like:
+    PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+    # Additionally, you can access their man pages with normal names if you add
+    # the "gnuman" directory to your MANPATH from your bashrc as well:
+    MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
+fi
