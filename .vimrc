@@ -336,7 +336,7 @@ endfunction
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gg :Gcommit<CR>
 " of course
-nmap <leader>gb :Gblame<CR>
+nmap <leader>gb :GBlame<CR>
 
 " better list navigation
 " move through spaces in the quickfix list by hitting arrow keys
@@ -418,8 +418,12 @@ function! Scrolling(cmd, slide)
     endwhile
 endfunction
 
-nmap <C-f> :call Scrolling('j', 5)<CR>
-nmap <C-b> :call Scrolling('k', 5)<CR>
+" just noticed this skips around a little too far
+" disabling for a sec
+" nmap <C-f> :call Scrolling('j', 5)<CR>
+" nmap <C-b> :call Scrolling('k', 5)<CR>
+
+map <SPACE> <leader>
 
 " manually install merlin for ocaml support
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
@@ -462,3 +466,6 @@ autocmd FileType yaml set nosmartindent
 autocmd FileType yaml set copyindent
 autocmd FileType yaml set autoindent
 autocmd FileType yaml set sw=2
+
+" all these spelling errors
+map <leader>n :set nospell<CR>
