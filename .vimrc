@@ -97,8 +97,6 @@ Bundle 'majutsushi/tagbar'
 Bundle 'racer-rust/vim-racer'
 Bundle 'tpope/vim-dispatch'
 
-Bundle 'cpdean/vim-seeker'
-
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
 
