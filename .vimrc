@@ -313,15 +313,18 @@ au BufWinEnter * silent! loadview
 nmap <silent> <leader>w :w<CR>
 " bail instant
 nmap <silent> <leader>q :q!<CR>
+" writequit
+nmap <silent> <leader>W :wq<CR>
 
 " Unfuck my screen
 noremap <leader>r :call ConradClearScreen()<cr>
 
 function! ConradClearScreen()
+    " wipe search highlight stuff
+    "  for some reason this has to be first...
+    execute ':nohlsearch'
     " replace the regular screen cleaner below:
     "noremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
-    " with the same function but add something to close
-    " ag.vim search result window
     execute ':syntax sync fromstart'
     execute ':redraw!'
     " close quickfix window, which ag.vim uses
