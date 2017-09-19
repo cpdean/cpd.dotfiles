@@ -147,8 +147,8 @@ let g:alchemist#elixir_erlang_src = "/Users/cdean/dev/foss/elixir"
 let g:elm_format_autosave = 1
 
 "trying to merlin this up for Ocaml
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
+" let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+" execute "set rtp+=" . g:opamshare . "/merlin/vim"
 let g:syntastic_ocaml_checkers = ['merlin']
 
 
