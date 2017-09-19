@@ -55,6 +55,7 @@ Bundle 'groenewege/vim-less'
 "Bundle 'lambdatoast/elm.vim'
 Bundle 'elmcast/elm-vim'
 Bundle 'bitc/vim-hdevtools'
+Bundle 'reasonml-editor/vim-reason'
 
 
 
@@ -430,6 +431,7 @@ map <SPACE> <leader>
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
 autocmd FileType ocaml nnoremap <buffer> gd :MerlinLocate<CR>
+autocmd FileType ocaml nnoremap <buffer> K :MerlinDocument<CR>
 
 
 
