@@ -135,7 +135,8 @@ export PATH=$MULTIRUST_BIN:$PATH
 # PS1='\[\033[01;30;47m\]\h\[\033[00m\]:\[\033[00;31m\]\W\[\033[00m\]\$ '
 # playing with colors in general, so want to remove as much lower-level customization while i find something that works.
 # -- the $? will give you the return code of the last command
-PS1='- - -\n\W $?\n 🍔  ~> '
+# PS1='- - -\n\W $?\n 🍔  ~> '
+PS1='- - -\n\W $?\n 🍔  - ❯❯❯ '
 export LSCOLORS=gxfxcxdxbxegedabagacad
 EDITOR=vim
 
