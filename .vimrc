@@ -448,11 +448,15 @@ autocmd FileType gitcommit setlocal spell spelllang=en_us
 " enable ctrl+n/p autocomplete on english words
 "set complete+=kspell
 
+" width for paragraph formatting
+set textwidth=80
+
+" format paragraph at cursor
+nmap <leader>f gwap
+
 function! ConradWritingSettings()
     let g:limelight_conceal_ctermfg = 'gray'
     Limelight
-    " format paragraph at cursor
-    nmap <leader>f gwap
     "call pencil#init()
 endfunction
 
