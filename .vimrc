@@ -127,9 +127,11 @@ filetype plugin indent on    " required
 " plugin settings ########
 let g:syntastic_python_checkers=['flake8']
 " syntastic disable html checking
+" ocaml syntax checking started to break at some point.  there is probably an
+" error in the merlin vim plugin
 let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'active_filetypes': [],
-                     \ 'passive_filetypes': ['html'] }
+                     \ 'passive_filetypes': ['ocaml', 'html'] }
 " create the loc list so you can jump between errors with arrow keys
 let g:syntastic_always_populate_loc_list = 1
 
@@ -150,7 +152,7 @@ let g:elm_format_autosave = 1
 "trying to merlin this up for Ocaml
 " let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 " execute "set rtp+=" . g:opamshare . "/merlin/vim"
-let g:syntastic_ocaml_checkers = ['merlin']
+" let g:syntastic_ocaml_checkers = ['merlin']
 
 
 " ctrl p stuff
