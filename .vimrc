@@ -340,7 +340,7 @@ endfunction
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gg :Gcommit<CR>
 " of course
-nmap <leader>gb :GBlame<CR>
+nmap <leader>gb :Gblame<CR>
 
 " better list navigation
 " move through spaces in the quickfix list by hitting arrow keys
