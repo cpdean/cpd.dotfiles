@@ -464,11 +464,12 @@ endfunction
 
 " WHY THE FUCK DOES THIS TURN ON DURING DOCKERFILE HUH???
 " au group for vim-pencil
-"augroup pencil
-    "autocmd!
-    "autocmd FileType markdown,mkd call ConradWritingSettings()
-    "autocmd FileType text         call ConradWritingSettings()
-"augroup END
+" great okay so this also breaks my syntax highlighting in python. what trash
+" augroup pencil
+    " autocmd!
+    " autocmd FileType markdown,mkd call ConradWritingSettings()
+    " autocmd FileType text         call ConradWritingSettings()
+" augroup END
 
 " ansible yaml drives me wild
 autocmd FileType yaml set nosmartindent
