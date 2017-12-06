@@ -54,3 +54,5 @@ if [ `whoami` = 'cdean' ]; then
 
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
