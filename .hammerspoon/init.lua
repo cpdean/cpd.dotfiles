@@ -79,18 +79,22 @@ local create_mjm_switcher = function(key_register)
         , 2)
     end)
 
+    --
     hs.hotkey.bind(usual, key_register, function()
         local switcher = function()
             if this_id ~= 0 then
-                local current = hs.window.focusedWindow():id()
-                if current == this_id then
+                local current = hs.window.focusedWindow()
+                -- if theres a focused window, and it is the id
+                if current ~= nil and current:id() == this_id then
                     print("have to switch to previous app: " .. this_previous)
                     hs.window.find(this_previous):focus()
                     print("going to center on previous app")
                     center_cursor_on(hs.window.find(this_previous))
                 else
-                    print("switching to the saved app:"..current)
-                    this_previous = current
+                    if current ~= nil then
+                        print("switching to the saved app:"..current:id())
+                        this_previous = current:id()
+                    end
                     local w = hs.window.find(this_id)
                     print("window is::")
                     print(w)
