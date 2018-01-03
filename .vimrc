@@ -435,6 +435,11 @@ execute "set rtp+=" . g:opamshare . "/merlin/vim"
 autocmd FileType ocaml nnoremap <buffer> gd :MerlinLocate<CR>
 autocmd FileType ocaml nnoremap <buffer> K :MerlinDocument<CR>
 
+" manually install fzf vim plugin. ctrlp is gettin slow
+set rtp+=/usr/local/opt/fzf
+" experimenting with ctrlp and fzf.vim side by side
+nmap <silent> <C-L> :FZF<CR>
+
 
 
 "noremap j <NOP>
