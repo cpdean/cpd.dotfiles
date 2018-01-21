@@ -126,9 +126,6 @@ export PATH=$PATH:$GOPATH/bin
 
 export RUST_SRC_PATH=$HOME/dev/foss/rust/rust/src
 
-export MULTIRUST_BIN=$HOME/.multirust/toolchains/stable/cargo/bin
-export PATH=$MULTIRUST_BIN:$PATH
-
 # host and current directory
 # PS1='\h:\W \$ '
 # host and current directory, with some color fiddling
