@@ -163,14 +163,6 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
 
-
-if [ `whoami` = 'conrad' ]; then
-    export PATH="/Users/conrad/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-    pyenv virtualenvwrapper_lazy
-fi
-
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     # use lazy loader for virtualenv
     # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
