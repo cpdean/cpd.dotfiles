@@ -5,6 +5,50 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" for some reason the kids these days use vim-plug
+call plug#begin('~/.config/nvim/extra_plugins')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
+
+" (Completion plugin option 1)
+Plug 'roxma/nvim-completion-manager'
+" (Completion plugin option 2)
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'rust-lang/rust.vim'
+call plug#end()
+
+" setup language server for all the great things
+set hidden
+
+
+" completion manager is too aggressive at 0
+let g:cm_complete_start_delay = 1000
+
+" if you want it to turn on automatically
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_autoStart = 0
+" nnoremap <leader>lcs :LanguageClientStart<CR>
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+" maybe add more servers
+" example taken from somewhere
+" let g:LanguageClient_serverCommands = {
+"     \ 'python': ['pyls'],
+"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"     \ 'javascript': ['javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['javascript-typescript-stdio'],
+"     \ }
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+" clean rust files on save
+let g:rustfmt_autosave = 1
+
 " #### |" set the runtime path to include Vundle and initialize
 " #### |set rtp+=~/.vim/bundle/Vundle.vim
 " #### |call vundle#begin()
@@ -425,13 +469,12 @@ endfunction
 map <SPACE> <leader>
 
 " manually install merlin for ocaml support
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
-autocmd FileType ocaml nnoremap <buffer> gd :MerlinLocate<CR>
-autocmd FileType ocaml nnoremap <buffer> K :MerlinDocument<CR>
+" let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+" execute "set rtp+=" . g:opamshare . "/merlin/vim"
+" autocmd FileType ocaml nnoremap <buffer> gd :MerlinLocate<CR>
+" autocmd FileType ocaml nnoremap <buffer> K :MerlinDocument<CR>
 
 " manually install fzf vim plugin. ctrlp is gettin slow
-set rtp+=/usr/local/opt/fzf
 " experimenting with ctrlp and fzf.vim side by side
 nmap <silent> <C-L> :FZF<CR>
 

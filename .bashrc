@@ -136,7 +136,8 @@ export PATH=$MULTIRUST_BIN:$PATH
 # playing with colors in general, so want to remove as much lower-level customization while i find something that works.
 # -- the $? will give you the return code of the last command
 # PS1='- - -\n\W $?\n 🍔  ~> '
-PS1='- - -\n\W $?\n 🍔  - ❯❯❯ '
+# PS1='- - -\n\W $?\n 🍔  - ❯❯❯ '
+PS1='- - -\n\W $?\n- ❯❯❯ '
 export LSCOLORS=gxfxcxdxbxegedabagacad
 EDITOR=vim
 
