@@ -64,15 +64,29 @@ local get_section = function(screen_rect, count, num_section)
     }
 end
 
+local is_left_of = function(a, b)
+    -- if point a is left of point b
+    -- need to round up
+    if math.ceil(a.x) < math.ceil(b.x) then
+        return true
+    else
+        return false
+    end
+end
+
 local get_frames_thirds = function(screen_rect, window, section_count, dir)
     print('getting window center')
     local center = center_of(window:frame())
     print('getting screen center')
     local screen_center = center_of(screen_rect)
     print("center and screen " .. center.x .. " " .. screen_center.x)
+    -- TODO: send to the second closest target. rounding to the nearest pixel
+    -- breaks this, so instead send to the nearest reasonable target.  if you
+    -- are already close to a target, user probably doesn't want to go there. if
+    -- they do, they can always tap the key to recenter.
     if dir == W_LEFT then
         print('left')
-        if center.x <= screen_center.x then
+        if is_left_of(center, screen_center) then
             print('going to left')
             return get_section(screen_rect, section_count, 0)
         else
@@ -81,7 +95,7 @@ local get_frames_thirds = function(screen_rect, window, section_count, dir)
         end
     else
         print('right')
-        if center.x < screen_center.x then
+        if is_left_of(center, screen_center) then
             print('going to mid')
             return get_section(screen_rect, section_count, 1)
         else
