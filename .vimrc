@@ -484,3 +484,6 @@ autocmd FileType yaml set sw=2
 
 " all these spelling errors
 map <leader>n :set nospell<CR>
+
+" can't see anything that is highlighted, trying a new color
+hi Search ctermbg=DarkGrey
