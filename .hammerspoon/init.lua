@@ -67,12 +67,14 @@ end
 local is_left_of = function(a, b)
     -- if point a is left of point b
     -- need to round up
-    if math.ceil(a.x) < math.ceil(b.x) then
-        return true
-    else
-        return false
-    end
+    return math.ceil(a.x) < math.ceil(b.x)
 end
+
+local is_near = function(a, b)
+    local dist = math.abs(a.x - b.x)
+    return dist < 5
+end
+
 
 local get_frames_thirds = function(screen_rect, window, section_count, dir)
     print('getting window center')
@@ -86,7 +88,10 @@ local get_frames_thirds = function(screen_rect, window, section_count, dir)
     -- they do, they can always tap the key to recenter.
     if dir == W_LEFT then
         print('left')
-        if is_left_of(center, screen_center) then
+        if is_near(center, screen_center) then
+            print('going to left')
+            return get_section(screen_rect, section_count, 0)
+        elseif is_left_of(center, screen_center) then
             print('going to left')
             return get_section(screen_rect, section_count, 0)
         else
@@ -95,7 +100,10 @@ local get_frames_thirds = function(screen_rect, window, section_count, dir)
         end
     else
         print('right')
-        if is_left_of(center, screen_center) then
+        if is_near(center, screen_center) then
+            print('going to right')
+            return get_section(screen_rect, section_count, 2)
+        elseif is_left_of(center, screen_center) then
             print('going to mid')
             return get_section(screen_rect, section_count, 1)
         else
