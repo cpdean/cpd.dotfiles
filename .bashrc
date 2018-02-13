@@ -230,4 +230,6 @@ if [ `whoami` = 'cdean' ]; then
     # Additionally, you can access their man pages with normal names if you add
     # the "gnuman" directory to your MANPATH from your bashrc as well:
     MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
+    # something about airflow
+    export AIRFLOW_HOME=/Users/cdean/dev/work/airflow
 fi
