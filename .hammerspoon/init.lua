@@ -25,31 +25,31 @@ hs.hotkey.bind(usual, "K", function()
     })
 end)
 
-local half_width = function(screenMode)
+local half_width = function(screenMode, section_count)
     return {
         x=0,
         y=0,
         h=screenMode.h,
-        w=screenMode.w / 2
+        w=screenMode.w / section_count
     }
 end
 
 hs.hotkey.bind(usual, "H", function()
     local current = hs.window.focusedWindow()
-    local hwidth = half_width(current:screen():currentMode())
-    current:setFrame(hwidth)
+    local section_width = half_width(current:screen():currentMode(), 2)
+    current:setFrame(section_width)
 end)
 
 hs.hotkey.bind(usual, "L", function()
     local current = hs.window.focusedWindow()
-    local hwidth = half_width(current:screen():currentMode())
-    hwidth = {
-        x=hwidth.x + hwidth.w,
-        y=hwidth.y,
-        w=hwidth.w,
-        h=hwidth.h
+    local section_width = half_width(current:screen():currentMode(), 2)
+    section_width = {
+        x=section_width.x + section_width.w,
+        y=section_width.y,
+        w=section_width.w,
+        h=section_width.h
     }
-    current:setFrame(hwidth)
+    current:setFrame(section_width)
 end)
 
 local center_cursor_on = function(win_obj)
