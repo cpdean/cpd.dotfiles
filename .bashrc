@@ -210,6 +210,10 @@ alias v='fasd -e vim -f'
 # `/usr/local/opt/fzf/install`
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# change how fzf gets sourced files
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 if [ `whoami` = 'cdean' ]; then
     # on worklaptop
     # intalling maek through brew results in this dumb shit of having all make tools
