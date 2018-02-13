@@ -14,6 +14,11 @@ hs.hotkey.bind(usual, "\\", function()
     hs.caffeinate.startScreensaver()
 end)
 
+-- WINDOW PLACER APP
+--
+local W_LEFT = -1
+local W_RIGHT = 1
+
 hs.hotkey.bind(usual, "K", function()
     local current = hs.window.focusedWindow()
     local screen = current:screen()
@@ -34,23 +39,112 @@ local half_width = function(screenMode, section_count)
     }
 end
 
-hs.hotkey.bind(usual, "H", function()
-    local current = hs.window.focusedWindow()
-    local section_width = half_width(current:screen():currentMode(), 2)
-    current:setFrame(section_width)
+local zero_or = function(num)
+    if num ~= nil then
+        return num
+    else
+        return 0
+    end
+end
+
+local center_of = function(rect)
+    return {
+        x=zero_or(rect.x) + rect.w / 2,
+        y=zero_or(rect.y) + rect.h / 2
+    }
+end
+
+local get_section = function(screen_rect, count, num_section)
+    print(num_section)
+    return {
+        x=(screen_rect.w / count) * num_section,
+        y=0,
+        h=(screen_rect.h),
+        w=(screen_rect.w / count)
+    }
+end
+
+local get_frames_thirds = function(screen_rect, window, section_count, dir)
+    print('getting window center')
+    local center = center_of(window:frame())
+    print('getting screen center')
+    local screen_center = center_of(screen_rect)
+    print("center and screen " .. center.x .. " " .. screen_center.x)
+    if dir == W_LEFT then
+        print('left')
+        if center.x <= screen_center.x then
+            print('going to left')
+            return get_section(screen_rect, section_count, 0)
+        else
+            print('going to mid')
+            return get_section(screen_rect, section_count, 1)
+        end
+    else
+        print('right')
+        if center.x < screen_center.x then
+            print('going to mid')
+            return get_section(screen_rect, section_count, 1)
+        else
+            print('going to right')
+            return get_section(screen_rect, section_count, 2)
+        end
+    end
+end
+
+local get_frames_halves = function(screen_rect, window, section_count, dir)
+    if dir == W_LEFT then
+        return get_section(screen_rect, section_count, 0)
+    else
+        return get_section(screen_rect, section_count, 1)
+    end
+end
+
+
+local get_next_frame = function(screen_rect, window, section_count, dir)
+    -- 0, 30
+    -- (0, 10), (10, 20), (20, 30)
+    -- 5, 15, 25
+    -- find the section center in the direction relative
+    -- to the current window
+    -- pick it, set it
+    if section_count == 3 then
+        return get_frames_thirds(screen_rect, window, section_count, dir)
+    else
+        return get_frames_halves(screen_rect, window, section_count, dir)
+    end
+end
+
+local establish_window_placer = function(number_of_sections)
+
+    hs.hotkey.bind(usual, "H", function()
+        local current = hs.window.focusedWindow()
+        local section_width = get_next_frame(current:screen():currentMode(), current, number_of_sections, W_LEFT)
+        current:setFrame(section_width)
+    end)
+
+    hs.hotkey.bind(usual, "L", function()
+        local current = hs.window.focusedWindow()
+        local section_width = get_next_frame(current:screen():currentMode(), current, number_of_sections, W_RIGHT)
+        current:setFrame(section_width)
+    end)
+
+end
+
+establish_window_placer(2)
+
+hs.hotkey.bind(usual, "2", function()
+    establish_window_placer(2)
+    hs.alert.show("setting 2-tiler")
 end)
 
-hs.hotkey.bind(usual, "L", function()
-    local current = hs.window.focusedWindow()
-    local section_width = half_width(current:screen():currentMode(), 2)
-    section_width = {
-        x=section_width.x + section_width.w,
-        y=section_width.y,
-        w=section_width.w,
-        h=section_width.h
-    }
-    current:setFrame(section_width)
+hs.hotkey.bind(usual, "3", function()
+    establish_window_placer(3)
+    hs.alert.show("setting 3-tiler")
 end)
+
+
+
+-- / WINDOW PLACER APP
 
 local center_cursor_on = function(win_obj)
     print("before centering cursor on this window::")
