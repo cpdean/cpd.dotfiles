@@ -161,12 +161,24 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
 
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    # use lazy loader for virtualenv
-    # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-    export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-    source /usr/local/bin/virtualenvwrapper_lazy.sh
+if [ `whoami` = 'cdean' ]; then
+    # homebrew broke how python works so i have to redo some tooling
+    if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+        # use lazy loader for virtualenv
+        # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
+        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+        export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+        source /usr/local/bin/virtualenvwrapper_lazy.sh
+    fi
+else
+    # other computers do other things i guess
+    if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+        # use lazy loader for virtualenv
+        # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
+        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+        export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+        source /usr/local/bin/virtualenvwrapper_lazy.sh
+    fi
 fi
 
 ## some db things
