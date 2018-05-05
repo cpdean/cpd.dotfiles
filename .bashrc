@@ -5,7 +5,6 @@ _check_os () {
 }
 
 if _check_os darwin; then
-    echo "loading darwin"
     source ~/.bashrc.darwin
 elif _check_os ubuntu; then
     source ~/.bashrc.ubuntu
