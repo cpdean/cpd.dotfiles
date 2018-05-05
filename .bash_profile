@@ -4,7 +4,9 @@ if [ -f ~/.bashrc ]; then
 fi
 #eval `ssh-agent`  # This doesn't really work. too many processes left behind
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+if [ -f /usr/libexec/java_home ]; then
+    export JAVA_HOME=$(/usr/libexec/java_home)
+fi
 
 if [ -f ~/aws_spark_config ]; then
     . ~/aws_spark_config
