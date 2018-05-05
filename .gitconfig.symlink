@@ -1,7 +1,7 @@
 [user]
     name = Conrad Dean
     email = conrad.p.dean@gmail.com
-	username = cpdean
+    username = cpdean
 [credential]
     helper = "cache --timeout=3600"
 [branch]
@@ -12,11 +12,15 @@
 [core]
     ignorecase = false
     autocrlf = input
-	editor = /usr/bin/vim
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
 
 [includeIf "gitdir:~/dev/work/"]
     path = .gitconfig-sqsp
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
