@@ -1,0 +1,2 @@
+echo "doing darwin"
+source ~/.bashrc.common

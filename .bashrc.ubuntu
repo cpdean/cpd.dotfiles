@@ -1,0 +1,2 @@
+echo "doing ubuntu"
+source ~/.bashrc.common
