@@ -63,7 +63,7 @@ bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 # (changed to "b" because i wanted real vim bindings for directional stuff)
-bindsym $mod+h split b
+bindsym $mod+b split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -165,6 +165,12 @@ bar {
 bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
 # decrease screen brightness with notification
 bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
+
+# volume controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && killall -SIGUSR1 i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && killall -SIGUSR1 i3status
+bindsym XF86AudioMuteVolume exec --no-startup-id pactl set-sink-mute 0 toggle && killall -SIGUSR1 i3status
+
 
 # to use xinput, you have to find the device id, and then
 # the prop-id that you wish to change like this:
