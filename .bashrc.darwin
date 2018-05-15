@@ -1,1 +1,2 @@
 source ~/.bashrc.common
+PS1='- - -\n\W $?\n- ❯❯❯ '
