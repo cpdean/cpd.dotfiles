@@ -8,13 +8,21 @@ filetype off                  " required
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
 
 " (Completion plugin option 1)
 Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'rust-lang/rust.vim'
+
+" need silver searcher
+Plug 'mileszs/ack.vim'
+
+Plug 'benmills/vimux'
 call plug#end()
 
 " setup language server for all the great things
@@ -41,7 +49,7 @@ let g:LanguageClient_serverCommands = {
 "     \ 'javascript.jsx': ['javascript-typescript-stdio'],
 "     \ }
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+" nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
@@ -109,7 +117,6 @@ let g:rustfmt_autosave = 1
 " #### |Bundle 'scrooloose/syntastic'
 " #### |Bundle 'rking/ag.vim'
 " #### |Bundle 'goldfeld/vim-seek'
-" #### |Bundle 'benmills/vimux'
 " #### |Bundle 'tpope/vim-fugitive'
 " #### |Bundle 'davidhalter/jedi-vim'
 " #### |" IDE-like features for elixir projects
@@ -401,21 +408,20 @@ nmap <F6> :w<CR>:!python %<CR>
 "nmap <leader>f :vim <C-R><C-W> **/*.py "deprecating, should probably remove
 
 
-" mapping for ag.vim silver_searcher
-nmap <leader>s :Ag 
+" ALL ag.vim references have to be updated for ack.vim
+let g:ackprg = 'ag --nogroup --nocolor --column'
+" search for something
+nmap <leader>s :Ack 
 " search word under cursor, now!
-nmap <leader>S :Ag <C-R><C-W><cr>
+nmap <leader>S :Ack <C-R><C-W><cr>
 
 " auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
-" On OSX
-" otherwise should compile vim10m with +clipboard
-" TODO: Won't work in tmux till you fix the userspace thing
-"       https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/Usage.md
-vmap <leader>c y:call system("pbcopy", getreg("\""))<CR>
-nmap <leader>v :call setreg("\"",system("pbpaste"))<CR>p
-nmap <leader>z :source ~/.vimrc<CR>
+" reaching the + register is tedious
+" and i already have muscle memory for these clipboard commands
+vmap <leader>c "+y
+nmap <leader>v "+p
 
 function! Scrolling(cmd, slide)
     " MINI PLUGIN - This adds an ease-in/ease-out function for page-wise
