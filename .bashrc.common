@@ -130,7 +130,7 @@ export RUST_SRC_PATH=$HOME/dev/foss/rust/rust/src
 # PS1='- - -\n\W $?\n 🍔  ~> '
 # PS1='- - -\n\W $?\n 🍔  - ❯❯❯ '
 export LSCOLORS=gxfxcxdxbxegedabagacad
-EDITOR=vim
+export EDITOR=vim
 
 # set ls to use colors
 export CLICOLOR=1 
