@@ -187,15 +187,9 @@ bar {
 }
 
 
-# need some keys
+# setup latop keys like brightness and volume
 
 # Sreen brightness controls
-# bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-# bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-# bindsym XF86MonBrightnessUp exec light -A 5 # increase screen brightness
-# bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
-
 # increase screen brightness with notification
 bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
 # decrease screen brightness with notification
@@ -207,6 +201,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% &&
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && killall -SIGUSR1 i3status
 
 
+# set trackpad settings on i3 startup
+# this is not necessary in Gnome
 # to use xinput, you have to find the device id, and then
 # the prop-id that you wish to change like this:
 # -> xinput
@@ -219,4 +215,3 @@ exec xinput set-prop 11 277 1  # enable tap-to-click on laptop touchpad
 # - ❯❯❯ xinput list-props 11 | grep -i natural
 #        libinput Natural Scrolling Enabled (285):       0
 exec xinput set-prop 11 285 1  # enable natural scroll
-
