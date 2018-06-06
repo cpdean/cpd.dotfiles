@@ -344,7 +344,7 @@ set linebreak       " More visually appealing wordwrap
 set splitbelow
 set splitright
 
-colorscheme desert
+colorscheme default
 
 
 " md means markdown, vim.
