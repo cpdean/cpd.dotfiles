@@ -11,11 +11,29 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
 
 " (Completion plugin option 1)
-Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'rust-lang/rust.vim'
+
+Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
+
+Plug 'mileszs/ack.vim'
+Plug 'davidhalter/jedi-vim'
+
+Plug 'scrooloose/nerdtree'
+" however i'm really interested in trying this out for a file manager:
+" https://github.com/tpope/vim-vinegar
+
+" for git things
+Plug 'tpope/vim-fugitive'
 call plug#end()
+
+" setup Ack.vim to use ag
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 
 " setup language server for all the great things
 set hidden
@@ -30,7 +48,14 @@ let g:cm_complete_start_delay = 1000
 " nnoremap <leader>lcs :LanguageClientStart<CR>
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'go': ['go-langserver'],
     \ }
+
+" install notes for other servers
+" go-langserver:
+"   go get github.com/souregraph/go-langserver
+"   cd $GOPATH/src/github.com/souregraph/go-langserver
+"   go install
 
 " maybe add more servers
 " example taken from somewhere
@@ -79,7 +104,6 @@ let g:rustfmt_autosave = 1
 " #### |Bundle 'fatih/vim-go'
 " #### |Bundle 'msanders/cocoa.vim'
 " #### |" just the elixir syntax, IDE features in alchemist below
-" #### |Bundle 'elixir-lang/vim-elixir'
 " #### |" ocp-indent might be sketch 'cause author doesnt mention bundle
 " #### |"Bundle 'let-def/ocp-indent-vim'
 " #### |" python syntax features
@@ -214,6 +238,12 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|.svn$\|node_modules$\|\.bin$',
   \ 'file': '\v\.(exe|so|dll|class|)$',
   \ }
+
+" so i can open nerdtree
+map <leader>; :NERDTreeToggle<CR>
+" uncomment if it is annoying having NERDTree keep vim open when i had intended
+" to close vim
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " jedi vim
 
@@ -402,9 +432,9 @@ nmap <F6> :w<CR>:!python %<CR>
 
 
 " mapping for ag.vim silver_searcher
-nmap <leader>s :Ag 
+nmap <leader>s :Ack
 " search word under cursor, now!
-nmap <leader>S :Ag <C-R><C-W><cr>
+nmap <leader>S :Ack <C-R><C-W><cr>
 
 " auto insert a breakpoint
 nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
