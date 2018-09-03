@@ -215,7 +215,7 @@ export PATH=$PGAPP_BIN_DIR:$PATH
 # thx @lepht
 eval "$(fasd --init auto)"
 # and an alias for it
-alias v='fasd -e vim -f'
+alias v='fasd -e nvim -f'
 
 # activate fzf hooks
 # from `brew install fzf`

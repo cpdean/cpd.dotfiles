@@ -1,1 +1,6 @@
 source ~/.bashrc.common
+
+# weening myself off vim
+alias vim=nvim
+alias vi=nvim
+export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH

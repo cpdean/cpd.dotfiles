@@ -98,6 +98,10 @@ Bundle 'majutsushi/tagbar'
 Bundle 'racer-rust/vim-racer'
 Bundle 'tpope/vim-dispatch'
 
+Bundle 'tpope/vim-surround'
+" so vim-surround works with the dot macro
+Bundle 'tpope/vim-repeat'
+
 " python-mode messes with some regular key mappings
 "Bundle 'klen/python-mode'
 

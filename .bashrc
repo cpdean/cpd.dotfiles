@@ -13,3 +13,5 @@ else
     echo "fix ~/.bashrc hook"
 fi
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
