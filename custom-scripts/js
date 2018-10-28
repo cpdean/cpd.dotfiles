@@ -1,0 +1,7 @@
+#!/bin/bash -e
+JOURNAL_DIR=$HOME/.j
+
+cd $JOURNAL_DIR
+git add -A .
+git commit -m  'sync'
+git push
