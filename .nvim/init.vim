@@ -1,3 +1,10 @@
+" specific venv just for neovim
+
+" built with virtualenvwrapper, `mkvirtualenv neovim`
+" pip install neovim flake8 black
+let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+" TODO: adjust for other home paths on other hosts
+
 " porting my vimrc over to neovim
 " no idea how this is supposed to work tbh
 
@@ -25,6 +32,8 @@ Plug 'slashmili/alchemist.vim'
 Plug 'mileszs/ack.vim'
 Plug 'davidhalter/jedi-vim'
 
+Plug 'tpope/vim-surround'
+
 Plug 'scrooloose/nerdtree'
 " however i'm really interested in trying this out for a file manager:
 " https://github.com/tpope/vim-vinegar
@@ -33,6 +42,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 
 Plug 'benmills/vimux'
+
+" default python support is p dismal
+Plug 'vim-scripts/python.vim--Vasiliev'
+Plug 'mitsuhiko/vim-python-combined'
+Plug 'scrooloose/syntastic'
+
 call plug#end()
 
 " setup Ack.vim to use ag
@@ -135,7 +150,6 @@ let g:rustfmt_autosave = 1
 " #### |Bundle 'msanders/snipmate.vim'
 " #### |Bundle 'Lokaltog/vim-powerline'
 " #### |" syntastic has weird errors on html
-" #### |Bundle 'scrooloose/syntastic'
 " #### |Bundle 'rking/ag.vim'
 " #### |Bundle 'goldfeld/vim-seek'
 " #### |Bundle 'tpope/vim-fugitive'
@@ -250,6 +264,10 @@ map <leader>; :NERDTreeToggle<CR>
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " jedi vim
+"
+" force python verison to prevent jedi from throwing an error
+" jedi seems to use an api that nvim does not have to determine python support
+" let g:jedi#force_py_version = 3
 
 " don't spawn a new tab. keep it in buffer
 " so i maintain jumpstack for moving back/forth
@@ -371,7 +389,7 @@ set linebreak       " More visually appealing wordwrap
 set splitbelow
 set splitright
 
-colorscheme default
+colorscheme desert
 
 
 " md means markdown, vim.
@@ -552,3 +570,6 @@ autocmd FileType yaml set sw=2
 
 " all these spelling errors
 map <leader>n :set nospell<CR>
+
+" can't see anything that is highlighted, trying a new color
+hi Search ctermbg=DarkGrey

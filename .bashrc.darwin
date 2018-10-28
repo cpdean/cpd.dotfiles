@@ -3,5 +3,6 @@ source ~/.bashrc.common
 # weening myself off vim
 alias vim=nvim
 alias vi=nvim
+alias iso="date -u +%FT%TZ"
 export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH
 PS1='- - -\n\W $?\n- ❯❯❯ '
