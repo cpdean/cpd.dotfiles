@@ -54,13 +54,18 @@ local center_of = function(rect)
     }
 end
 
-local get_section = function(screen_rect, count, num_section)
+----------------
+-- this is a tricky one.  takes in some numbers and figures out the rectangle
+-- you want
+-- section_width_to_fill lets you make something take up 2/3ds instead of 1/3rd
+----------------
+local get_section = function(screen_rect, count, num_section, section_width_to_fill)
     print(num_section)
     return {
         x=(screen_rect.w / count) * num_section,
         y=0,
         h=(screen_rect.h),
-        w=(screen_rect.w / count)
+        w=(screen_rect.w / count) * section_width_to_fill
     }
 end
 
@@ -90,34 +95,44 @@ local get_frames_thirds = function(screen_rect, window, section_count, dir)
         print('left')
         if is_near(center, screen_center) then
             print('going to left')
-            return get_section(screen_rect, section_count, 0)
+            return get_section(screen_rect, section_count, 0, 1)
         elseif is_left_of(center, screen_center) then
             print('going to left')
-            return get_section(screen_rect, section_count, 0)
+            local left_section = get_section(screen_rect, section_count, 0, 1)
+            if is_near(center, center_of(left_section)) then
+                print('ALREADY HERE so setting it to take up double-width')
+                return get_section(screen_rect, section_count, 0, 2)
+            end
+            return get_section(screen_rect, section_count, 0, 1)
         else
             print('going to mid')
-            return get_section(screen_rect, section_count, 1)
+            return get_section(screen_rect, section_count, 1, 1)
         end
     else
         print('right')
         if is_near(center, screen_center) then
             print('going to right')
-            return get_section(screen_rect, section_count, 2)
+            return get_section(screen_rect, section_count, 2, 1)
         elseif is_left_of(center, screen_center) then
             print('going to mid')
-            return get_section(screen_rect, section_count, 1)
+            return get_section(screen_rect, section_count, 1, 1)
         else
             print('going to right')
-            return get_section(screen_rect, section_count, 2)
+            local right_section = get_section(screen_rect, section_count, 2, 1)
+            if is_near(center, center_of(right_section)) then
+                print('ALREADY HERE so setting it to take up double-width')
+                return get_section(screen_rect, section_count, 1, 2)
+            end
+            return get_section(screen_rect, section_count, 2, 1)
         end
     end
 end
 
 local get_frames_halves = function(screen_rect, window, section_count, dir)
     if dir == W_LEFT then
-        return get_section(screen_rect, section_count, 0)
+        return get_section(screen_rect, section_count, 0, 1)
     else
-        return get_section(screen_rect, section_count, 1)
+        return get_section(screen_rect, section_count, 1, 1)
     end
 end
 
