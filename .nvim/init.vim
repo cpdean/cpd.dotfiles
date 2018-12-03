@@ -48,6 +48,11 @@ Plug 'vim-scripts/python.vim--Vasiliev'
 Plug 'mitsuhiko/vim-python-combined'
 Plug 'scrooloose/syntastic'
 
+" looking at writing!
+Plug 'w0rp/ale'
+
+" go language stuff
+Plug 'fatih/vim-go'
 call plug#end()
 
 " setup Ack.vim to use ag
@@ -71,6 +76,8 @@ let g:LanguageClient_serverCommands = {
     \ 'go': ['go-langserver'],
     \ }
 
+let b:ale_linters = {'text': ['proselint']}
+
 " install notes for other servers
 " go-langserver:
 "   go get github.com/souregraph/go-langserver
@@ -93,6 +100,7 @@ nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 " clean rust files on save
 let g:rustfmt_autosave = 1
+
 
 " #### |" set the runtime path to include Vundle and initialize
 " #### |set rtp+=~/.vim/bundle/Vundle.vim
@@ -121,7 +129,6 @@ let g:rustfmt_autosave = 1
 " #### |Bundle 'cespare/vim-toml'
 " #### |Bundle 'markcornick/vim-hashicorp-tools'
 " #### |Bundle 'autowitch/hive.vim'
-" #### |Bundle 'fatih/vim-go'
 " #### |Bundle 'msanders/cocoa.vim'
 " #### |" just the elixir syntax, IDE features in alchemist below
 " #### |" ocp-indent might be sketch 'cause author doesnt mention bundle
