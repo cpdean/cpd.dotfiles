@@ -58,3 +58,8 @@ if [ `whoami` = 'cdean' ]; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# ugh rude. skdman manipulating my bashprofile:
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/cdean/.sdkman"
+[[ -s "/Users/cdean/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/cdean/.sdkman/bin/sdkman-init.sh"
