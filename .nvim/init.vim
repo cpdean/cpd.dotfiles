@@ -129,7 +129,6 @@ let g:rustfmt_autosave = 1
 " #### |Bundle 'cespare/vim-toml'
 " #### |Bundle 'markcornick/vim-hashicorp-tools'
 " #### |Bundle 'autowitch/hive.vim'
-" #### |Bundle 'msanders/cocoa.vim'
 " #### |" just the elixir syntax, IDE features in alchemist below
 " #### |" ocp-indent might be sketch 'cause author doesnt mention bundle
 " #### |"Bundle 'let-def/ocp-indent-vim'
