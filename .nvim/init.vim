@@ -15,6 +15,10 @@ filetype off                  " required
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" rust and something to hook into the RLS
+
+Plug 'rust-lang/rust.vim'
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'bash install.sh',
@@ -24,7 +28,9 @@ Plug 'autozimu/LanguageClient-neovim', {
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'rust-lang/rust.vim'
+
+" trying coc instead of languageclient
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
@@ -48,6 +54,9 @@ Plug 'vim-scripts/python.vim--Vasiliev'
 Plug 'mitsuhiko/vim-python-combined'
 Plug 'scrooloose/syntastic'
 
+" trying out autofmt on save
+Plug 'ambv/black'
+
 " looking at writing!
 Plug 'w0rp/ale'
 
@@ -67,16 +76,24 @@ set hidden
 " completion manager is too aggressive at 0
 let g:cm_complete_start_delay = 1000
 
+"" NOTE: disabling LanguageClient for now.
+
 " if you want it to turn on automatically
-" let g:LanguageClient_autoStart = 1
+let g:LanguageClient_autoStart = 1
 " let g:LanguageClient_autoStart = 0
 " nnoremap <leader>lcs :LanguageClientStart<CR>
+" rustup run nightly-2018-09-22-x86_64-apple-darwin rls
+
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'rust': ['rustup', 'run', 'nightly-2018-09-22-x86_64-apple-darwin', 'rls'],
     \ 'go': ['go-langserver'],
     \ }
 
 let b:ale_linters = {'text': ['proselint']}
+
+" for black.vim, save all python with it
+" autocmd BufWritePre *.py execute ':Black'
+" ugh. i don't wnat to edit OTHER peoples code just mine.
 
 " install notes for other servers
 " go-langserver:
