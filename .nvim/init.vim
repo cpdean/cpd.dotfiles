@@ -2,7 +2,14 @@
 
 " built with virtualenvwrapper, `mkvirtualenv neovim`
 " pip install neovim flake8 black
-let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+
+let g:python3_host_prog = '/home/conrad/.virtualenvs/nvim/bin/python'
+
+"        if findreadable('/Users/cdean/.virtualenvs/neovim')
+"            let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+"        else
+"            echo "ugh"
+"        endif
 " TODO: adjust for other home paths on other hosts
 
 " porting my vimrc over to neovim
