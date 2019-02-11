@@ -85,6 +85,7 @@ bindsym $mod+e layout toggle split
 # mojis
 for_window [class="^mojibar$" instance="^mojibar$"] floating enable
 for_window [class="^mojibar$" instance="^mojibar$"] resize set 400 400
+for_window [class="^ck2$" instance="^ck2$"] border none
 
 # screenshots
 # apt install flameshot
