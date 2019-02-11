@@ -25,19 +25,37 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " rust and something to hook into the RLS
 
-Plug 'rust-lang/rust.vim'
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
+" Plug 'rust-lang/rust.vim'
+" Plug 'autozimu/LanguageClient-neovim', {
+"            \ 'branch': 'next',
+"            \ 'do': 'bash install.sh',
+"            \ }
 
 " (Completion plugin option 1)
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " trying coc instead of languageclient
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+" something is broken on linux
+" disabling coc because every feature it has halts the vim UI with a dialog
+" that's like "A THING HAPPENED. HIT ENTER TO CONTINUE" which goes against even
+" the most basic principles of how you design a piece of software for a person
+" to use. how could the authors of this be so foolish?
+" Plug 'neoclide/coc.nvim', {'tag': 'v0.0.41', 'do': { -> coc#util#install()}}
+
+" instead of using coc.nvim, trying a few other plugins.  coc.nvim was
+" too buggy and it was somehow blocking my UI thread to do simple things
+
+" RUST:
+" plugin just for completions
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --rust-completer'  }
+" language specifics
+Plug 'rust-lang/rust.vim'
+" ale for both prose and rust (for now)
+Plug 'w0rp/ale'
+
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
@@ -64,8 +82,6 @@ Plug 'scrooloose/syntastic'
 " trying out autofmt on save
 Plug 'ambv/black'
 
-" looking at writing!
-Plug 'w0rp/ale'
 
 " go language stuff
 Plug 'fatih/vim-go'
@@ -75,6 +91,15 @@ call plug#end()
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+" enable palenight color scheme
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+set background=light
+colorscheme gruvbox
 
 " setup language server for all the great things
 set hidden
@@ -86,17 +111,27 @@ let g:cm_complete_start_delay = 1000
 "" NOTE: disabling LanguageClient for now.
 
 " if you want it to turn on automatically
-let g:LanguageClient_autoStart = 1
 " let g:LanguageClient_autoStart = 0
 " nnoremap <leader>lcs :LanguageClientStart<CR>
 " rustup run nightly-2018-09-22-x86_64-apple-darwin rls
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly-2018-09-22-x86_64-apple-darwin', 'rls'],
-    \ 'go': ['go-langserver'],
-    \ }
-
 let b:ale_linters = {'text': ['proselint']}
+let b:ale_linters['rust'] = ['rls']
+
+let b:ale_fixers = {'rust': ['rustfmt']}
+let g:ale_fix_on_save = 1
+let g:ale_rust_rls_toolchain = 'stable'
+
+" ALE MAPPINGS
+noremap <Leader>e :ALEDetail<CR>
+noremap <Leader>j <Plug>(ale_next)
+noremap <Leader>k <Plug>(ale_previous)
+noremap <silent> gd :ALEGoToDefinition<CR>
+" mapping conflicts with vimux "resend"
+" noremap <silent> <CR> :ALEHOVER<CR>
+noremap <silent> K :ALEHover<CR>
+
+" trying out ale for rust tooling since coc.nvim had so many problems
 
 " for black.vim, save all python with it
 " autocmd BufWritePre *.py execute ':Black'
@@ -118,12 +153,12 @@ let b:ale_linters = {'text': ['proselint']}
 "     \ }
 
 " nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+" nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
+" nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 " clean rust files on save
-let g:rustfmt_autosave = 1
+" let g:rustfmt_autosave = 1
 
 
 " #### |" set the runtime path to include Vundle and initialize
@@ -149,7 +184,6 @@ let g:rustfmt_autosave = 1
 " #### |Bundle 'derekwyatt/vim-scala'
 " #### |Bundle 'digitaltoad/vim-jade'
 " #### |Bundle 'chase/vim-ansible-yaml'
-" #### |Bundle 'rust-lang/rust.vim'
 " #### |Bundle 'cespare/vim-toml'
 " #### |Bundle 'markcornick/vim-hashicorp-tools'
 " #### |Bundle 'autowitch/hive.vim'
@@ -234,6 +268,14 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
+"
+
+" keep coc.vim settings in its own file
+" source $HOME/.config/nvim/config/coc.vim
+" coc is kind of bad
+
+" refresh vim config with a button
+nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
 
 " plugin settings ########
 let g:syntastic_python_checkers=['flake8']
@@ -419,8 +461,6 @@ set linebreak       " More visually appealing wordwrap
 set splitbelow
 set splitright
 
-colorscheme desert
-
 
 " md means markdown, vim.
 au BufNewFile,BufRead *.md               set ft=markdown
@@ -603,3 +643,14 @@ map <leader>n :set nospell<CR>
 
 " can't see anything that is highlighted, trying a new color
 hi Search ctermbg=DarkGrey
+
+
+nmap <silent> <Leader>h :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+    if &filetype == 'vim'
+        execute 'h '.expand('<cword>')
+    else
+        normal K
+    endif
+endfunction
