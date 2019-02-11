@@ -7,3 +7,5 @@ alias gs="git status"
 # it's from 1997.
 # i'm going to use 'dc' for docker compose tho.
 alias dc="docker-compose"
+# start vim in night mode!
+alias dvim="vim -c \":set background=dark\" "
