@@ -85,6 +85,13 @@ Plug 'ambv/black'
 
 " go language stuff
 Plug 'fatih/vim-go'
+
+Plug 'kovisoft/paredit'
+
+" a color
+" Plug 'drewtempelmeyer/palenight.vim'
+Plug 'morhetz/gruvbox'
+
 call plug#end()
 
 " setup Ack.vim to use ag
@@ -227,7 +234,6 @@ noremap <silent> K :ALEHover<CR>
 " #### |Bundle 'vim-erlang/vim-erlang-tags'
 " #### |
 " #### |" manipulate lisp forms with your mind
-" #### |Bundle 'kovisoft/paredit'
 " #### |
 " #### |" first time i've ever needed to use a class outline tool
 " #### |" in python.  you'll never guess what consultancy
