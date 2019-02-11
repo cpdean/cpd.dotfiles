@@ -43,6 +43,10 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+\\ exec $lockcmd
 bindsym $mod+Shift+Return exec $lockcmd
 
+# for multimonitor
+# actually nevermind
+# force_xinerama yes
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -102,6 +106,7 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+bindsym $mod+z focus child
 
 set $wk_work "1:work"
 set $wk_chat "2:chat"
