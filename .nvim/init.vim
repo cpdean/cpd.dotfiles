@@ -86,7 +86,10 @@ Plug 'ambv/black'
 " go language stuff
 Plug 'fatih/vim-go'
 
-Plug 'kovisoft/paredit'
+" nevermind paredit.vim is awful and unusable. there is a bug that unbalnces
+" parens as you type, not just making it worthless but then the 'paren
+" balancing' features of it then prevent you from fixing its mistakes.
+"Plug 'kovisoft/paredit'
 
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
@@ -377,16 +380,15 @@ autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
 
-" clojure paredit has silly mappings
-" don't want to bounce between paredit leader and shift
-function! ConradPareditBindings()
-    call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
-    call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()') 
-endfunction
-au FileType lisp      call ConradPareditBindings()
-au FileType *clojure* call ConradPareditBindings()
-au FileType scheme    call ConradPareditBindings()
-au FileType racket    call ConradPareditBindings()
+" disabling paredit stuff until paredit can be fixed
+" function! ConradPareditBindings()
+"     call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
+"     call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()') 
+" endfunction
+" au FileType lisp      call ConradPareditBindings()
+" au FileType *clojure* call ConradPareditBindings()
+" au FileType scheme    call ConradPareditBindings()
+" au FileType racket    call ConradPareditBindings()
 " maybe someday i'll try out the short mappings instead
 
 " tmuxing
