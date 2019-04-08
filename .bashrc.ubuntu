@@ -4,3 +4,4 @@ export PATH=$HOME/gems/bin:$PATH
 source ~/.bashrc.common
 PS1='$? - ❯❯❯ '
 alias why="aptitude why"
+export PROMPT_COMMAND='echo -ne "\033]0;${PWD/$HOME/~}\007"'

@@ -11,6 +11,7 @@
 
 # Mod4 is superkey
 set $mod Mod4
+set $lockcmd locklock
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -36,6 +37,15 @@ bindsym $mod+d exec dmenu_run
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# lock
+# can't figure out how to get this to work
+# bindsym $mod+\\ exec $lockcmd
+bindsym $mod+Shift+Return exec $lockcmd
+
+# for multimonitor
+# actually nevermind
+# force_xinerama yes
 
 # change focus
 bindsym $mod+h focus left
@@ -76,6 +86,11 @@ bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
+# mojis
+for_window [class="^mojibar$" instance="^mojibar$"] floating enable
+for_window [class="^mojibar$" instance="^mojibar$"] resize set 400 400
+for_window [class="^ck2$" instance="^ck2$"] border none
+
 # screenshots
 # apt install flameshot
 bindsym $mod+shift+s exec flameshot gui
@@ -91,6 +106,7 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+bindsym $mod+z focus child
 
 set $wk_work "1:work"
 set $wk_chat "2:chat"
@@ -186,6 +202,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+        # status_command polybar example
 }
 
 
