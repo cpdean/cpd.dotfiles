@@ -18,19 +18,21 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " rust and something to hook into the RLS
 
-Plug 'rust-lang/rust.vim'
-Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
+" TODO: retooling all the stuff for rust
+" Plug 'rust-lang/rust.vim'
+"Plug 'autozimu/LanguageClient-neovim', {
+"            \ 'branch': 'next',
+"            \ 'do': 'bash install.sh',
+"            \ }
 
 " (Completion plugin option 1)
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" TODO: retooling all the stuff for rust
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " trying coc instead of languageclient
-" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
@@ -72,6 +74,9 @@ endif
 " setup language server for all the great things
 set hidden
 
+" for quick vim config iteration
+nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
+
 
 " completion manager is too aggressive at 0
 let g:cm_complete_start_delay = 1000
@@ -84,16 +89,23 @@ let g:LanguageClient_autoStart = 1
 " nnoremap <leader>lcs :LanguageClientStart<CR>
 " rustup run nightly-2018-09-22-x86_64-apple-darwin rls
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly-2018-09-22-x86_64-apple-darwin', 'rls'],
-    \ 'go': ['go-langserver'],
-    \ }
+" TODO: retooling all the stuff for rust
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['rustup', 'run', 'nightly-2018-09-22-x86_64-apple-darwin', 'rls'],
+"     \ 'go': ['go-langserver'],
+"     \ }
+
+" shoving all coc.vim / language server stuff into its own config, per 
+" https://github.com/dakom/dotfiles/blob/master/.config/nvim/init.vim
+
+" TODO: temporarily putting this here for reading coc.vim config
+source $HOME/.config/nvim/config/coc.vim
 
 let b:ale_linters = {'text': ['proselint']}
 
 " for black.vim, save all python with it
 " autocmd BufWritePre *.py execute ':Black'
-" ugh. i don't wnat to edit OTHER peoples code just mine.
+" ugh, but currently disabled. i don't wnat to edit OTHER peoples code just mine.
 
 " install notes for other servers
 " go-langserver:
@@ -111,12 +123,10 @@ let b:ale_linters = {'text': ['proselint']}
 "     \ }
 
 " nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
-" clean rust files on save
-let g:rustfmt_autosave = 1
+" TODO: retooling all the stuff for rust
+" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+" nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
+" nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 
 " #### |" set the runtime path to include Vundle and initialize

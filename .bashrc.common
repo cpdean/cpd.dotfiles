@@ -180,7 +180,8 @@ if [ -f /Users/cdean/dw_db_inits ]; then
     .  /Users/cdean/dw_db_inits
 fi
 
-eval `opam config env`
+# opam is broken 2019-03-29
+# eval `opam config env`
 
 # ive ruined this
 #export PATH="/Users/cdean/.pyenv/bin:$PATH"
