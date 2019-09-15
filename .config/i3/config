@@ -232,6 +232,19 @@ mode "movemonitor" {
 
 bindsym $mod+t mode "movemonitor"
 
+
+mode "applaunch" {
+        bindsym t exec --no-startup-id "firefox -new-window https://trello.com/b/os93Gvn7/now"; mode "default"
+        # commented out so I stay in the same context of mind while jotting down the note
+        #bindsym t exec --no-startup-id "i3-msg 'workspace 5; exec --no-startup-id firefox -new-window https://trello.com/b/os93Gvn7/now'"; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+n mode "applaunch"
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
