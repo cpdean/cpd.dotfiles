@@ -18,8 +18,14 @@ set $lockcmd locklock
 # original setting
 # font pango:monospace 15
 
-font pango:Liberation Mono 15
-font pango:Ubuntu Mono 13
+#font pango:Liberation Mono 15
+#font pango:Ubuntu Mono 13
+#font pango:Futura 12
+#font pango:Gill Sans Regular 12
+#font pango:Gill Sans Light 15
+#font pango:Gotham 13
+#font pango:Helvetica Neue Regular 13
+font pango:Helvetica 14
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
