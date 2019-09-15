@@ -8,6 +8,9 @@ PS1='$? - ❯❯❯ '
 alias why="aptitude why"
 export PROMPT_COMMAND='echo -ne "\033]0;${PWD/$HOME/~}\007"'
 
+# for deno
+export PATH="/home/conrad/.deno/bin:$PATH"
+
 
 if [ -f ~/.config/exercism/exercism_completion.bash ]; then
   source ~/.config/exercism/exercism_completion.bash
