@@ -95,6 +95,13 @@ Plug 'fatih/vim-go'
 " Plug 'drewtempelmeyer/palenight.vim'
 Plug 'morhetz/gruvbox'
 
+
+" writing
+Plug 'tpope/vim-markdown'
+" Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/limelight.vim'
+" Plug 'reedes/vim-pencil'
+
 call plug#end()
 
 " setup Ack.vim to use ag
@@ -626,19 +633,19 @@ set textwidth=80
 nmap <leader>f gwap
 
 function! ConradWritingSettings()
-    let g:limelight_conceal_ctermfg = 'gray'
-    Limelight
+    " limelight now has syntax errors.
+    " let g:limelight_conceal_ctermfg = 'gray'
+    " Limelight
     "call pencil#init()
 endfunction
 
-" WHY THE FUCK DOES THIS TURN ON DURING DOCKERFILE HUH???
 " au group for vim-pencil
-" great okay so this also breaks my syntax highlighting in python. what trash
-" augroup pencil
-    " autocmd!
-    " autocmd FileType markdown,mkd call ConradWritingSettings()
+augroup pencil
+    autocmd!
+    autocmd FileType markdown,mkd call ConradWritingSettings()
+    " i think 'text' extends to all files so...
     " autocmd FileType text         call ConradWritingSettings()
-" augroup END
+augroup END
 
 " ansible yaml drives me wild
 autocmd FileType yaml set nosmartindent
