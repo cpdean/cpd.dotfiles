@@ -98,9 +98,10 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+
 " setup Ack.vim to use ag
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
 endif
 
 " enable palenight color scheme
@@ -384,6 +385,7 @@ autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
 
+
 " disabling paredit stuff until paredit can be fixed
 " function! ConradPareditBindings()
 "     call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
@@ -430,6 +432,16 @@ autocmd FileType python vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<C
 
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
+
+" in rust, add a binding for 'cargo build' so i can see compiler errors in a
+" split
+autocmd FileType rust nnoremap <buffer> <leader>b :split term://cargo build<CR>
+autocmd FileType rust nnoremap <buffer> <leader>t :split term://cargo test<CR>
+
+" remove repl-friendly mappings when we are in rust
+autocmd FileType rust silent! nunmap <leader>tt
+
+
 
 " this contractor should have never written python
 nmap <F8> :TagbarToggle<CR>
@@ -540,7 +552,7 @@ nmap <leader>s :Ack
 nmap <leader>S :Ack <C-R><C-W><cr>
 
 " auto insert a breakpoint
-nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
+autocmd FileType python nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 " reaching the + register is tedious
 " and i already have muscle memory for these clipboard commands

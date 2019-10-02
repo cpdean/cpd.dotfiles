@@ -212,6 +212,11 @@ autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 "why doesn't the hive syntax plugin do this already??
 autocmd BufNewFile,BufRead *.hql set filetype=hive
 
+
+" in rust, add a binding for 'cargo build' so i can see compiler errors in a
+" split
+autocmd FileType rust nnoremap <buffer> <leader>b :split term://cargo build<CR>
+
 " clojure paredit has silly mappings
 " don't want to bounce between paredit leader and shift
 function! ConradPareditBindings()
@@ -372,7 +377,7 @@ nmap <leader>s :Ag
 nmap <leader>S :Ag <C-R><C-W><cr>
 
 " auto insert a breakpoint
-nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
+autocmd FileType python nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
 " On OSX
 " otherwise should compile vim10m with +clipboard

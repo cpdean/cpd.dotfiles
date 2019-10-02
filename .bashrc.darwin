@@ -1,4 +1,6 @@
 source ~/.bashrc.common
+# setup specific hooks for hadoops and spark
+source ~/.hadoops
 
 # weening myself off vim
 alias vim=nvim

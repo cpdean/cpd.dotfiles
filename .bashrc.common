@@ -148,7 +148,7 @@ export PYTHONSTARTUP=~/.pythonrc
 
 
 # prevent global python from getting accidentally messed up
-export PIP_REQUIRE_VIRTUALENV=true
+#export PIP_REQUIRE_VIRTUALENV=true
 
 # virtualenvwrapper stuff
 export WORKON_HOME=$HOME/.virtualenvs
