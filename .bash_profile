@@ -13,6 +13,7 @@ if [ -f ~/aws_spark_config ]; then
 fi
 
 
+
 #DISABLING BURRITO FOR NOW.
 # i want a more legit venv setup
 # startup virtualenv-burrito

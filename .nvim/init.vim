@@ -3,7 +3,8 @@
 " built with virtualenvwrapper, `mkvirtualenv neovim`
 " pip install neovim flake8 black
 
-let g:python3_host_prog = '/home/conrad/.virtualenvs/nvim/bin/python'
+"let g:python3_host_prog = '$HOME/.virtualenvs/nvim/bin/python'
+let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
 
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
 "            let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
@@ -130,7 +131,9 @@ let g:cm_complete_start_delay = 1000
 " nnoremap <leader>lcs :LanguageClientStart<CR>
 " rustup run nightly-2018-09-22-x86_64-apple-darwin rls
 
-let b:ale_linters = {'text': ['proselint']}
+" this keeps segfaulting python3
+" let b:ale_linters = {'text': ['proselint']}
+let b:ale_linters = {}
 let b:ale_linters['rust'] = ['rls']
 
 let b:ale_fixers = {'rust': ['rustfmt']}

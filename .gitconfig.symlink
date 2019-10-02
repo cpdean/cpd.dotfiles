@@ -16,6 +16,7 @@
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
+	whatwas = "log --follow --"
 
 [includeIf "gitdir:~/dev/work/"]
     path = .gitconfig-sqsp
@@ -24,3 +25,7 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+
+[url "git+ssh://code.squarespace.net:7999/"]
+   insteadOf = https://code.squarespace.net/scm/
+   insteadOf = http://code.squarespace.net/scm/<Paste>
