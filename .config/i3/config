@@ -18,11 +18,20 @@ set $lockcmd locklock
 # original setting
 # font pango:monospace 15
 
-font pango:Liberation Mono 15
-font pango:Ubuntu Mono 13
+#font pango:Liberation Mono 15
+#font pango:Ubuntu Mono 13
+#font pango:Futura 12
+#font pango:Gill Sans Regular 12
+#font pango:Gill Sans Light 15
+#font pango:Gotham 13
+#font pango:Helvetica Neue Regular 13
+font pango:Helvetica 14
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+
+# move the mouse to the window you switch to
+mouse_warping output
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
@@ -89,6 +98,8 @@ bindsym $mod+e layout toggle split
 # mojis
 for_window [class="^mojibar$" instance="^mojibar$"] floating enable
 for_window [class="^mojibar$" instance="^mojibar$"] resize set 400 400
+
+# so ck2 is easy to click
 for_window [class="^ck2$" instance="^ck2$"] border none
 
 # screenshots
@@ -135,6 +146,11 @@ bindsym $mod+Shift+u move container to workspace $wk_work
 bindsym $mod+Shift+i move container to workspace $wk_chat
 bindsym $mod+Shift+o move container to workspace $wk_code
 bindsym $mod+Shift+p move container to workspace $wk_web
+
+# keep chats on the chat
+assign [class="^Zulip$"] $wk_chat
+assign [class="^Signal$"] $wk_chat
+
 
 # turnoff the built-in thing until you figure out how to make your plugin work
 workspace_auto_back_and_forth yes
@@ -197,6 +213,37 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# resize window (you can also use the mouse for that)
+mode "movemonitor" {
+        bindsym shift+j move workspace to output down
+        bindsym shift+k move workspace to output up
+        bindsym shift+h move workspace to output left
+        bindsym shift+l move workspace to output right
+        bindsym h focus left
+        bindsym j focus down
+        bindsym k focus up
+        bindsym l focus right
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+t mode "movemonitor"
+
+
+mode "applaunch" {
+        bindsym t exec --no-startup-id "firefox -new-window https://trello.com/b/os93Gvn7/now"; mode "default"
+        # commented out so I stay in the same context of mind while jotting down the note
+        #bindsym t exec --no-startup-id "i3-msg 'workspace 5; exec --no-startup-id firefox -new-window https://trello.com/b/os93Gvn7/now'"; mode "default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+n mode "applaunch"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
