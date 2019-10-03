@@ -22,8 +22,9 @@ filetype off                  " required
 
 " for notational
 " let g:nv_main_directory = ['./docs']
-let g:nv_search_paths = ['~/.j/notes', './docs', './doc', './notes']
+let g:nv_search_paths = ['~/.j/wiki', '~/.j/notes', './docs', './doc', './notes']
 nnoremap <silent> <Leader><tab> :NV<CR>
+nnoremap <silent> <Leader>` :NV<CR>
 
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
