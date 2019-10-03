@@ -20,6 +20,11 @@ let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" for notational
+" let g:nv_main_directory = ['./docs']
+let g:nv_search_paths = ['~/.j/notes', './docs', './doc', './notes']
+nnoremap <silent> <Leader><tab> :NV<CR>
+
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -96,6 +101,9 @@ Plug 'fatih/vim-go'
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
 Plug 'morhetz/gruvbox'
+
+" playing with a plugin
+Plug 'https://github.com/alok/notational-fzf-vim'
 
 call plug#end()
 
