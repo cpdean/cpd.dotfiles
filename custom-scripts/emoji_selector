@@ -2,8 +2,9 @@
 function main {
     selection=$(echo "$emoji_list" | rofi -dmenu -p emoji -l 5)
     if [ $? = 0 ]; then
-        echo "$selection" | awk '{print $1}' | tr -d '\n' | xsel -b
-        notify-send "$(xsel -b) copied to clipboard"
+        moji=$(echo "$selection" | awk '{print $1}' | tr -d '\n')
+        echo $moji | xclip -i -selection clipboard
+        notify-send "$moji copied to clipboard"
     fi
 }
 
