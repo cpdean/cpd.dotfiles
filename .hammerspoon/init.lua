@@ -31,10 +31,10 @@ hs.hotkey.bind(usual, "K", function()
     })
 end)
 
-local half_width = function(screenMode, section_count)
+local half_width = function(screenMode, section_count, screenFrame)
     return {
-        x=0,
-        y=0,
+        x=screenFrame.x,
+        y=screenFrame.y,
         h=screenMode.h,
         w=screenMode.w / section_count
     }
@@ -60,11 +60,11 @@ end
 -- you want
 -- section_width_to_fill lets you make something take up 2/3ds instead of 1/3rd
 ----------------
-local get_section = function(screen_rect, count, num_section, section_width_to_fill)
+local get_section = function(screen_rect, screenFrame, count, num_section, section_width_to_fill)
     print(num_section)
     return {
-        x=(screen_rect.w / count) * num_section,
-        y=0,
+        x=screenFrame.x + (screen_rect.w / count) * num_section,
+        y=screenFrame.y + 0,
         h=(screen_rect.h),
         w=(screen_rect.w / count) * section_width_to_fill
     }
@@ -82,7 +82,7 @@ local is_near = function(a, b)
 end
 
 
-local get_frames_thirds = function(screen_rect, window, section_count, dir)
+local get_frames_thirds = function(screen_rect, screenFrame, window, section_count, dir)
     print('getting window center')
     local center = center_of(window:frame())
     print('getting screen center')
@@ -96,49 +96,49 @@ local get_frames_thirds = function(screen_rect, window, section_count, dir)
         print('left')
         if is_near(center, screen_center) then
             print('going to left')
-            return get_section(screen_rect, section_count, 0, 1)
+            return get_section(screen_rect, screenFrame, section_count, 0, 1)
         elseif is_left_of(center, screen_center) then
             print('going to left')
-            local left_section = get_section(screen_rect, section_count, 0, 1)
+            local left_section = get_section(screen_rect, screenFrame, section_count, 0, 1)
             if is_near(center, center_of(left_section)) then
                 print('ALREADY HERE so setting it to take up double-width')
-                return get_section(screen_rect, section_count, 0, 2)
+                return get_section(screen_rect, screenFrame, section_count, 0, 2)
             end
-            return get_section(screen_rect, section_count, 0, 1)
+            return get_section(screen_rect, screenFrame, section_count, 0, 1)
         else
             print('going to mid')
-            return get_section(screen_rect, section_count, 1, 1)
+            return get_section(screen_rect, screenFrame, section_count, 1, 1)
         end
     else
         print('right')
         if is_near(center, screen_center) then
             print('going to right')
-            return get_section(screen_rect, section_count, 2, 1)
+            return get_section(screen_rect, screenFrame, section_count, 2, 1)
         elseif is_left_of(center, screen_center) then
             print('going to mid')
-            return get_section(screen_rect, section_count, 1, 1)
+            return get_section(screen_rect, screenFrame, section_count, 1, 1)
         else
             print('going to right')
             local right_section = get_section(screen_rect, section_count, 2, 1)
             if is_near(center, center_of(right_section)) then
                 print('ALREADY HERE so setting it to take up double-width')
-                return get_section(screen_rect, section_count, 1, 2)
+                return get_section(screen_rect, screenFrame, section_count, 1, 2)
             end
-            return get_section(screen_rect, section_count, 2, 1)
+            return get_section(screen_rect, screenFrame, section_count, 2, 1)
         end
     end
 end
 
-local get_frames_halves = function(screen_rect, window, section_count, dir)
+local get_frames_halves = function(screen_rect, screenFrame, window, section_count, dir)
     if dir == W_LEFT then
-        return get_section(screen_rect, section_count, 0, 1)
+        return get_section(screen_rect, screenFrame, section_count, 0, 1)
     else
-        return get_section(screen_rect, section_count, 1, 1)
+        return get_section(screen_rect, screenFrame, section_count, 1, 1)
     end
 end
 
 
-local get_next_frame = function(screen_rect, window, section_count, dir)
+local get_next_frame = function(screen_rect, screenFrame, window, section_count, dir)
     -- 0, 30
     -- (0, 10), (10, 20), (20, 30)
     -- 5, 15, 25
@@ -146,9 +146,9 @@ local get_next_frame = function(screen_rect, window, section_count, dir)
     -- to the current window
     -- pick it, set it
     if section_count == 3 then
-        return get_frames_thirds(screen_rect, window, section_count, dir)
+        return get_frames_thirds(screen_rect, screenFrame, window, section_count, dir)
     else
-        return get_frames_halves(screen_rect, window, section_count, dir)
+        return get_frames_halves(screen_rect, screenFrame, window, section_count, dir)
     end
 end
 
@@ -156,13 +156,15 @@ local establish_window_placer = function(number_of_sections)
 
     hs.hotkey.bind(usual, "H", function()
         local current = hs.window.focusedWindow()
-        local section_width = get_next_frame(current:screen():currentMode(), current, number_of_sections, W_LEFT)
+        local screenFrame = current:screen():frame()
+        local section_width = get_next_frame(current:screen():currentMode(), screenFrame, current, number_of_sections, W_LEFT)
         current:setFrame(section_width)
     end)
 
     hs.hotkey.bind(usual, "L", function()
         local current = hs.window.focusedWindow()
-        local section_width = get_next_frame(current:screen():currentMode(), current, number_of_sections, W_RIGHT)
+        local screenFrame = current:screen():frame()
+        local section_width = get_next_frame(current:screen():currentMode(), screenFrame, current, number_of_sections, W_RIGHT)
         current:setFrame(section_width)
     end)
 
