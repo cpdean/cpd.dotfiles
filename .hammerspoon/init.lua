@@ -182,6 +182,17 @@ hs.hotkey.bind(usual, "3", function()
     hs.alert.show("setting 3-tiler")
 end)
 
+-- move windows between monitors
+
+hs.hotkey.bind(intense, "H", function()
+    local current = hs.window.focusedWindow()
+    current:moveOneScreenWest()
+end)
+
+hs.hotkey.bind(intense, "L", function()
+    local current = hs.window.focusedWindow()
+    current:moveOneScreenEast()
+end)
 
 
 -- / WINDOW PLACER APP
