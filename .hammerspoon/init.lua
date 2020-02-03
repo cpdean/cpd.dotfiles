@@ -22,9 +22,10 @@ local W_RIGHT = 1
 hs.hotkey.bind(usual, "K", function()
     local current = hs.window.focusedWindow()
     local screen = current:screen()
+    local frame = screen:frame()
     current:setFrame({
-        x=0,
-        y=0,
+        x=frame.x,
+        y=frame.y,
         w=screen:currentMode().w,
         h=screen:currentMode().h
     })
