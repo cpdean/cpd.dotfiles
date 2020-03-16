@@ -696,3 +696,9 @@ function! s:show_documentation()
         normal K
     endif
 endfunction
+
+" surround selected text in a dbg!(..)
+vmap <silent> <Leader>sd "ndidbg!()<esc>"nP
+
+" remove dbg!() that is surrounding the selected text
+vmap <silent> <Leader>sD "ndFddf)"nP
