@@ -94,10 +94,18 @@ Plug 'ambv/black'
 " go language stuff
 Plug 'fatih/vim-go'
 
+
 " nevermind paredit.vim is awful and unusable. there is a bug that unbalnces
 " parens as you type, not just making it worthless but then the 'paren
 " balancing' features of it then prevent you from fixing its mistakes.
 "Plug 'kovisoft/paredit'
+
+" years ago paredit seemed too buggy, but someone said this was good
+Plug 'guns/vim-sexp'
+" TIM MADE SOME MAPPINGS FOR IT
+"Plug 'tpope/vim-sexp-mappings-for-regular-people'
+" nevermind. i have to still do all my own overrides to prevent vim-sexp from
+" killing my config
 
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
@@ -450,6 +458,12 @@ autocmd FileType python vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<C
 
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
+
+" for lisp, reset mappings for the paredit rewrite plugin, based of tpope
+" bindings.  however, i need to fork tpope bindings because he does not override
+" <leader>w, meaning the author of sexp ruins my ability to save files
+"
+source $HOME/.config/nvim/config/sexp-overrides.vim
 
 " in rust, add a binding for 'cargo build' so i can see compiler errors in a
 " split
