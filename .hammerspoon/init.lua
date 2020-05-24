@@ -31,12 +31,12 @@ hs.hotkey.bind(usual, "K", function()
     })
 end)
 
-local half_width = function(screenMode, section_count, screenFrame)
+local half_height = function(rect)
     return {
-        x=screenFrame.x,
-        y=screenFrame.y,
-        h=screenMode.h,
-        w=screenMode.w / section_count
+        x=rect.x,
+        y=rect.y,
+        h=rect.h / 2,
+        w=rect.w
     }
 end
 
@@ -77,7 +77,17 @@ local is_left_of = function(a, b)
 end
 
 local is_near = function(a, b)
-    local dist = math.abs(a.x - b.x)
+    -- see if the euclidean distance is small or not
+    -- get difference of all the vector components
+    local x = a.x - b.x
+    local y = a.y - b.y
+    -- square them
+    local x_s = x * x
+    local y_s = y * y
+    -- add them up
+    local total = x_s + y_s
+    -- square root
+    local dist = math.sqrt(total)
     return dist < 5
 end
 
@@ -194,7 +204,66 @@ hs.hotkey.bind(intense, "L", function()
     current:moveOneScreenEast()
 end)
 
+hs.hotkey.bind(usual, "J", function()
+    -- make current window half-height, floating it down at first,
+    -- or up if it's already in the bottom half
 
+    -- get the current app to move around
+    local current_app = hs.window.focusedWindow()
+
+    -- get the true bounding rectangle of the viewport that this application
+    -- rests on
+    -- 'screen' corresponds to the physical dimensions of a monitor's viewport
+    local screen = current_app:screen()
+    -- 'frame' corresponds to the location of the monitor viewport
+    -- in the context of a multi-monitor layout, so it is needed for the x,y of
+    -- the rect.
+    -- this prevents us from trying to resize an app and having it move to a
+    -- different monitor.
+    local frame = screen:frame()
+
+    local viewport_rect = {
+        x=frame.x,
+        y=frame.y,
+        h=screen:currentMode().h,
+        w=screen:currentMode().w
+    }
+    local top_half_viewport_rect = half_height(viewport_rect)
+    local bottom_half_viewport_rect = {
+        x=top_half_viewport_rect.x,
+        y=top_half_viewport_rect.h,  -- make the y pos be the height so it starts halfway down
+        h=top_half_viewport_rect.h,
+        w=top_half_viewport_rect.w
+    }
+
+    -- by default we will use the bottom half, to line up with our mnemonic from
+    -- vim, "j" means down
+    -- however, if the window is already in the bottom-half, bounce it up
+    local app_rect = {
+        x=current_app:frame().x,
+        y=current_app:frame().y,
+        w=current_app:frame().w,
+        h=current_app:frame().h,
+    }
+    print("about to decide top or bottom")
+    if is_near(center_of(app_rect), center_of(bottom_half_viewport_rect)) then
+        print("going to top")
+        current_app:setFrame({
+            x=top_half_viewport_rect.x,
+            y=top_half_viewport_rect.y,
+            w=top_half_viewport_rect.w,
+            h=top_half_viewport_rect.h
+        })
+    else
+        print("going to bottom")
+        current_app:setFrame({
+            x=bottom_half_viewport_rect.x,
+            y=bottom_half_viewport_rect.y,
+            w=bottom_half_viewport_rect.w,
+            h=bottom_half_viewport_rect.h
+        })
+    end
+end)
 -- / WINDOW PLACER APP
 
 local center_cursor_on = function(win_obj)
