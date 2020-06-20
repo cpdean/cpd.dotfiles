@@ -4,14 +4,13 @@
 " pip install neovim flake8 black
 
 "let g:python3_host_prog = '$HOME/.virtualenvs/nvim/bin/python'
-let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+"let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+if !empty(glob("/Users/cdean/.virtualenvs/neovim/bin/python"))
+    let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+else
+    let g:python3_host_prog = '/home/conrad/.virtualenvs/nvim/bin/python'
+endif
 
-"        if findreadable('/Users/cdean/.virtualenvs/neovim')
-"            let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
-"        else
-"            echo "ugh"
-"        endif
-" TODO: adjust for other home paths on other hosts
 
 " porting my vimrc over to neovim
 " no idea how this is supposed to work tbh
@@ -25,6 +24,13 @@ filetype off                  " required
 let g:nv_search_paths = ['~/.j/wiki', '~/.j/notes', './docs', './doc', './notes']
 nnoremap <silent> <Leader><tab> :NV<CR>
 nnoremap <silent> <Leader>` :NV<CR>
+
+
+" for lisp, reset mappings for the paredit rewrite plugin, based of tpope
+" bindings.  however, i need to fork tpope bindings because he does not override
+" <leader>w, meaning the author of sexp ruins my ability to save files
+"
+source $HOME/.config/nvim/config/sexp-overrides.vim
 
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
@@ -459,11 +465,6 @@ autocmd FileType python vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<C
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
-" for lisp, reset mappings for the paredit rewrite plugin, based of tpope
-" bindings.  however, i need to fork tpope bindings because he does not override
-" <leader>w, meaning the author of sexp ruins my ability to save files
-"
-source $HOME/.config/nvim/config/sexp-overrides.vim
 
 " in rust, add a binding for 'cargo build' so i can see compiler errors in a
 " split

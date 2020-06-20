@@ -8,6 +8,11 @@ PS1='$? - ❯❯❯ '
 alias why="aptitude why"
 export PROMPT_COMMAND='echo -ne "\033]0;${PWD/$HOME/~}\007"'
 
+# for swivm (prolog)
+
+export SWIVM_DIR="$HOME/.swivm"
+[ -s "$SWIVM_DIR/swivm.sh" ] && . "$SWIVM_DIR/swivm.sh" # This loads swivm
+
 # for deno
 export PATH="/home/conrad/.deno/bin:$PATH"
 

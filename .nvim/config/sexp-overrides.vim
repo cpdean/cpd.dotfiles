@@ -14,10 +14,14 @@ function! s:map_sexp_wrap(type, target, left, right, pos)
         \ . '<Bar>silent! call repeat#set("'.a:target.'", v:count)<CR>'
 endfunction
 
+" Disable mapping hooks
+"let g:sexp_filetypes = ''
+
 function! s:sexp_mappings() abort
   if !exists('g:sexp_loaded')
     return
   endif
+  let g:sexp_you_plz = 'i said plz'
   call s:map_sexp_wrap('e', 'cseb', '(', ')', 0)
   call s:map_sexp_wrap('e', 'cse(', '(', ')', 0)
   call s:map_sexp_wrap('e', 'cse)', '(', ')', 1)
@@ -53,6 +57,12 @@ function! s:sexp_mappings() abort
   nmap <buffer> <)  <Plug>(sexp_emit_tail_element)
   nmap <buffer> <(  <Plug>(sexp_capture_prev_element)
   nmap <buffer> >)  <Plug>(sexp_capture_next_element)
+  " disable things that conflict with saving files
+  " actually, these should already be disabled??
+  " nmap <silent><buffer> <LocalLeader>w  <Plug>(sexp_round_head_wrap_element)
+  " xmap <silent><buffer> <LocalLeader>w  <Plug>(sexp_round_head_wrap_element)
+  " nmap <silent><buffer> <LocalLeader>W  <Plug>(sexp_round_tail_wrap_element)
+  " xmap <silent><buffer> <LocalLeader>W  <Plug>(sexp_round_tail_wrap_element)
 endfunction
 
 function! s:setup() abort
