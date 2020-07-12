@@ -8,4 +8,4 @@ TIME_MARKER=$(date +" ----- %Y-%m-%dT%H:%M:%S")
 ENTRY_FILE=$JOURNAL_DIR/$TARGET_DAY.md
 
 echo $TIME_MARKER >> $ENTRY_FILE
-vim "+ normal G $" $ENTRY_FILE
+nvim "+ normal G $" $ENTRY_FILE

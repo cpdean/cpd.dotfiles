@@ -5,4 +5,4 @@ mkdir -p $JOURNAL_DIR
 TARGET_DAY=$(date +%Y-%m-%d)
 
 echo $(whoami)
-vim $JOURNAL_DIR/$TARGET_DAY.md
+nvim $JOURNAL_DIR/$TARGET_DAY.md
