@@ -20,6 +20,10 @@ let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" i think this was breaking mappings that have more than one leader in them
+" map <SPACE> <leader>
+let mapleader = "\<Space>"
+
 " for notational
 " let g:nv_main_directory = ['./docs']
 let g:nv_search_paths = ['~/.j/wiki', '~/.j/notes', './docs', './doc', './notes']
@@ -79,6 +83,9 @@ Plug 'scrooloose/nerdtree'
 
 " for git things
 Plug 'tpope/vim-fugitive'
+" installs a handler for :Gbrowse, so the url to files can be opened in a
+" browser
+Plug 'tpope/vim-rhubarb'
 
 Plug 'benmills/vimux'
 
@@ -111,9 +118,12 @@ Plug 'tpope/vim-markdown'
 " Plug 'junegunn/goyo.vim'
 " Plug 'junegunn/limelight.vim'
 " Plug 'reedes/vim-pencil'
+"
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
+source $HOME/.config/nvim/config/vimwiki.vim
 
 " setup Ack.vim to use ag
 if executable('rg')
@@ -146,24 +156,8 @@ let g:cm_complete_start_delay = 1000
 " nnoremap <leader>lcs :LanguageClientStart<CR>
 " rustup run nightly-2018-09-22-x86_64-apple-darwin rls
 
-" this keeps segfaulting python3
-" let b:ale_linters = {'text': ['proselint']}
-let b:ale_linters = {}
-let b:ale_linters['rust'] = ['rls']
-
-let b:ale_fixers = {'rust': ['rustfmt']}
-let g:ale_fix_on_save = 1
-let g:ale_rust_rls_toolchain = 'stable'
-
-" ALE MAPPINGS
-noremap <Leader>e :ALEDetail<CR>
-noremap <Leader>j <Plug>(ale_next)
-noremap <Leader>k <Plug>(ale_previous)
-noremap <silent> gd :ALEGoToDefinition<CR>
-" mapping conflicts with vimux "resend"
-" noremap <silent> <CR> :ALEHOVER<CR>
-noremap <silent> K :ALEHover<CR>
-
+" ale specific config
+" source $HOME/.config/nvim/config/ale.vim
 " trying out ale for rust tooling since coc.nvim had so many problems
 
 " for black.vim, save all python with it
@@ -451,14 +445,7 @@ autocmd FileType python vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<C
 " for clojure, select this form and send it to repl
 nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
-" in rust, add a binding for 'cargo build' so i can see compiler errors in a
-" split
-autocmd FileType rust nnoremap <buffer> <leader>b :split term://cargo build<CR>
-autocmd FileType rust nnoremap <buffer> <leader>t :split term://cargo test<CR>
-
-" remove repl-friendly mappings when we are in rust
-autocmd FileType rust silent! nunmap <leader>tt
-
+source $HOME/.config/nvim/config/rust.vim
 
 
 " this contractor should have never written python
@@ -514,13 +501,6 @@ au BufNewFile,BufRead *.cljs             set ft=clojure
 " Keep track of code folding
 au BufWinLeave * silent! mkview
 au BufWinEnter * silent! loadview
-
-" faster save
-nmap <silent> <leader>w :w<CR>
-" bail instant
-nmap <silent> <leader>q :q!<CR>
-" writequit
-nmap <silent> <leader>W :wq<CR>
 
 " Unfuck my screen
 noremap <leader>r :call ConradClearScreen()<cr>
@@ -626,7 +606,6 @@ endfunction
 " nmap <C-f> :call Scrolling('j', 5)<CR>
 " nmap <C-b> :call Scrolling('k', 5)<CR>
 
-map <SPACE> <leader>
 
 " manually install merlin for ocaml support
 " let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
@@ -654,7 +633,9 @@ autocmd FileType gitcommit setlocal spell spelllang=en_us
 "set complete+=kspell
 
 " width for paragraph formatting
-set textwidth=80
+" DISABLING because it linebreaks literally everything, often ruining the syntax
+" of files
+" set textwidth=80
 
 " format paragraph at cursor
 nmap <leader>f gwap
@@ -696,3 +677,15 @@ function! s:show_documentation()
         normal K
     endif
 endfunction
+
+" show me this thing on an internet!!
+vnoremap <silent> gh :Gbrowse<CR>
+
+" faster save
+nmap <silent> <Leader>w :w<CR>
+" bail instant
+nmap <silent> <leader>q :q!<CR>
+" writequit
+nmap <silent> <leader>W :wq<CR>
+
+
