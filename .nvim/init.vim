@@ -26,7 +26,8 @@ let mapleader = "\<Space>"
 
 " for notational
 " let g:nv_main_directory = ['./docs']
-let g:nv_search_paths = ['~/.j/wiki', '~/.j/notes', './docs', './doc', './notes']
+" let g:nv_search_paths = ['~/.j/wiki', '~/.j/notes', './docs', './doc', './notes']
+let g:nv_search_paths = ['~/.j/vimwiki', './docs', './doc', './notes']
 nnoremap <silent> <Leader><tab> :NV<CR>
 nnoremap <silent> <Leader>` :NV<CR>
 
@@ -46,6 +47,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " (Completion plugin option 1)
 " Plug 'roxma/nvim-completion-manager'
 " (Completion plugin option 2)
+" turning off at the moment because the fuzzy autocomplete does not work in vimwiki
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " trying coc instead of languageclient
@@ -62,11 +64,15 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " RUST:
 " plugin just for completions
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --rust-completer'  }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --rust-completer'  }
 " language specifics
 Plug 'rust-lang/rust.vim'
 " ale for both prose and rust (for now)
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
+
+"since neovim 0.5 there's native lsp support, if you use this plugin instead
+"of... the other plugins
+Plug 'neovim/nvim-lsp'
 
 
 Plug 'elixir-lang/vim-elixir'
@@ -122,6 +128,9 @@ Plug 'tpope/vim-markdown'
 Plug 'vimwiki/vimwiki'
 
 call plug#end()
+
+" turning off because fuzzy autocomplete doesn't work in vimwiki
+" source $HOME/.config/nvim/config/deoplete.vim
 
 source $HOME/.config/nvim/config/vimwiki.vim
 
