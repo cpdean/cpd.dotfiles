@@ -140,7 +140,8 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-set background=light
+"set background=light
+set background=dark
 colorscheme gruvbox
 
 " setup language server for all the great things
