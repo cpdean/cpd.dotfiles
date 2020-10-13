@@ -561,10 +561,16 @@ nmap <leader>S :Ack <C-R><C-W><cr>
 " auto insert a breakpoint
 autocmd FileType python nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
 
-" reaching the + register is tedious
-" and i already have muscle memory for these clipboard commands
-vmap <leader>c "+y
-nmap <leader>v "+p
+" I used to have special mappings for clipboard copy-paste but
+" i can't handle the mode-error anymore
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
 
 function! Scrolling(cmd, slide)
     " MINI PLUGIN - This adds an ease-in/ease-out function for page-wise
