@@ -1,6 +1,9 @@
 source ~/.bashrc.common
 # setup specific hooks for hadoops and spark
-source ~/.hadoops
+#source ~/.hadoops
+
+# I wonder what this will break
+export XDG_CONFIG_HOME=$HOME/.config/
 
 # weening myself off vim
 alias vim=nvim

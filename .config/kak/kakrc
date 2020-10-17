@@ -1,0 +1,13 @@
+# drawing inspo from https://github.com/Parasrah/kak-config/blob/master/kakrc
+
+# most people immediately pick a new leader (usermode) but i'm gonna chill on the default , for a while
+#
+# 
+
+map global user c '<a-|>~/.dotfiles/custom-scripts/tmux_send.sh<ret>' -docstring 'sends text to tmux pane'
+map global user k '<a-|>~/.dotfiles/custom-scripts/kitty_send.sh<ret>' -docstring 'sends text to kitty pane'
+map global user K '<a-|>~/.dotfiles/custom-scripts/kitty_chunked_send.sh<ret>' -docstring 'sends text in chunks to kitty pane'
+map global user p '<a-|>~/.dotfiles/custom-scripts/python_kitty_chunked_send.py<ret>' -docstring 'sends text in linewise chunks to kitty pane'
+map global user w ':w<ret>' -docstring 'write'
+
+
