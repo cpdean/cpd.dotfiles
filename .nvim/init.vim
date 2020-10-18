@@ -703,4 +703,5 @@ nmap <silent> <leader>q :q!<CR>
 " writequit
 nmap <silent> <leader>W :wq<CR>
 
-
+" trying to get kitty to work
+vmap <silent> <leader>k ::w !kitty @ --to=$KITTY_LISTEN_ON send-text --match=num:1 --stdin<CR><CR>
