@@ -1,13 +1,45 @@
-# drawing inspo from https://github.com/Parasrah/kak-config/blob/master/kakrc
+# sources of inspo
+# https://github.com/Parasrah/kak-config/blob/master/kakrc
+# https://github.com/mawww/config/blob/master/kakrc
 
-# most people immediately pick a new leader (usermode) but i'm gonna chill on the default , for a while
-#
+# already hopping on the plugin-manager train
+# mkdir -p ~/.config/kak/plugins/
+# git clone https://github.com/robertmeta/plug.kak.git ~/.config/kak/plugins/plug.kak
+# 
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+
+# some people on the internet say that connect.kak is better but i can't get it to work on osx
+
+plug "andreyorst/fzf.kak" config %{
+    map -docstring 'fzf mode' global normal '<c-l>' ': fzf-mode<ret>f'
+} defer "fzf" %{
+    set-option global fzf_preview false
+    set-option global fzf_file_command 'fd'
+    set-option global fzf_preview_tmux_height '15'
+    #set-option global fzf_preview_lines 5  # doesn't change the height
+    #set-option global fzf_preview_height '10%'  # doesn't change the height
+    #set-option global fzf_tmux_height '10%'  # doesn't change the height
+
+}
+
+
+# kakoune by default has a 'user mode', similar to vim's <leader>
+# most people immediately pick a new leader, <space> but i'm gonna chill on the default `,` for a while
 # 
 
-map global user c '<a-|>~/.dotfiles/custom-scripts/tmux_send.sh<ret>' -docstring 'sends text to tmux pane'
-map global user k '<a-|>~/.dotfiles/custom-scripts/kitty_send.sh<ret>' -docstring 'sends text to kitty pane'
-map global user K '<a-|>~/.dotfiles/custom-scripts/kitty_chunked_send.sh<ret>' -docstring 'sends text in chunks to kitty pane'
-map global user p '<a-|>~/.dotfiles/custom-scripts/python_kitty_chunked_send.py<ret>' -docstring 'sends text in linewise chunks to kitty pane'
+map global user t '<a-|>~/.dotfiles/custom-scripts/tmux_send.sh<ret>' -docstring 'sends text to tmux pane'
+# pruning this down to the good one
+#map global user k '<a-|>~/.dotfiles/custom-scripts/kitty_send.sh<ret>' -docstring 'sends text to kitty pane'
+#map global user K '<a-|>~/.dotfiles/custom-scripts/kitty_chunked_send.sh<ret>' -docstring 'sends text in chunks to kitty pane'
+map global user c '<a-|>~/.dotfiles/custom-scripts/python_kitty_chunked_send.py<ret>' -docstring 'sends text in linewise chunks to kitty pane'
 map global user w ':w<ret>' -docstring 'write'
+map global user q ':q<ret>' -docstring 'quit'
+
+set-option global grepcmd 'rg '
+# need --column so the toolsclient (or jumpclient?) knows how to open the file
+map global user s ':grep --column -i ' -docstring 'search project'
+map global user S ':grep --column <c-r>.<ret>' -docstring 'search project with selection'
+
+map global user ` ':source ~/.config/kak/kakrc<ret>' -docstring 'reload kakrc'
 
 
