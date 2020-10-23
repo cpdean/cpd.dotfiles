@@ -5,22 +5,9 @@
 # already hopping on the plugin-manager train
 # mkdir -p ~/.config/kak/plugins/
 # git clone https://github.com/robertmeta/plug.kak.git ~/.config/kak/plugins/plug.kak
-# 
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
-
-# some people on the internet say that connect.kak is better but i can't get it to work on osx
-
-plug "andreyorst/fzf.kak" config %{
-    map -docstring 'fzf mode' global normal '<c-l>' ': fzf-mode<ret>f'
-} defer "fzf" %{
-    set-option global fzf_preview false
-    set-option global fzf_file_command 'fd'
-    set-option global fzf_preview_tmux_height '15'
-    #set-option global fzf_preview_lines 5  # doesn't change the height
-    #set-option global fzf_preview_height '10%'  # doesn't change the height
-    #set-option global fzf_tmux_height '10%'  # doesn't change the height
-
-}
+#
+# # not currently using any proper plugins so disabling this for now
+# source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 
 # kakoune by default has a 'user mode', similar to vim's <leader>
@@ -43,3 +30,6 @@ map global user S ':grep <c-r>.<ret>' -docstring 'search project with selection'
 
 map global user ` ':source ~/.config/kak/kakrc<ret>' -docstring 'reload kakrc'
 
+# replacement for fzf.kak in kitty, found on https://github.com/mawww/kakoune/wiki/Fuzzy-finder
+def find -params 1 -shell-script-candidates %{ find . -type f } %{ edit %arg{1} }
+map -docstring 'search for files by name' global normal '<c-l>' ':find '
