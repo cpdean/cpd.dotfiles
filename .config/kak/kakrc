@@ -35,11 +35,11 @@ map global user c '<a-|>~/.dotfiles/custom-scripts/python_kitty_chunked_send.py<
 map global user w ':w<ret>' -docstring 'write'
 map global user q ':q<ret>' -docstring 'quit'
 
-set-option global grepcmd 'rg '
 # need --column so the toolsclient (or jumpclient?) knows how to open the file
-map global user s ':grep --column -i ' -docstring 'search project'
-map global user S ':grep --column <c-r>.<ret>' -docstring 'search project with selection'
+set-option global grepcmd 'rg --column '
+
+map global user s ':grep -i ' -docstring 'search project'
+map global user S ':grep <c-r>.<ret>' -docstring 'search project with selection'
 
 map global user ` ':source ~/.config/kak/kakrc<ret>' -docstring 'reload kakrc'
-
 
