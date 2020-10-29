@@ -120,6 +120,7 @@ export PATH=$PATH:$GOPATH/bin
 # rust stuff
 
 export RUST_SRC_PATH=$HOME/dev/foss/rust/rust/src
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # host and current directory
 # PS1='\h:\W \$ '
