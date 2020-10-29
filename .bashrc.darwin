@@ -1,4 +1,8 @@
 source ~/.bashrc.common
+# like you have to ask, ugh
+export SHELL=/bin/bash
+# annoying
+export BASH_SILENCE_DEPRECATION_WARNING=1
 # setup specific hooks for hadoops and spark
 #source ~/.hadoops
 
@@ -7,5 +11,9 @@ alias vim=nvim
 alias vi=nvim
 export EDITOR=nvim
 alias iso="date -u +%FT%TZ"
-export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH
+#export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH
 PS1='- - -\n\W $?\n- ❯❯❯ '
+export PATH=$(pyenv root)/shims:$PATH
+# add .local for pipx
+export PATH=$HOME/.local/bin:$PATH
+source $HOME/.bashrc.darwin.work
