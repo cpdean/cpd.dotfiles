@@ -155,47 +155,6 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/dev
 # init virtualenvwrapper on mac
 
-if [ `whoami` = 'cdean' ]; then
-    # homebrew broke how python works so i have to redo some tooling
-    if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-        # use lazy loader for virtualenv
-        # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
-        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-        export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-        source /usr/local/bin/virtualenvwrapper_lazy.sh
-    fi
-else
-    # other computers do other things i guess
-    if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-        # use lazy loader for virtualenv
-        # http://virtualenvwrapper.readthedocs.io/en/latest/install.html#lazy-loading
-        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-        export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-        source /usr/local/bin/virtualenvwrapper_lazy.sh
-    fi
-fi
-
-## some db things
-if [ -f /Users/cdean/dw_db_inits ]; then
-    .  /Users/cdean/dw_db_inits
-fi
-
-# opam is broken 2019-03-29
-# eval `opam config env`
-
-# ive ruined this
-#export PATH="/Users/cdean/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
-
-if [ -f $HOME/work_ansible_settings ]; then
-    . $HOME/work_ansible_settings
-fi
-
-if [ -f $HOME/more_work_stuff ]; then
-    . $HOME/more_work_stuff
-fi
-
 # notify
 # usage: 'quack the build is finished'
 quack(){
@@ -206,12 +165,6 @@ quack(){
 PGAPP_BIN_DIR=/Applications/Postgres.app/Contents/Versions/latest/bin
 export PATH=$PGAPP_BIN_DIR:$PATH
 
-# brew install fasd
-# thx @lepht
-eval "$(fasd --init auto)"
-# and an alias for it
-alias v='fasd -e nvim -f'
-
 # activate fzf hooks
 # from `brew install fzf`
 # `/usr/local/opt/fzf/install`
@@ -221,26 +174,3 @@ alias v='fasd -e nvim -f'
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-if [ `whoami` = 'cdean' ]; then
-    # on worklaptop
-    # intalling maek through brew results in this dumb shit of having all make tools
-    # prefixed with a 'g'. gmake instead of make.
-    # turns out when you change the name of a command, all build scripts of open source projects
-    # do not work.
-
-    # have to explicitly add all these things
-    # from their install notice:
-    #
-    # If you need to use these commands with their normal names, you
-    # can add a "gnubin" directory to your PATH from your bashrc like:
-    PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
-    # Additionally, you can access their man pages with normal names if you add
-    # the "gnuman" directory to your MANPATH from your bashrc as well:
-    MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
-    # something about airflow
-    export AIRFLOW_HOME=/Users/cdean/dev/work/airflow
-fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
