@@ -37,5 +37,16 @@ map global user S ':grep <c-r>.<ret>' -docstring 'search project with selection'
 map global user ` ':source ~/.config/kak/kakrc<ret>' -docstring 'reload kakrc'
 
 # replacement for fzf.kak in kitty, found on https://github.com/mawww/kakoune/wiki/Fuzzy-finder
-def find -params 1 -shell-script-candidates %{ find . -type f } %{ edit %arg{1} }
+define-command find -params 1 -shell-script-candidates %{ find . -type f } %{ edit %arg{1} }
 map -docstring 'search for files by name' global normal '<c-l>' ':find '
+
+define-command -docstring %{
+    Opens the selection range in GitHub
+} github-open %{
+    evaluate-commands %sh{
+        SELECTED_URL=$(${kak_config}/bin/github-url.sh ${kak_buffile} ${kak_selection_desc})
+        printf %s\\n "echo opening $SELECTED_URL"
+        # assume `open $URL` opens the browser
+        open $SELECTED_URL
+    }
+}
