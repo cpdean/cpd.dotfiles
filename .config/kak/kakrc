@@ -10,9 +10,15 @@
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 
+# match kitty
+colorscheme gruvbox
+
+
 # kakoune by default has a 'user mode', similar to vim's <leader>
 # most people immediately pick a new leader, <space> but i'm gonna chill on the default `,` for a while
-# 
+#
+#
+
 
 map global user t '<a-|>~/.dotfiles/custom-scripts/tmux_send.sh<ret>' -docstring 'sends text to tmux pane'
 # pruning this down to the good one
