@@ -13,12 +13,8 @@
 # match kitty
 colorscheme gruvbox
 
-
 # kakoune by default has a 'user mode', similar to vim's <leader>
 # most people immediately pick a new leader, <space> but i'm gonna chill on the default `,` for a while
-#
-#
-
 
 map global user t '<a-|>~/.dotfiles/custom-scripts/tmux_send.sh<ret>' -docstring 'sends text to tmux pane'
 # pruning this down to the good one
@@ -32,7 +28,9 @@ map global user q ':q<ret>' -docstring 'quit'
 set-option global grepcmd 'rg --column '
 
 map global user s ':grep -i ' -docstring 'search project'
-map global user S ':grep <c-r>.<ret>' -docstring 'search project with selection'
+map global user S ':grep<ret>' -docstring 'search project with selection'
+
+map global user h ':github-open<ret>' -docstring 'open selection in GitHub'
 
 map global user ` ':source ~/.config/kak/kakrc<ret>' -docstring 'reload kakrc'
 
