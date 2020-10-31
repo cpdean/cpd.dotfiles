@@ -24,7 +24,7 @@ ENDLINE=$(($ANCHORLINE > $CURSORLINE ? $ANCHORLINE : $CURSORLINE))
 # assumes github, sorry :(
 # TODO: figure out how to support bitbucket, gitlab, native gitsite stuff
 # TODO: figure out how to support https:// remotes. this was only tested on ssh:// urls
-URL=$(git remote get-url origin | sed "s_.*github.com\(.*\)\.git_https://github.com\1_")
+URL=$(git remote get-url origin | sed "s_.*github.com.\(.*\)\.git_https://github.com/\1_")
 
 # if the anchor and cursor are on the same line (nothing's selected) tweak the url to only highlight one line
 if [[  $STARTLINE == $ENDLINE ]]; then
