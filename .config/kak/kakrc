@@ -112,3 +112,9 @@ define-command wiki-today -docstring "Open a file with today's date via kakoune-
         printf %s\\n "wiki $(date +%Y-%m-%d).md"
     }
 }
+
+define-command wiki-backlinks -docstring "search for all wiki pages that link to the currently open one" %{
+    evaluate-commands %sh{
+        printf "grep \]\(%s\)" $(basename ${kak_buffile})
+    }
+}
