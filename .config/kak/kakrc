@@ -5,8 +5,6 @@
 # already hopping on the plugin-manager train
 # mkdir -p ~/.config/kak/plugins/
 # git clone https://github.com/robertmeta/plug.kak.git ~/.config/kak/plugins/plug.kak
-#
-# # not currently using any proper plugins so disabling this for now
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 plug "TeddyDD/kakoune-wiki"
@@ -106,4 +104,11 @@ define-command wiki-link-disable-autocomplete -docstring "Disable wiki-link comp
 # add hooks for the above
 evaluate-commands %sh{
     printf %s\\n "hook global BufCreate $HOME/kak-wiki/.+\.md %{ wiki-link-enable-autocomplete }"
+}
+
+define-command wiki-today -docstring "Open a file with today's date via kakoune-wiki" %{
+    evaluate-commands %sh{
+        # date fn on macos. might break on linux
+        printf %s\\n "wiki $(date +%Y-%m-%d).md"
+    }
 }
