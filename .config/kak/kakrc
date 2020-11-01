@@ -103,7 +103,7 @@ define-command wiki-link-disable-autocomplete -docstring "Disable wiki-link comp
 
 # add hooks for the above
 evaluate-commands %sh{
-    printf %s\\n "hook global BufCreate $HOME/kak-wiki/.+\.md %{ wiki-link-enable-autocomplete }"
+    printf %s\\n "hook global WinCreate $HOME/kak-wiki/.+\.md %{ wiki-link-enable-autocomplete }"
 }
 
 define-command wiki-today -docstring "Open a file with today's date via kakoune-wiki" %{
