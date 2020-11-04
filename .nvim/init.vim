@@ -4,7 +4,7 @@
 " pip install neovim flake8 black
 
 "let g:python3_host_prog = '$HOME/.virtualenvs/nvim/bin/python'
-let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
+let g:python3_host_prog = '/Users/conraddean/.virtualenvs/neovim/bin/python'
 
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
 "            let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
@@ -35,44 +35,19 @@ nnoremap <silent> <Leader>` :NV<CR>
 call plug#begin('~/.config/nvim/extra_plugins')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-" rust and something to hook into the RLS
-
-" TODO: retooling all the stuff for rust
-" Plug 'rust-lang/rust.vim'
-"Plug 'autozimu/LanguageClient-neovim', {
-"            \ 'branch': 'next',
-"            \ 'do': 'bash install.sh',
-"            \ }
-
-" (Completion plugin option 1)
-" Plug 'roxma/nvim-completion-manager'
-" (Completion plugin option 2)
-" turning off at the moment because the fuzzy autocomplete does not work in vimwiki
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-" trying coc instead of languageclient
-" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-" something is broken on linux
-" disabling coc because every feature it has halts the vim UI with a dialog
-" that's like "A THING HAPPENED. HIT ENTER TO CONTINUE" which goes against even
-" the most basic principles of how you design a piece of software for a person
-" to use. how could the authors of this be so foolish?
-" Plug 'neoclide/coc.nvim', {'tag': 'v0.0.41', 'do': { -> coc#util#install()}}
-
-" instead of using coc.nvim, trying a few other plugins.  coc.nvim was
-" too buggy and it was somehow blocking my UI thread to do simple things
-
-" RUST:
-" plugin just for completions
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --rust-completer'  }
-" language specifics
 Plug 'rust-lang/rust.vim'
+
+" LANGUAGE SERVER INTEGRATION
+" trying LanguageClient-neovim again
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+" neovim added native lsp support. while it sort of works, it's not very
+" pleasant to use yet
+" Plug 'neovim/nvim-lsp'
 " ale for both prose and rust (for now)
 " Plug 'w0rp/ale'
-
-"since neovim 0.5 there's native lsp support, if you use this plugin instead
-"of... the other plugins
-Plug 'neovim/nvim-lsp'
 
 
 Plug 'elixir-lang/vim-elixir'
@@ -93,7 +68,6 @@ Plug 'tpope/vim-fugitive'
 " browser
 Plug 'tpope/vim-rhubarb'
 
-Plug 'benmills/vimux'
 
 " default python support is p dismal
 Plug 'vim-scripts/python.vim--Vasiliev'
@@ -125,15 +99,11 @@ Plug 'tpope/vim-markdown'
 " Plug 'junegunn/limelight.vim'
 " Plug 'reedes/vim-pencil'
 "
-Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
-" turning off because fuzzy autocomplete doesn't work in vimwiki
-" source $HOME/.config/nvim/config/deoplete.vim
 
-source $HOME/.config/nvim/config/vimwiki.vim
-
+"
 " setup Ack.vim to use ag
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
@@ -145,7 +115,7 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-set background=light
+set background=dark
 colorscheme gruvbox
 
 " setup language server for all the great things
@@ -160,154 +130,28 @@ let g:cm_complete_start_delay = 1000
 
 "" NOTE: disabling LanguageClient for now.
 
-" if you want it to turn on automatically
-" let g:LanguageClient_autoStart = 0
-" nnoremap <leader>lcs :LanguageClientStart<CR>
-" rustup run nightly-2018-09-22-x86_64-apple-darwin rls
-
+source $HOME/.config/nvim/config/languageclient-neovim.vim
 " ale specific config
 " source $HOME/.config/nvim/config/ale.vim
 " trying out ale for rust tooling since coc.nvim had so many problems
+"
+" keep coc.vim settings in its own file
+" source $HOME/.config/nvim/config/coc.vim
+" coc is kind of bad, blocking input every time there was a lint error on the
+" file
 
 " for black.vim, save all python with it
 " autocmd BufWritePre *.py execute ':Black'
 " ugh, but currently disabled. i don't wnat to edit OTHER peoples code just mine.
-
-" install notes for other servers
-" go-langserver:
-"   go get github.com/souregraph/go-langserver
-"   cd $GOPATH/src/github.com/souregraph/go-langserver
-"   go install
-
-" maybe add more servers
-" example taken from somewhere
-" let g:LanguageClient_serverCommands = {
-"     \ 'python': ['pyls'],
-"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"     \ 'javascript': ['javascript-typescript-stdio'],
-"     \ 'javascript.jsx': ['javascript-typescript-stdio'],
-"     \ }
-
-" nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-" nnoremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>
-" nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
+"
 " clean rust files on save
 " let g:rustfmt_autosave = 1
 
 
-" #### |" set the runtime path to include Vundle and initialize
-" #### |set rtp+=~/.vim/bundle/Vundle.vim
-" #### |call vundle#begin()
-" #### |" alternatively, pass a path where Vundle should install plugins
-" #### |"call vundle#begin('~/some/path/here')
-" #### |
-" #### |" let Vundle manage Vundle, required
-" #### |Plugin 'VundleVim/Vundle.vim'
-" #### |
-" #### |" 2. Vundle Plugins
-" #### |
-" #### |Bundle 'tomasr/molokai'
-" #### |Bundle 'altercation/vim-colors-solarized'
-" #### |" syntax plugins
-" #### |Bundle 'puppetlabs/puppet-syntax-vim'
-" #### |Bundle 'vim-scripts/Jinja'
-" #### |Bundle 'pangloss/vim-javascript'
-" #### |Bundle 'vim-scripts/VimClojure'
-" #### |Bundle 'kchmck/vim-coffee-script'
-" #### |"Bundle 'repos-scala/scala-vundle'
-" #### |Bundle 'derekwyatt/vim-scala'
-" #### |Bundle 'digitaltoad/vim-jade'
-" #### |Bundle 'chase/vim-ansible-yaml'
-" #### |Bundle 'cespare/vim-toml'
-" #### |Bundle 'markcornick/vim-hashicorp-tools'
-" #### |Bundle 'autowitch/hive.vim'
-" #### |" just the elixir syntax, IDE features in alchemist below
-" #### |" ocp-indent might be sketch 'cause author doesnt mention bundle
-" #### |"Bundle 'let-def/ocp-indent-vim'
-" #### |" python syntax features
-" #### |" doing this because i'm fed up with un-indent on # comments
-" #### |" maybe i'll get other things for free
-" #### |Bundle 'vim-scripts/python.vim--Vasiliev'
-" #### |Bundle 'mitsuhiko/vim-python-combined'
-" #### |Bundle 'leafgarland/typescript-vim'
-" #### |" React jsx
-" #### |Bundle 'mxw/vim-jsx'
-" #### |Bundle 'groenewege/vim-less'
-" #### |"Bundle 'lambdatoast/elm.vim'
-" #### |Bundle 'elmcast/elm-vim'
-" #### |Bundle 'bitc/vim-hdevtools'
-" #### |Bundle 'reasonml-editor/vim-reason'
-" #### |
-" #### |
-" #### |
-" #### |" ui features
-" #### |" ===========
-" #### |" absolutely essential
-" #### |Bundle 'kien/ctrlp.vim'
-" #### |
-" #### |Bundle 'msanders/snipmate.vim'
-" #### |Bundle 'Lokaltog/vim-powerline'
-" #### |" syntastic has weird errors on html
-" #### |Bundle 'rking/ag.vim'
-" #### |Bundle 'goldfeld/vim-seek'
-" #### |Bundle 'tpope/vim-fugitive'
-" #### |Bundle 'davidhalter/jedi-vim'
-" #### |" IDE-like features for elixir projects
-" #### |" todo: need to worry about installing https://github.com/tonini/alchemist-server
-" #### |" going to comment this out so i don't have to deal with that
-" #### |Bundle 'slashmili/alchemist.vim'
-" #### |
-" #### |" erlang vim support seems more spotty.  only found somethign with tags :(
-" #### |Bundle 'vim-erlang/vim-erlang-tags'
-" #### |
-" #### |" manipulate lisp forms with your mind
-" #### |
-" #### |" first time i've ever needed to use a class outline tool
-" #### |" in python.  you'll never guess what consultancy
-" #### |" writes shitty python code!
-" #### |Bundle 'majutsushi/tagbar'
-" #### |
-" #### |" add auto complete and 'go to def' for rust files
-" #### |" be sure to include path to rust source
-" #### |" and racer on your path by setting these in bashrc or profile
-" #### |" somewhere
-" #### |" export RUST_SRC_PATH=/Users/conrad/dev/foss/rust/src
-" #### |" export PATH=/Users/conrad/dev/foss/racer/target/release:$PATH
-" #### |Bundle 'racer-rust/vim-racer'
-" #### |Bundle 'tpope/vim-dispatch'
-" #### |
-" #### |" python-mode messes with some regular key mappings
-" #### |"Bundle 'klen/python-mode'
-" #### |
-" #### |"Bundle 'lambdatoast/elm.vim'
-" #### |
-" #### |" writing
-" #### |Bundle 'tpope/vim-markdown'
-" #### |"Bundle 'junegunn/goyo.vim'
-" #### |Bundle 'junegunn/limelight.vim'
-" #### |Bundle 'reedes/vim-pencil'
-" #### |
-" #### |" All of your Plugins must be added before the following line
-" #### |call vundle#end()            " required
-" /do vundle stuff ###############
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-"
-
-" keep coc.vim settings in its own file
-" source $HOME/.config/nvim/config/coc.vim
-" coc is kind of bad
 
 " refresh vim config with a button
 nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
@@ -418,47 +262,9 @@ autocmd BufNewFile,BufRead *.hql set filetype=hive
 " au FileType racket    call ConradPareditBindings()
 " maybe someday i'll try out the short mappings instead
 
-" tmuxing
-"
-" init new window to the side
-let g:VimuxHeight = "40"
-let g:VimuxOrientation = "h"
-
-" basic control mappings
-nnoremap <leader>tt :call VimuxRunCommand("")<Left><Left>
-autocmd FileType python nnoremap <leader>tt :call VimuxRunCommand("py.test ".expand("%:@"))
-" run selected test
-autocmd FileType python nnoremap <leader>ts :call VimuxRunCommand("time docker-compose run dwcore py.test ".expand("%:@")."::<C-r><C-w>")<CR>
-map <leader>tq :VimuxCloseRunner<CR>
-
-" only for ipython
-function! Cpaste_Send()
-    call VimuxRunCommand("%cpaste")
-    call VimuxRunCommand(@")
-    call VimuxRunCommand("^D")
-endfunction
-
-" mad rerun skills
-nmap <silent> <CR> :call VimuxRunLastCommand()<CR>
-
-" send selected text to the shell :D!
-vnoremap <leader>tt y:call VimuxRunCommand(@")<cr>
-" and double register to `te` because i have indescriminate
-" muscle memory and 'te' is the only thing that uses %paste
-vnoremap <leader>te y:call VimuxRunCommand(@")<cr>
-
-" do wierd clipboard based msg buffer because
-" ipython is awful now
-autocmd FileType python vnoremap <leader>te "+y:call VimuxRunCommand("%paste")<CR>
-
-" for clojure, select this form and send it to repl
-nnoremap <leader>ta va(y:call VimuxRunCommand(@")<cr>
 
 source $HOME/.config/nvim/config/rust.vim
 
-
-" this contractor should have never written python
-nmap <F8> :TagbarToggle<CR>
 
 " hope that you have elm-format on your path
 "autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
@@ -703,5 +509,5 @@ nmap <silent> <leader>q :q!<CR>
 " writequit
 nmap <silent> <leader>W :wq<CR>
 
-" trying to get kitty to work
-vmap <silent> <leader>k ::w !kitty @ --to=$KITTY_LISTEN_ON send-text --match=num:1 --stdin<CR><CR>
+" switching to kitty fulltime
+vmap <silent> <leader>tt ::w !python_kitty_chunked_send.py<CR><CR>

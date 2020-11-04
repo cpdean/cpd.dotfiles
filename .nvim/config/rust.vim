@@ -1,12 +1,13 @@
 " language server config
-lua <<EOF
-    local nvim_lsp = require'nvim_lsp'
-    nvim_lsp.rust_analyzer.setup{}
-EOF
+" disabling nvim_lsp for now
+" lua <<EOF
+"     local nvim_lsp = require'nvim_lsp'
+"     nvim_lsp.rust_analyzer.setup{}
+" EOF
 
 " neovim lsp native settings
 " make the omnicomplete func (i_CTRL-xCTRL-o) use neovim lsp omnifunc
-autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+" autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " in rust, add a binding for 'cargo build' so i can see compiler errors in a
 " split
