@@ -515,4 +515,4 @@ nmap <silent> <leader>W :wq<CR>
 " defines the selection range in WHOLE LINES)
 " the following tries to fix this by storing the text of the selection in the
 " register `t` and then sending the contents of the register to the command.
-vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))
+vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>
