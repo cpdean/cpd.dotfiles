@@ -122,23 +122,22 @@ colorscheme gruvbox
 set hidden
 
 " for quick vim config iteration
-nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
+autocmd FileType vim nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
 
 
 " completion manager is too aggressive at 0
 let g:cm_complete_start_delay = 1000
 
-"" NOTE: disabling LanguageClient for now.
+"" LANGUAGE SERVER CONFIGS
 
 source $HOME/.config/nvim/config/languageclient-neovim.vim
 " ale specific config
 " source $HOME/.config/nvim/config/ale.vim
 " trying out ale for rust tooling since coc.nvim had so many problems
 "
-" keep coc.vim settings in its own file
+" i had given up on this a few years ago. let's give it another shot
 " source $HOME/.config/nvim/config/coc.vim
-" coc is kind of bad, blocking input every time there was a lint error on the
-" file
+
 
 " for black.vim, save all python with it
 " autocmd BufWritePre *.py execute ':Black'
@@ -510,4 +509,10 @@ nmap <silent> <leader>q :q!<CR>
 nmap <silent> <leader>W :wq<CR>
 
 " switching to kitty fulltime
-vmap <silent> <leader>tt ::w !python_kitty_chunked_send.py<CR><CR>
+"vmap <silent> <leader>tt ::w !python_kitty_chunked_send.py<CR><CR>
+
+" the above only sends line ranges. (the first : expands to ` :'<,'> `, which
+" defines the selection range in WHOLE LINES)
+" the following tries to fix this by storing the text of the selection in the
+" register `t` and then sending the contents of the register to the command.
+vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))
