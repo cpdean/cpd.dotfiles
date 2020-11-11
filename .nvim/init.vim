@@ -479,8 +479,22 @@ autocmd FileType yaml set sw=2
 " all these spelling errors
 map <leader>n :set nospell<CR>
 
-" can't see anything that is highlighted, trying a new color
-hi Search ctermbg=DarkGrey
+" notes kept inline because i am learning how this whole system works
+" default dark gruvbox hi setting is 
+" call s:HL('Search',    s:yellow, s:bg0, s:inverse)
+" which expands to `hi Search guifg=fg[0] ctermfg=fg[1] guibg=bg[0] ctermbg=bg[1]...
+" which expands to `hi Search guifg=#fabd2f ..... etc
+" I dunno how to reach into the high-level references that gruvbox sets but i
+" can hardcode it to aqua to try that out
+"
+" let s:gb.neutral_aqua   = ['#689d6a', 72]      " 104-157-106
+" hi Search ctermfg=72 ctermbg=235
+" hi IncSearch ctermfg=66 ctermbg=235
+
+"let s:gb.neutral_purple = ['#b16286', 132]     " 177-98-134
+"let s:gb.faded_purple   = ['#8f3f71', 96]      " 143-63-113
+hi Search ctermfg=132 ctermbg=235
+hi IncSearch ctermfg=96 ctermbg=235
 
 
 nmap <silent> <Leader>h :call <SID>show_documentation()<CR>
