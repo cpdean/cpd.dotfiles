@@ -158,9 +158,6 @@ filetype plugin indent on    " required
 "filetype plugin on
 "
 
-" refresh vim config with a button
-nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
-
 " plugin settings ########
 let g:syntastic_python_checkers=['flake8']
 " syntastic disable html checking
@@ -171,14 +168,6 @@ let g:syntastic_mode_map={ 'mode': 'active',
                      \ 'passive_filetypes': ['ocaml', 'html'] }
 " create the loc list so you can jump between errors with arrow keys
 let g:syntastic_always_populate_loc_list = 1
-
-" powerline
-set nocompatible   " Disable vi-compatibility
-set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs
-
-" racer rust stuff
-set hidden
 
 " set elixir path so that alchemist can jump to it
 let g:alchemist#elixir_erlang_src = "/Users/cdean/dev/foss/elixir"
