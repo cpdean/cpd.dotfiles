@@ -38,16 +38,22 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'rust-lang/rust.vim'
 
 " LANGUAGE SERVER INTEGRATION
-" trying LanguageClient-neovim again
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" 2020-11-09: disabling because it automatically runs a 'diagnostics'/'lint'
+" on a file, dumping the results in the same location/quickfix list that ACK
+" search results are put in, totally wiping out my results when i'm trying to
+" track down all the places a search shows up. this makes looking for things
+" in the codebase impossible.
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 " neovim added native lsp support. while it sort of works, it's not very
 " pleasant to use yet
 " Plug 'neovim/nvim-lsp'
 " ale for both prose and rust (for now)
 " Plug 'w0rp/ale'
+"" NOTE: disabling LanguageClient for now.
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
 Plug 'elixir-lang/vim-elixir'
@@ -130,13 +136,13 @@ let g:cm_complete_start_delay = 1000
 
 "" LANGUAGE SERVER CONFIGS
 
-source $HOME/.config/nvim/config/languageclient-neovim.vim
+" source $HOME/.config/nvim/config/languageclient-neovim.vim
 " ale specific config
 " source $HOME/.config/nvim/config/ale.vim
 " trying out ale for rust tooling since coc.nvim had so many problems
 "
 " i had given up on this a few years ago. let's give it another shot
-" source $HOME/.config/nvim/config/coc.vim
+source $HOME/.config/nvim/config/coc.vim
 
 
 " for black.vim, save all python with it
@@ -359,7 +365,7 @@ nmap <F6> :w<CR>:!python %<CR>
 "nmap <leader>f :vim <C-R><C-W> **/*.py "deprecating, should probably remove
 
 
-nmap <leader>s :Ack 
+nmap <leader>s :Ack -i 
 " search word under cursor, now!
 nmap <leader>S :Ack <C-R><C-W><cr>
 

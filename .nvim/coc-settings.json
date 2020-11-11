@@ -1,6 +1,6 @@
 {
   "coc.preferences.timeout": 5000,
   "coc.preferences.acceptSuggestionOnCommitCharacter": true,
-  "coc.preferences.autoTrigger": "always",
+  "coc.preferences.autoTrigger": "none",
   "coc.preferences.formatOnSaveFiletypes": []
 }
