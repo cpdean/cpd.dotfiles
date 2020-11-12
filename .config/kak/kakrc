@@ -11,6 +11,17 @@ plug "TeddyDD/kakoune-wiki"
 
 wiki-setup %sh{ echo $HOME/kak-wiki }
 
+
+# unnecessary, i've installed it from source
+# plug "kak-lsp/kak-lsp"
+
+# this inits the kakrc config code fully
+eval %sh{kak-lsp --config $kak_config/kak-lsp.toml --kakoune -s $kak_session}
+hook global WinSetOption filetype=(rust|c|cpp) %{
+    lsp-enable-window
+}
+
+
 # match kitty
 colorscheme gruvbox
 
@@ -103,7 +114,12 @@ define-command wiki-link-disable-autocomplete -docstring "Disable wiki-link comp
 
 # add hooks for the above
 evaluate-commands %sh{
-    printf %s\\n "hook global WinCreate $HOME/kak-wiki/.+\.md %{ wiki-link-enable-autocomplete }"
+    printf %s\\n "
+    hook global WinCreate $HOME/kak-wiki/.+\.md %{
+        change-directory $HOME/kak-wiki
+        wiki-link-enable-autocomplete
+    }
+    "
 }
 
 define-command wiki-today -docstring "Open a file with today's date via kakoune-wiki" %{
@@ -118,3 +134,4 @@ define-command wiki-backlinks -docstring "search for all wiki pages that link to
         printf "grep \]\(%s\)" $(basename ${kak_buffile})
     }
 }
+
