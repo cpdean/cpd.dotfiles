@@ -108,6 +108,7 @@ Plug 'tpope/vim-markdown'
 
 call plug#end()
 
+syntax enable
 
 "
 " setup Ack.vim to use ag
@@ -122,14 +123,24 @@ if (has("nvim"))
 endif
 
 set background=dark
+" contrast can be soft, medium, or hard
+let g:gruvbox_contrast_dark = "medium"
+" search result color clashes with the cursor color, picking
+" something more muted so I can see where the cursor is
+let g:gruvbox_hls_cursor = "bg4"
 colorscheme gruvbox
+" gruvbox only lets you config the IncSearch cursor in a high-level way,
+" so just make that the same as the search to make search results readable
+highlight! link Search IncSearch
+
+
+
 
 " setup language server for all the great things
 set hidden
 
 " for quick vim config iteration
 autocmd FileType vim nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
-
 
 " completion manager is too aggressive at 0
 let g:cm_complete_start_delay = 1000
@@ -282,7 +293,6 @@ set ts =4
 set expandtab
 set tabstop=4
 set shiftwidth=4
-syntax on
 "line numbersss
 set number
 
@@ -478,23 +488,6 @@ autocmd FileType yaml set sw=2
 
 " all these spelling errors
 map <leader>n :set nospell<CR>
-
-" notes kept inline because i am learning how this whole system works
-" default dark gruvbox hi setting is 
-" call s:HL('Search',    s:yellow, s:bg0, s:inverse)
-" which expands to `hi Search guifg=fg[0] ctermfg=fg[1] guibg=bg[0] ctermbg=bg[1]...
-" which expands to `hi Search guifg=#fabd2f ..... etc
-" I dunno how to reach into the high-level references that gruvbox sets but i
-" can hardcode it to aqua to try that out
-"
-" let s:gb.neutral_aqua   = ['#689d6a', 72]      " 104-157-106
-" hi Search ctermfg=72 ctermbg=235
-" hi IncSearch ctermfg=66 ctermbg=235
-
-"let s:gb.neutral_purple = ['#b16286', 132]     " 177-98-134
-"let s:gb.faded_purple   = ['#8f3f71', 96]      " 143-63-113
-hi Search ctermfg=132 ctermbg=235
-hi IncSearch ctermfg=96 ctermbg=235
 
 
 nmap <silent> <Leader>h :call <SID>show_documentation()<CR>
