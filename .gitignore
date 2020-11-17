@@ -7,3 +7,8 @@
 .atom/compile-cache/
 .atom/storage/
 .atom/packages/
+
+# do not save vim-plug plugins
+.nvim/extra_plugins/**
+# i don't know what this, i think vim file navigator
+.nvim/.netrwhist
