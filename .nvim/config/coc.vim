@@ -170,3 +170,13 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" file specific mappings
+" lol doesnt work
+"autocmd FileType c,cpp nmap <silent> K <Plug>(coc-action-doHover)
+autocmd FileType c,cpp nmap <silent> K :call CocAction("doHover")<CR>
+" like shift-K for doc but... different? i dunno.
+" this should potentially be invoked during insertmode as you're typing and
+" get confused but whatever
+autocmd FileType c,cpp nmap <silent> <leader>k :call CocAction("showSignatureHelp")<CR>
+
