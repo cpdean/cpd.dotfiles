@@ -1,4 +1,5 @@
 source ~/.bashrc.common
+export HISTSIZE=1000000
 # like you have to ask, ugh
 export SHELL=/bin/bash
 # annoying
@@ -12,8 +13,30 @@ alias vi=nvim
 export EDITOR=nvim
 alias iso="date -u +%FT%TZ"
 #export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH
-PS1='- - -\n\W $?\n- ❯❯❯ '
+PS1='$? - ❯❯❯ '
 export PATH=$(pyenv root)/shims:$PATH
 # add .local for pipx
 export PATH=$HOME/.local/bin:$PATH
+
+unset PROMPT_COMMAND
+export plzdo="awk '{print}'"
+
+_show_last_two_directories() {
+    # this is pretty much just for the prompt command. i thought i could do it
+    # via string interpolation but boy was i wrong!
+    # here was the attempt.
+    # PROMPT_COMMAND='echo -en "\033]0; $(echo -n ${PWD/#$HOME/~} | awk \'BEGIN { FS="/"; OFS="/" } {print $(NF-1), $NF}\')  \a"'
+    # here is one way to use this function instead, so that it actually works without string escaping breaking it
+    # PROMPT_COMMAND='echo -en "\033]0; $(echo -n ${PWD/#$HOME/~} | _show_last_two_directories )  \a"'
+    awk 'BEGIN { FS="/"; OFS="/" } {print $(NF-1), $NF}'
+}
+
+# do things to get titlebar set
+case $TERM in
+  xterm*)
+    #PROMPT_COMMAND='echo -ne "${USER}@${HOSTNAME}:${PWD/#$HOME/~}"'
+    #PROMPT_COMMAND='echo -en "\033]0; ${PWD/#$HOME/~} \a"'
+    PROMPT_COMMAND='echo -en "\033]0; $(echo -n ${PWD/#$HOME/~} | _show_last_two_directories )  \a"'
+    ;;
+esac
 source $HOME/.bashrc.darwin.work
