@@ -15,6 +15,7 @@ if [ -d ~/.olddotfiles ]
         mkdir ~/.olddotfiles
         installFile .vim
         installFile .bashrc
+        installFile .bashrc.darwin
         installFile .bash_profile
         installFile .bash_aliases
         installFile .vimrc
