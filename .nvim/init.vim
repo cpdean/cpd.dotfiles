@@ -53,7 +53,12 @@ Plug 'rust-lang/rust.vim'
 " ale for both prose and rust (for now)
 " Plug 'w0rp/ale'
 "" NOTE: disabling LanguageClient for now.
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" coc is showing a ton of errors when i open any buffer or any new file from
+" an already open buffer. little frustrated the author just puts everything on
+" release and also has what appear to be zero tests
+" let's figure out if there is a commit that isn't broken
+Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}
 
 
 Plug 'elixir-lang/vim-elixir'
