@@ -26,6 +26,5 @@
     process = git-lfs filter-process
     required = true
 
-[url "git+ssh://code.squarespace.net:7999/"]
-   insteadOf = https://code.squarespace.net/scm/
-   insteadOf = http://code.squarespace.net/scm/<Paste>
+#[url "ssh://git@github.com/"]
+#    insteadOf = https://github.com/
