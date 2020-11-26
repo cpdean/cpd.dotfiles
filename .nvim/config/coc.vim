@@ -169,7 +169,7 @@
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gr <Plug>(coc-references-used)
 
 " file specific mappings
 " lol doesnt work
@@ -180,3 +180,30 @@ autocmd FileType c,cpp nmap <silent> K :call CocAction("doHover")<CR>
 " get confused but whatever
 autocmd FileType c,cpp nmap <silent> <leader>k :call CocAction("showSignatureHelp")<CR>
 
+" return to the list results, going to the next item
+nmap <silent> gl :CocListResume<CR>
+
+nmap <silent> <C-j> :silent CocNext<CR>
+nmap <silent> <C-k> :silent CocPrev<CR>
+" because the response from the above commands comes back as an async request,
+" and because coc.nvim hard-codes this behavior of echoing the line we are
+" navigating to into the cmdline, long-lined files will cause nvim's UI to
+" lock up, informing me to "hit enter to continue" when I am trying to scroll
+" through results.  what a garbage idea.
+" There not, to my knowledge, any way to prevent this from happening!
+" - No amount of wrapping the commands in layers of calls to `silent` will work,
+" the CocNext/Prev commands themselves are not doing the echo
+" - No amount of suffixing the mapping with additional <CR> or <ESC> will do it,
+" a mapping executes much faster than the response from the coc server
+"
+" Either we increase the size of cmdline permanently to accomodate this
+" randomly-occurring event, or we disable vim from being able to display the
+" results of echo. what a worthless casserole of bad ideas stapled and
+" ducttaped to the side of a rusty tractor this is! It's enough to make you
+" want to switch to emacs.
+
+" the advice to tweak 'shortmess' is not able to truncate :echo messages, so
+" we just have to permanently increase the cmdline height. 
+
+" only make vim slightly worse for cpp
+autocmd FileType c,cpp set cmdheight=2
