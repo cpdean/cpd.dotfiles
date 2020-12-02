@@ -18,6 +18,11 @@ autocmd FileType rust nnoremap <buffer> <leader>t :split term://cargo test<CR>
 autocmd FileType rust silent! nunmap <leader>tt
 
 " surround expression in a dbg! macro
+" how: into the 'n' register, cut what is selected, then
+" enter the characters 'dbg!(), then paste from register 'n' into the parens
 autocmd FileType rust vmap <silent> <Leader>sd "ndidbg!()<esc>"nP
 
-" TODO add the removal of the dbg macro as a hotkey too
+" delete surrounding dbg! macro
+" how: searches backwards to the first instance of dbg!, cuts what is
+" in parens, pastes overtop the now-empty dbg!()
+autocmd FileType rust nmap <silent> <Leader>dd ?dbg<CR>f(dibnvf)p
