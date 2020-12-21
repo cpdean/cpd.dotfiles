@@ -467,8 +467,10 @@ autocmd FileType gitcommit setlocal spell spelllang=en_us
 " of files
 " set textwidth=80
 
-" format paragraph at cursor
-nmap <leader>f gwap
+" format paragraph at cursor, only for prose. it is nice for formatting
+" comments but this binding would conflict with language server format
+" commands
+autocmd FileType markdown,gitcommit nmap <leader>f gwap
 
 function! ConradWritingSettings()
     " limelight now has syntax errors.

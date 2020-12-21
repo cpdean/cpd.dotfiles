@@ -159,26 +159,51 @@
 " " " || " let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 " " " || " " let g:airline_section_error = '%{airline#util#wrap(StatusDiagnostic(),0)}'
 " " " || " </OPTOUT>
-"
-"
-" need to install extra things
+
+""""""""""""""""""""""""""
+"""""" CoC Config! """""""
+""""""""""""""""""""""""""
+
+" current additional plugins that need to be installed
 " :CocInstall coc-rust-analyzer
 " :CocInstall coc-clangd
 
-" Remap keys for gotos
+
+"" set up all the mappings
+
+" navigation mappings
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references-used)
 
+" inspect
+nmap <silent> <leader>i :call CocAction("doHover")<CR>
+
+" ctrl space to trigger completion menu
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+" nmap <leader>ac  <Plug>(coc-codeaction)
+
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
+autocmd FileType rust nmap <leader>f  :Format<CR>
+
+
 " file specific mappings
-" lol doesnt work
+" doHover plugin mapping does not work??
 "autocmd FileType c,cpp nmap <silent> K <Plug>(coc-action-doHover)
 autocmd FileType c,cpp nmap <silent> K :call CocAction("doHover")<CR>
 " like shift-K for doc but... different? i dunno.
 " this should potentially be invoked during insertmode as you're typing and
 " get confused but whatever
 autocmd FileType c,cpp nmap <silent> <leader>k :call CocAction("showSignatureHelp")<CR>
+
 
 " return to the list results, going to the next item
 nmap <silent> gl :CocListResume<CR>
