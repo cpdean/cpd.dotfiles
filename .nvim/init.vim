@@ -4,7 +4,8 @@
 " pip install neovim flake8 black
 
 "let g:python3_host_prog = '$HOME/.virtualenvs/nvim/bin/python'
-let g:python3_host_prog = '/Users/conraddean/.virtualenvs/neovim/bin/python'
+let g:python_host_prog  = '$HOME/.virtualenvs/neovimpy2/bin/python'
+let g:python3_host_prog = '$HOME/.virtualenvs/neovim/bin/python'
 
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
 "            let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
@@ -34,6 +35,7 @@ nnoremap <silent> <Leader>` :NV<CR>
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 Plug 'rust-lang/rust.vim'
 
@@ -92,11 +94,17 @@ Plug 'ambv/black'
 " go language stuff
 Plug 'fatih/vim-go'
 
+Plug 'hylang/vim-hy'
+
 " nevermind paredit.vim is awful and unusable. there is a bug that unbalnces
 " parens as you type, not just making it worthless but then the 'paren
 " balancing' features of it then prevent you from fixing its mistakes.
 "Plug 'kovisoft/paredit'
-
+" this is supposed to be better than paredit because you don't have to 
+" memorize new verbs, just keep it simple with by sticking to lisp-style
+" indentation
+Plug 'eraserhd/parinfer-rust', {'do':
+        \  'cargo build --release'}
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
 Plug 'morhetz/gruvbox'
@@ -323,8 +331,10 @@ au BufNewFile,BufRead *.cljs             set ft=clojure
 
 
 " Keep track of code folding
-au BufWinLeave * silent! mkview
-au BufWinEnter * silent! loadview
+""" i don't use codefolding so much, and this might be producing too many view
+""" files so disabling for now 
+""au BufWinLeave * silent! mkview
+""au BufWinEnter * silent! loadview
 
 " Unfuck my screen
 noremap <leader>r :call ConradClearScreen()<cr>
