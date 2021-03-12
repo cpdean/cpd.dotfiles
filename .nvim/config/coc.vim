@@ -215,7 +215,7 @@ nmap <silent> <C-k> :silent CocPrev<CR>
 " navigating to into the cmdline, long-lined files will cause nvim's UI to
 " lock up, informing me to "hit enter to continue" when I am trying to scroll
 " through results.  what a garbage idea.
-" There not, to my knowledge, any way to prevent this from happening!
+" There's not, to my knowledge, any way to prevent this from happening!
 " - No amount of wrapping the commands in layers of calls to `silent` will work,
 " the CocNext/Prev commands themselves are not doing the echo
 " - No amount of suffixing the mapping with additional <CR> or <ESC> will do it,
@@ -227,7 +227,8 @@ nmap <silent> <C-k> :silent CocPrev<CR>
 " ducttaped to the side of a rusty tractor this is! It's enough to make you
 " want to switch to emacs.
 
-" the advice to tweak 'shortmess' is not able to truncate :echo messages, so
+" this is not configurable by changing 'shortmess=c', because this happens
+" from an :echo call that coc.nvim issues.
 " we just have to permanently increase the cmdline height. 
 
 " only make vim slightly worse for cpp
