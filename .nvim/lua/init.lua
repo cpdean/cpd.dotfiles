@@ -4,6 +4,9 @@
 
 -- and https://gist.github.com/mgattozzi/51d6b4f94f99ade07498efa873c7bd43
 --
+--
+-- TODO study this nvim-lua guy's dotfiles
+-- https://github.com/haorenW1025/config/tree/master/.config/nvim
 
 local g = vim.g
 local o = vim.o
