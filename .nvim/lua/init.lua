@@ -14,22 +14,64 @@ local cmd = vim.cmd
 local w = vim.wo
 local b = vim.bo
 
+local LSP_IMPLEMENTATION = "coc.nvim"
+
 
 local HOME = os.getenv('HOME')
+
+-- prepare the venvs:
+-- built with virtualenvwrapper, `mkvirtualenv neovim`
+-- pip install neovim flake8 black
 
 g.python_host_prog  = HOME .. '/.virtualenvs/neovimpy2/bin/python'
 g.python3_host_prog = HOME .. '/.virtualenvs/neovim/bin/python'
 
 -- do vimplug
-cmd('set nocompatible')
-cmd('filetype off') -- i think you need this?
+cmd('set nocompatible') -- TODO: do you need this?
+cmd('filetype off') -- TODO: do you need this?
 vim.fn['plug#begin'](HOME .. '/.config/nvim/extra_plugins')
 
+cmd("Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }")
+cmd("Plug 'junegunn/fzf.vim'")
+
+if LSP_IMPLEMENTATION == "coc.nvim" then
+    -- use 1b8dfa because something was broken on master one time
+    cmd("Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}")
+end
+
+-- language extras
+-- elixir and custom lsp
+cmd("Plug 'elixir-lang/vim-elixir'")
+cmd("Plug 'slashmili/alchemist.vim'")
+
 cmd("Plug 'rust-lang/rust.vim'")
-cmd("Plug 'morhetz/gruvbox'")
+
+--" default python support is p dismal
+cmd("Plug 'davidhalter/jedi-vim'")
+cmd("Plug 'vim-scripts/python.vim--Vasiliev'")
+cmd("Plug 'mitsuhiko/vim-python-combined'")
+cmd("Plug 'scrooloose/syntastic'")
+
+-- lisps
+cmd("Plug 'hylang/vim-hy'")
+cmd("Plug 'eraserhd/parinfer-rust', {'do':  'cargo build --release'}")
+
+cmd("Plug 'mileszs/ack.vim'")
+cmd("Plug 'tpope/vim-surround'")
+
+cmd("Plug 'tpope/vim-markdown'")
+
+cmd("Plug 'tpope/vim-fugitive'")
+--" installs a handler for :Gbrowse, so the url to files can be opened in a
+--" browser
+cmd("Plug 'tpope/vim-rhubarb'")
+
+cmd("Plug 'morhetz/gruvbox'") -- color
 
 vim.fn['plug#end']()
 cmd('filetype on') -- i think you need this?
+
+
 
 
 g.gruvbox_contrast_dark = "medium"

@@ -7,6 +7,25 @@
 let g:python_host_prog  = '$HOME/.virtualenvs/neovimpy2/bin/python'
 let g:python3_host_prog = '$HOME/.virtualenvs/neovim/bin/python'
 
+" LANGUAGE SERVER INTEGRATION
+" there are so many generc LSP plugins, rather than reliable vim plugins
+" backed by an LSP. hopefully the native lsp API will make all of these
+" irrelevant
+"
+" 2020-11-09: disabling because it automatically runs a 'diagnostics'/'lint'
+" on a file, dumping the results in the same location/quickfix list that ACK
+" search results are put in, totally wiping out my results when i'm trying to
+" track down all the places a search shows up. this makes looking for things
+" in the codebase impossible.
+"let s:lsp_impl = 'autozimu/LanguageClient-neovim'
+" neovim added native lsp support. while it sort of works, it's not very
+" pleasant to use yet
+"let s:lsp_impl = 'neovim/nvim-lsp'
+" ale for both prose and rust (for now)
+"let s:lsp_impl = 'w0rp/ale'
+let s:lsp_impl = 'coc.nvim'
+
+
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
 "            let g:python3_host_prog = '/Users/cdean/.virtualenvs/neovim/bin/python'
 "        else
@@ -39,28 +58,27 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'rust-lang/rust.vim'
 
-" LANGUAGE SERVER INTEGRATION
-" 2020-11-09: disabling because it automatically runs a 'diagnostics'/'lint'
-" on a file, dumping the results in the same location/quickfix list that ACK
-" search results are put in, totally wiping out my results when i'm trying to
-" track down all the places a search shows up. this makes looking for things
-" in the codebase impossible.
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
-" neovim added native lsp support. while it sort of works, it's not very
-" pleasant to use yet
-" Plug 'neovim/nvim-lsp'
-" ale for both prose and rust (for now)
-" Plug 'w0rp/ale'
-"" NOTE: disabling LanguageClient for now.
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" coc is showing a ton of errors when i open any buffer or any new file from
-" an already open buffer. little frustrated the author just puts everything on
-" release and also has what appear to be zero tests
-" let's figure out if there is a commit that isn't broken
-Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}
+if s:lsp_impl == 'autozimu/LanguageClient-neovim'
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
+elseif s:lsp_impl == 'neovim/nvim-lsp'
+    Plug 'neovim/nvim-lsp'
+elseif s:lsp_impl == 'w0rp/ale'
+    Plug 'w0rp/ale'
+elseif s:lsp_impl == 'coc.nvim'
+    "" NOTE: disabling LanguageClient for now.
+    " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " coc is showing a ton of errors when i open any buffer or any new file from
+    " an already open buffer. little frustrated the author just puts everything on
+    " release and also has what appear to be zero tests
+    " let's figure out if there is a commit that isn't broken
+    Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}
+else
+    echo 'could not find matching s:lsp_impl: ' . s:lsp_impl
+endif
+
 
 
 Plug 'elixir-lang/vim-elixir'
@@ -160,13 +178,14 @@ let g:cm_complete_start_delay = 1000
 
 "" LANGUAGE SERVER CONFIGS
 
-" source $HOME/.config/nvim/config/languageclient-neovim.vim
-" ale specific config
-" source $HOME/.config/nvim/config/ale.vim
-" trying out ale for rust tooling since coc.nvim had so many problems
-"
-" i had given up on this a few years ago. let's give it another shot
-source $HOME/.config/nvim/config/coc.vim
+if s:lsp_impl == 'autozimu/LanguageClient-neovim'
+    source $HOME/.config/nvim/config/languageclient-neovim.vim
+"elseif s:lsp_impl == 'neovim/nvim-lsp'
+elseif s:lsp_impl == 'w0rp/ale'
+    source $HOME/.config/nvim/config/ale.vim
+elseif s:lsp_impl == 'coc.nvim'
+    source $HOME/.config/nvim/config/coc.vim
+endif
 
 
 " for black.vim, save all python with it
