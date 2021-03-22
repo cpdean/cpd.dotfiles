@@ -106,7 +106,8 @@ else
 endif
 
 " might require neovim/nvim-lspconfig
-Plug 'nvim-lua/completion-nvim'
+"Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe'
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'

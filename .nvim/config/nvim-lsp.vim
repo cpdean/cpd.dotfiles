@@ -12,11 +12,77 @@ lua << EOF
 --
 --
 
+-- define a noop local in this module
+local completer_configs = function(client, bufnr)
+  return nil
+end
+
+-- toggle between completion-nvim and nvim-compe
+
+if false then
+    local completion = require('completion')
+    completer_configs = function(client, bufnr)
+      -- completion-nvim settings
+
+      -- disable the auto popup. by default it opens as you type, and by default it
+      -- automatically selects and inserts the first item in the list and as you keep
+      -- typing you insert characters after the item that was inserted.
+      --
+      -- so by design completion-nvim is horribly unusable out of the box.
+      vim.api.nvim_set_var('completion_enable_auto_popup', 0)
+      vim.api.nvim_set_var('completion_matching_strategy_list', {'exact', 'substring', 'fuzzy', 'all'})
+
+      -- imap <silent> <c-p> <Plug>(completion_trigger)
+      vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-p>', '<Plug>(completion_trigger)', { silent=true} )
+      -- set completeopt=menuone,noinsert,noselect
+      vim.api.nvim_set_option('completeopt', 'menuone,noinsert,noselect')
+
+      -- completion-nvim
+      completion.on_attach(client, bufnr)
+    end
+else
+
+  require'compe'.setup {
+    enabled = true;
+    autocomplete = false;
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    incomplete_delay = 400;
+    max_abbr_width = 100;
+    max_kind_width = 100;
+    max_menu_width = 100;
+    documentation = true;
+
+    source = {
+      path = true;
+      buffer = true;
+      --calc = true;
+      --nvim_lsp = true;
+      --nvim_lua = true;
+      --vsnip = true;
+    };
+  }
+  vim.api.nvim_exec([[
+    inoremap <silent><expr> <C-Space> compe#complete()
+    inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+    inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+    inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+    inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+  ]], false)
+  vim.o.completeopt = "menuone,noselect"
+
+end
+
+
 -- taken from nvim-lspconfig readme
 local nvim_lsp = require('lspconfig')
-local completion = require('completion')
 local common_on_attach = function(client, bufnr)
-  completion.on_attach(client, bufnr)
+  completer_configs(client, bufnr)
+  -- lsp configs
+  --
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -62,6 +128,8 @@ local common_on_attach = function(client, bufnr)
   end
 end
 
+
+
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
 nvim_lsp.rust_analyzer.setup { on_attach = common_on_attach  }
@@ -74,13 +142,5 @@ end
 
 nvim_lsp.clangd.setup { on_attach = clangd_attach }
 
--- completion-nvim settings
-
--- disable the auto popup. by default it opens as you type, and by default it
--- automatically selects and inserts the first item in the list and as you keep
--- typing you insert characters after the item that was inserted.
---
--- so by design completion-nvim is horribly unusable out of the box.
-vim.api.nvim_set_var('completion_enable_auto_popup', 0)
-
 EOF
+
