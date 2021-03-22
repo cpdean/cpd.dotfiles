@@ -14,7 +14,9 @@ lua << EOF
 
 -- taken from nvim-lspconfig readme
 local nvim_lsp = require('lspconfig')
+local completion = require('completion')
 local common_on_attach = function(client, bufnr)
+  completion.on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -72,5 +74,13 @@ end
 
 nvim_lsp.clangd.setup { on_attach = clangd_attach }
 
+-- completion-nvim settings
+
+-- disable the auto popup. by default it opens as you type, and by default it
+-- automatically selects and inserts the first item in the list and as you keep
+-- typing you insert characters after the item that was inserted.
+--
+-- so by design completion-nvim is horribly unusable out of the box.
+vim.api.nvim_set_var('completion_enable_auto_popup', 0)
 
 EOF
