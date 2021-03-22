@@ -12,18 +12,44 @@ let g:python3_host_prog = '$HOME/.virtualenvs/neovim/bin/python'
 " backed by an LSP. hopefully the native lsp API will make all of these
 " irrelevant
 "
+" LSP timeline
+"
+" started with various one-off plugins. eventually tried out ALE, then back to
+" one-off plugins, then tried various LSP plugins, tried coc.nvim, got
+" frustrated and then bounced around for a while before going back to
+" coc.nvim.
+"
+" switched to LanguageClient-neovim but it had issues:
+"
 " 2020-11-09: disabling because it automatically runs a 'diagnostics'/'lint'
 " on a file, dumping the results in the same location/quickfix list that ACK
 " search results are put in, totally wiping out my results when i'm trying to
 " track down all the places a search shows up. this makes looking for things
 " in the codebase impossible.
+"
+" 2021-03-22: I want to get away from coc.nvim because there are a few things
+" about it that bother me: the codebase is absolutely enormous, which maybe
+" that's not a bad thing, but it makes working on it unapproachable and i keep
+" forgetting how to deal with its UI system, despite its generic listing
+" widget being useful.
+"
+" I want to look at what has been written with lua so that there are no
+" additional runtime dependencies (coc.nvim is written in typescript, runs as
+" a separate nodejs server that then manages all the language servers)
+"
+" i'm looking for a good fuzzy complete, and that means either completion-nvim
+" or nvim-compe.  the first one is more popular, and supports native nvim lsp
+" out of the box, the second one apparently fixes the flicker issue of the
+" firrst. but that means needing to switch to neovim/nvim-lsp which, when i
+" first tried it, was not pleasant to use.
+"
 "let s:lsp_impl = 'autozimu/LanguageClient-neovim'
 " neovim added native lsp support. while it sort of works, it's not very
 " pleasant to use yet
-"let s:lsp_impl = 'neovim/nvim-lsp'
+let s:lsp_impl = 'neovim/nvim-lspconfig'
 " ale for both prose and rust (for now)
 "let s:lsp_impl = 'w0rp/ale'
-let s:lsp_impl = 'coc.nvim'
+"let s:lsp_impl = 'coc.nvim'
 
 
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
@@ -63,8 +89,8 @@ if s:lsp_impl == 'autozimu/LanguageClient-neovim'
         \ 'branch': 'next',
         \ 'do': 'bash install.sh',
         \ }
-elseif s:lsp_impl == 'neovim/nvim-lsp'
-    Plug 'neovim/nvim-lsp'
+elseif s:lsp_impl == 'neovim/nvim-lspconfig'
+    Plug 'neovim/nvim-lspconfig'
 elseif s:lsp_impl == 'w0rp/ale'
     Plug 'w0rp/ale'
 elseif s:lsp_impl == 'coc.nvim'
@@ -79,7 +105,8 @@ else
     echo 'could not find matching s:lsp_impl: ' . s:lsp_impl
 endif
 
-
+" might require neovim/nvim-lspconfig
+Plug 'nvim-lua/completion-nvim'
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
@@ -113,6 +140,8 @@ Plug 'ambv/black'
 Plug 'fatih/vim-go'
 
 Plug 'hylang/vim-hy'
+
+Plug 'bakpakin/fennel.vim'
 
 " nevermind paredit.vim is awful and unusable. there is a bug that unbalnces
 " parens as you type, not just making it worthless but then the 'paren
@@ -180,7 +209,8 @@ let g:cm_complete_start_delay = 1000
 
 if s:lsp_impl == 'autozimu/LanguageClient-neovim'
     source $HOME/.config/nvim/config/languageclient-neovim.vim
-"elseif s:lsp_impl == 'neovim/nvim-lsp'
+elseif s:lsp_impl == 'neovim/nvim-lspconfig'
+    source $HOME/.config/nvim/config/nvim-lsp.vim
 elseif s:lsp_impl == 'w0rp/ale'
     source $HOME/.config/nvim/config/ale.vim
 elseif s:lsp_impl == 'coc.nvim'
