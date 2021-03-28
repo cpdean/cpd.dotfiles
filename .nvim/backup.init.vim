@@ -44,12 +44,12 @@ let g:python3_host_prog = '$HOME/.virtualenvs/neovim/bin/python'
 " first tried it, was not pleasant to use.
 "
 "let s:lsp_impl = 'autozimu/LanguageClient-neovim'
-" neovim added native lsp support. while it sort of works, it's not very
-" pleasant to use yet
 let s:lsp_impl = 'neovim/nvim-lspconfig'
-" ale for both prose and rust (for now)
 "let s:lsp_impl = 'w0rp/ale'
 "let s:lsp_impl = 'coc.nvim'
+
+"let g:completion_plugin = 'completion-nvim'
+let g:completion_plugin = 'compe'
 
 
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
@@ -66,8 +66,6 @@ let s:lsp_impl = 'neovim/nvim-lspconfig'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" i think this was breaking mappings that have more than one leader in them
-" map <SPACE> <leader>
 let mapleader = "\<Space>"
 
 " for notational
@@ -91,6 +89,7 @@ if s:lsp_impl == 'autozimu/LanguageClient-neovim'
         \ }
 elseif s:lsp_impl == 'neovim/nvim-lspconfig'
     Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/lsp_extensions.nvim'
 elseif s:lsp_impl == 'w0rp/ale'
     Plug 'w0rp/ale'
 elseif s:lsp_impl == 'coc.nvim'
@@ -105,9 +104,14 @@ else
     echo 'could not find matching s:lsp_impl: ' . s:lsp_impl
 endif
 
-" might require neovim/nvim-lspconfig
-"Plug 'nvim-lua/completion-nvim'
-Plug 'hrsh7th/nvim-compe'
+if s:lsp_impl == 'neovim/nvim-lspconfig'
+    if g:completion_plugin == 'compe'
+        Plug 'hrsh7th/nvim-compe'
+        Plug 'hrsh7th/vim-vsnip'
+    else
+        Plug 'nvim-lua/completion-nvim'
+    endif
+endif
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
@@ -126,6 +130,10 @@ Plug 'tpope/vim-fugitive'
 " installs a handler for :Gbrowse, so the url to files can be opened in a
 " browser
 Plug 'tpope/vim-rhubarb'
+
+" more db trickery
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-completion'
 
 
 " default python support is p dismal
