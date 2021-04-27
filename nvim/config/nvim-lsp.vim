@@ -19,7 +19,9 @@ end
 
 -- toggle between completion-nvim and nvim-compe
 
-if false then
+local completion_plugin = "compe"
+
+if completion_plugin ~= "compe" then
     local completion = require('completion')
     completer_configs = function(client, bufnr)
       -- completion-nvim settings
@@ -29,11 +31,14 @@ if false then
       -- typing you insert characters after the item that was inserted.
       --
       -- so by design completion-nvim is horribly unusable out of the box.
-      vim.api.nvim_set_var('completion_enable_auto_popup', 0)
-      vim.api.nvim_set_var('completion_matching_strategy_list', {'exact', 'substring', 'fuzzy', 'all'})
+      -- disabling config because it does not work
+      if false then
+        vim.api.nvim_set_var('completion_enable_auto_popup', 0)
+        vim.api.nvim_set_var('completion_matching_strategy_list', {'exact', 'substring', 'fuzzy', 'all'})
 
-      -- imap <silent> <c-p> <Plug>(completion_trigger)
-      vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-p>', '<Plug>(completion_trigger)', { silent=true} )
+        -- imap <silent> <c-p> <Plug>(completion_trigger)
+        vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-p>', '<Plug>(completion_trigger)', { silent=true} )
+      end
       -- set completeopt=menuone,noinsert,noselect
       vim.api.nvim_set_option('completeopt', 'menuone,noinsert,noselect')
 
@@ -41,7 +46,6 @@ if false then
       completion.on_attach(client, bufnr)
     end
 else
-
   require'compe'.setup {
     enabled = true;
     autocomplete = false;
@@ -59,21 +63,51 @@ else
     source = {
       path = true;
       buffer = true;
+      nvim_lsp = true;
+      nvim_lua = true;
       --calc = true;
-      --nvim_lsp = true;
-      --nvim_lua = true;
       --vsnip = true;
     };
   }
+  local opts = { silent=true }
+  --vim.api.nvim_set_keymap('i', '<C-Space> ', '<Cmd>compe#complete()<CR>', opts)
+  --  inoremap <silent><expr> <C-Space> compe#complete()
   vim.api.nvim_exec([[
     inoremap <silent><expr> <C-Space> compe#complete()
     inoremap <silent><expr> <CR>      compe#confirm('<CR>')
     inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-    inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-    inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
   ]], false)
   vim.o.completeopt = "menuone,noselect"
 
+
+
+
+end
+
+-- dadbod database completions
+--
+--
+
+if false then
+  vim.api.nvim_exec([[
+    " For built in omnifunc
+    autocmd FileType sql setlocal omnifunc=vim_dadbod_completion#omni
+
+    " hrsh7th/nvim-compe
+    autocmd FileType sql let g:compe.source.vim_dadbod_completion = v:true
+
+
+    " Source is automatically added, you just need to include it in the chain complete list
+    let g:completion_chain_complete_list = {
+        \   'sql': [
+        \    {'complete_items': ['vim-dadbod-completion']},
+        \   ],
+        \ }
+    " Make sure `substring` is part of this list. Other items are optional for this completion source
+    let g:completion_matching_strategy_list = ['exact', 'substring']
+    " Useful if there's a lot of camel case items
+    let g:completion_matching_ignore_case = 1
+  ]], false)
 end
 
 
@@ -86,10 +120,12 @@ local common_on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  --buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('v', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -128,11 +164,26 @@ local common_on_attach = function(client, bufnr)
   end
 end
 
+--     -- not sure if this should be wrapped into the onattach or gated to only rust or not
+--     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+--       vim.lsp.diagnostic.on_publish_diagnostics, {
+--         virtual_text = true,
+--         signs = true,
+--         update_in_insert = true,
+--       }
+--     )
 
+if completion_plugin == "compe" then
+   local capabilities = vim.lsp.protocol.make_client_capabilities()
+   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-nvim_lsp.rust_analyzer.setup { on_attach = common_on_attach  }
+   nvim_lsp.rust_analyzer.setup {
+     on_attach = common_on_attach,
+     capabilities = capabilities,
+   }
+else 
+  nvim_lsp.rust_analyzer.setup { on_attach = common_on_attach  }
+end
 
 local clangd_attach = function(client, bufnr)
   common_on_attach(client, bufnr)
@@ -143,4 +194,3 @@ end
 nvim_lsp.clangd.setup { on_attach = clangd_attach }
 
 EOF
-
