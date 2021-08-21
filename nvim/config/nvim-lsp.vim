@@ -189,6 +189,11 @@ local clangd_attach = function(client, bufnr)
   common_on_attach(client, bufnr)
   local opts = { noremap=true, silent=true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<Cmd>ClangdSwitchSourceHeader<CR>', opts)
+  -- drives me insane they use default font color. make it purple or whatever
+  vim.api.nvim_exec([[
+    highlight LspDiagnosticsDefaultWarning ctermfg=175 guifg=#d3869b 
+  ]], false)
+
 end
 
 nvim_lsp.clangd.setup { on_attach = clangd_attach }
