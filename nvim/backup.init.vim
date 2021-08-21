@@ -99,7 +99,11 @@ elseif s:lsp_impl == 'coc.nvim'
     " an already open buffer. little frustrated the author just puts everything on
     " release and also has what appear to be zero tests
     " let's figure out if there is a commit that isn't broken
-    Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}
+    " Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}
+    " 2021-04-27 great. you can't pin coc plugins and so reinstalling it has
+    " forced me to need to unpin my coc version. likely gonna break someshit.
+    " i am not pleased with coc.nvim becoming a sub-ecosystem.
+    Plug 'neoclide/coc.nvim'
 else
     echo 'could not find matching s:lsp_impl: ' . s:lsp_impl
 endif
@@ -126,7 +130,13 @@ Plug 'scrooloose/nerdtree'
 " https://github.com/tpope/vim-vinegar
 
 " for git things
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
+" 2021-08-02: hard-coding a commit because fugitive stopped working on neovim at some
+" point. 
+" 9cba97f4db4e0af4275f802c2de977f553d26ec6 - 2021-03-01
+
+Plug 'tpope/vim-fugitive', {'commit': '9cba97f4db4e0af4275f802c2de977f553d26ec6'}
+
 " installs a handler for :Gbrowse, so the url to files can be opened in a
 " browser
 Plug 'tpope/vim-rhubarb'
@@ -593,3 +603,6 @@ nmap <silent> <leader>W :wq<CR>
 " the following tries to fix this by storing the text of the selection in the
 " register `t` and then sending the contents of the register to the command.
 vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>
+
+" jenkinsfiles are groovy
+autocmd BufNewFile,BufRead Jenkinsfile set filetype=groovy
