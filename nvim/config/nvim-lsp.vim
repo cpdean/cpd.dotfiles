@@ -46,6 +46,57 @@ if completion_plugin ~= "compe" then
       completion.on_attach(client, bufnr)
     end
 else
+
+  function wiki_complete_get_metadata(...)
+    return {
+      filetypes = {"markdown"},
+      priority = 100,
+      dup = 0,
+      menu = "[wiki boii]";
+    }
+  end
+
+  function wiki_complete_determine(self, context)
+    -- i do not know what the hell these mean so
+      return {
+        ['keyword_pattern_offset']= 0,
+        ['trigger_character_offset']= 0,
+      }
+  end
+
+  function wiki_complete_stuff(a)
+    return {
+      ["get_metadata"] = wiki_complete_get_metadata,
+      ["determine"] = wiki_complete_determine,
+      ["complete"] = (function(self, argthings)
+        -- TODO figure out how dadbod omni func works
+        -- let items = vim_dadbod_completion#omni(0, a:args.input)
+        -- for item in items
+        --   let item.filter_text = item.abbr
+        -- endfor
+        -- call a:args.callback({ 'items': items })
+        local items = {}
+        local _items = {"conradexample1", "conradexample2", "conradexample3"}
+        for i, item in ipairs(_items) do
+          local e = {}
+          e.word = item
+          e.abbr = item
+          e.filter_text = item
+          e.sort_text = item
+          table.insert(items, e)
+        end
+        --print(args)
+        local uh = ""
+        for i, e in ipairs(argthings) do
+          uh = uh .. ", " .. i
+        end
+        argthings.callback({["items"] = items})
+      end),
+    }
+  end
+
+  require'compe'.register_source('wikicomplete', wiki_complete_stuff())
+
   require'compe'.setup {
     enabled = true;
     autocomplete = false;
@@ -61,10 +112,11 @@ else
     documentation = true;
 
     source = {
-      path = true;
+      --path = true;
       buffer = true;
-      nvim_lsp = true;
-      nvim_lua = true;
+      --nvim_lsp = true;
+      --nvim_lua = true;
+      wikicomplete = true;
       --calc = true;
       --vsnip = true;
     };

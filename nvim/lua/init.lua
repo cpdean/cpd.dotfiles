@@ -7,6 +7,8 @@
 --
 -- TODO study this nvim-lua guy's dotfiles
 -- https://github.com/haorenW1025/config/tree/master/.config/nvim
+--
+-- TODO: sorta lua https://github.com/Olical/dotfiles/blob/f853315c1bebdf4c3d3e1c4e7e3de96bd91cb6f6/stowed/.config/nvim/fnl/dotfiles/module/plugin/compe.fnl
 
 local g = vim.g
 local o = vim.o
