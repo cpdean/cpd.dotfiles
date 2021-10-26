@@ -631,3 +631,6 @@ vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg(
 
 " jenkinsfiles are groovy
 autocmd BufNewFile,BufRead Jenkinsfile set filetype=groovy
+
+" salt files are basically python?
+autocmd BufNewFile,BufRead  *.sls set filetype=python
