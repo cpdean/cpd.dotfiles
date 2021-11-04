@@ -65,3 +65,10 @@ define-command -docstring %{
 }
 
 source "%val{config}/wiki-stuff.kak"
+
+define-command disable-wordcomplete -docstring "disable word completion suggestions" %{
+    set-option window completers %sh{
+        printf %s\\n "'${kak_opt_completers}'" | sed -e 's/word=all://g'
+    }
+}
+

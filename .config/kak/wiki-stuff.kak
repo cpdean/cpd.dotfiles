@@ -59,6 +59,14 @@ evaluate-commands %sh{
     "
 }
 
+# try disabling autocomplete in insert just for wikis
+evaluate-commands %sh{
+    printf %s\\n "
+    hook global WinCreate $HOME/kak-wiki/.+\.md %{
+        set global autocomplete prompt
+    }
+    "
+}
 define-command wiki-today -docstring "Open a file with today's date via kakoune-wiki" %{
     evaluate-commands %sh{
         # date fn on macos. might break on linux

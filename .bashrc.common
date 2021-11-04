@@ -175,3 +175,10 @@ export PATH=$PGAPP_BIN_DIR:$PATH
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+
+# https://github.com/ajeetdsouza/zoxide
+
+eval "$(zoxide init bash)"
+
+# https://blog.jez.io/cli-code-review/
+export REVIEW_BASE=master
