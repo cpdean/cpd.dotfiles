@@ -19,9 +19,10 @@ end
 
 -- toggle between completion-nvim and nvim-compe
 
-local completion_plugin = "compe"
+--local completion_plugin = "compe"
+local completion_plugin = "nvim-cmp"
 
-if completion_plugin ~= "compe" then
+if completion_plugin == "completion" then
     local completion = require('completion')
     completer_configs = function(client, bufnr)
       -- completion-nvim settings
@@ -45,8 +46,37 @@ if completion_plugin ~= "compe" then
       -- completion-nvim
       completion.on_attach(client, bufnr)
     end
+elseif completion_plugin == "nvim-cmp" then
+    local cmp = require('cmp')
+    cmp.setup({
+      -- paste entire obj because i don't kno whow to selectively disable one option
+      completion = {
+        autocomplete = false,  -- disable opening completion menu by default
+        completeopt = 'menu,menuone,noselect',  -- original default
+        keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],  -- original default
+        keyword_length = 1,  -- original default
+        get_trigger_characters = function(trigger_characters)  -- original default
+          return trigger_characters  -- original default
+        end,  -- original default
+      },
+      sources = {
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+      },
+      mapping = {
+        --['<C-x><C-o>'] = cmp.mapping.complete(), --- Manually trigger completion
+        ['<C-space>'] = cmp.mapping.complete(), --- Manually trigger completion
+        ['<Right>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        }),
+        ['<Tab>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        }),
+      },
+    })
 else
-
   function wiki_complete_get_metadata(...)
     return {
       filetypes = {"markdown"},
@@ -130,9 +160,6 @@ else
     inoremap <silent><expr> <C-e>     compe#close('<C-e>')
   ]], false)
   vim.o.completeopt = "menuone,noselect"
-
-
-
 
 end
 
@@ -233,6 +260,15 @@ if completion_plugin == "compe" then
      on_attach = common_on_attach,
      capabilities = capabilities,
    }
+elseif completion_plugin == "nvim-cmp" then
+
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(
+    vim.lsp.protocol.make_client_capabilities()
+  )
+  nvim_lsp.rust_analyzer.setup {
+      capabilities = capabilities,
+      on_attach = common_on_attach
+  }
 else 
   nvim_lsp.rust_analyzer.setup { on_attach = common_on_attach  }
 end
@@ -248,6 +284,21 @@ local clangd_attach = function(client, bufnr)
 
 end
 
-nvim_lsp.clangd.setup { on_attach = clangd_attach }
+
+if completion_plugin == "nvim-cmp" then
+  -- assume this will have been made when initializing rust config
+  -- local capabilities = require('cmp_nvim_lsp').update_capabilities(
+  --   vim.lsp.protocol.make_client_capabilities()
+  -- )
+  nvim_lsp.clangd.setup {
+    on_attach = clangd_attach,
+    capabilities = capabilities
+  }
+else 
+  nvim_lsp.clangd.setup { on_attach = clangd_attach }
+end
+
+
+
 
 EOF

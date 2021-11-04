@@ -49,7 +49,8 @@ let s:lsp_impl = 'neovim/nvim-lspconfig'
 "let s:lsp_impl = 'coc.nvim'
 
 "let g:completion_plugin = 'completion-nvim'
-let g:completion_plugin = 'compe'
+"let g:completion_plugin = 'compe'
+let g:completion_plugin = 'nvim-cmp'
 
 
 "        if findreadable('/Users/cdean/.virtualenvs/neovim')
@@ -112,6 +113,12 @@ if s:lsp_impl == 'neovim/nvim-lspconfig'
     if g:completion_plugin == 'compe'
         Plug 'hrsh7th/nvim-compe'
         Plug 'hrsh7th/vim-vsnip'
+    elseif g:completion_plugin == 'nvim-cmp'
+        " author of nvim-compe did a rewrite
+        Plug 'hrsh7th/cmp-nvim-lsp'
+        Plug 'hrsh7th/nvim-cmp'
+        "Plug 'hrsh7th/cmp-vsnip'
+        "Plug 'hrsh7th/vim-vsnip'
     else
         Plug 'nvim-lua/completion-nvim'
     endif
