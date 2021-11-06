@@ -8,12 +8,15 @@ installFile(){
     fi
 }
 
+
+
 if [ -d ~/.olddotfiles ]
     then
         echo "There is an older version of backedup dot files.  Please run the uninstall before you install again."
     else
         mkdir ~/.olddotfiles
         installFile .vim
+        installFile .config
         installFile .bashrc
         installFile .bashrc.darwin
         installFile .bash_profile

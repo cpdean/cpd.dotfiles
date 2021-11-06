@@ -24,7 +24,8 @@ export EDITOR=nvim
 alias iso="date -u +%FT%TZ"
 #export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH
 PS1='$? - ❯❯❯ '
-export PATH=$(pyenv root)/shims:$PATH
+#disabling pyenv for home
+#export PATH=$(pyenv root)/shims:$PATH
 # add .local for pipx
 export PATH=$HOME/.local/bin:$PATH
 # rabbit installs to /usr/local/sbin/ for some reason where nothing else does
@@ -56,4 +57,15 @@ case $TERM in
     PROMPT_COMMAND='echo -en "\033]0; $(echo -n ${PWD/#$HOME/~} | _show_last_two_directories )  \a"'
     ;;
 esac
-source $HOME/.bashrc.darwin.work
+#source $HOME/.bashrc.darwin.work
+
+# TODO: not sure if necessary if you've brew installed openjdk.
+#       it bugs me with an error when opening a terminal so silence for now
+# if [ -f /usr/libexec/java_home ]; then
+#     export JAVA_HOME=$(/usr/libexec/java_home)
+# fi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+. "$HOME/.cargo/env"
+# for openjdk java? not sure what added
+export PATH="$(brew --prefix)/opt/openjdk/bin:$PATH"

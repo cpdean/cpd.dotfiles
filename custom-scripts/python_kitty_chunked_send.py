@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 this is for sending text from the main window of a kitty tab to the window that

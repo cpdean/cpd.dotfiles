@@ -1,3 +1,4 @@
+#set -x
 # check where you are, then do those things instead
 
 _check_os () {
