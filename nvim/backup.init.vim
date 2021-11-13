@@ -58,7 +58,11 @@ let s:lsp_impl = 'neovim/nvim-lspconfig'
 "let s:lsp_impl = 'coc.nvim'
 
 "let g:completion_plugin = 'completion-nvim'
+" disabled because it would do this very gross stutter at the beginning of
+" usage
 "let g:completion_plugin = 'compe'
+" nvim-cmp is a rewrite of compe, same author. so far so good. better api and
+" works as advertized
 let g:completion_plugin = 'nvim-cmp'
 
 
@@ -126,8 +130,8 @@ if s:lsp_impl == 'neovim/nvim-lspconfig'
         " author of nvim-compe did a rewrite
         Plug 'hrsh7th/cmp-nvim-lsp'
         Plug 'hrsh7th/nvim-cmp'
-        "Plug 'hrsh7th/cmp-vsnip'
-        "Plug 'hrsh7th/vim-vsnip'
+        Plug 'hrsh7th/cmp-vsnip'
+        Plug 'hrsh7th/vim-vsnip'
     else
         Plug 'nvim-lua/completion-nvim'
     endif

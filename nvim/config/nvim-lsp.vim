@@ -62,6 +62,7 @@ elseif completion_plugin == "nvim-cmp" then
       sources = {
         { name = 'nvim_lsp' },
         { name = 'buffer' },
+        { name = 'vsnip' },
       },
       mapping = {
         --['<C-x><C-o>'] = cmp.mapping.complete(), --- Manually trigger completion
@@ -75,6 +76,12 @@ elseif completion_plugin == "nvim-cmp" then
           select = true,
         }),
       },
+      snippet = {
+        expand = function(args)
+          vim.fn["vsnip#anonymous"](args.body)
+        end,
+      },
+
     })
 else
   function wiki_complete_get_metadata(...)
@@ -221,12 +228,12 @@ local common_on_attach = function(client, bufnr)
   --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
-  -- -- Set some keybinds conditional on server capabilities
-  -- if client.resolved_capabilities.document_formatting then
-  --   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  -- elseif client.resolved_capabilities.document_range_formatting then
-  --   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  -- end
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  end
 
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
