@@ -248,6 +248,17 @@ local common_on_attach = function(client, bufnr)
       augroup END
     ]], false)
   end
+
+  -- the LSP diagnostic colors refrence colors that aren't defined, so they all
+  -- end up as the default color. i don't know how to make these map to real colors
+  -- so just going to override some inline
+  vim.api.nvim_exec([[
+    highlight LspDiagnosticsDefaultWarning ctermfg=175 guifg=#d3869b 
+    highlight LspDiagnosticsDefaultHint ctermfg=208 guifg=#fe8019
+    highlight LspDiagnosticsDefaultError ctermfg=167 guifg=#fb4934
+    highlight LspDiagnosticsDefaultInformation ctermfg=109 guifg=#83a598 
+  ]], false)
+
 end
 
 --     -- not sure if this should be wrapped into the onattach or gated to only rust or not
@@ -284,10 +295,6 @@ local clangd_attach = function(client, bufnr)
   common_on_attach(client, bufnr)
   local opts = { noremap=true, silent=true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<Cmd>ClangdSwitchSourceHeader<CR>', opts)
-  -- drives me insane they use default font color. make it purple or whatever
-  vim.api.nvim_exec([[
-    highlight LspDiagnosticsDefaultWarning ctermfg=175 guifg=#d3869b 
-  ]], false)
 
 end
 
