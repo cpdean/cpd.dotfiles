@@ -305,7 +305,8 @@ else
   nvim_lsp.clangd.setup { on_attach = clangd_attach }
 end
 
-
+-- from RishabhRD/nvim-lsputils
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
 
 EOF
