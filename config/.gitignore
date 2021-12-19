@@ -1,0 +1,14 @@
+# config of tools i do not yet care to cover with version control
+alacritty/
+bpytop/
+coc/
+configstore/
+fish/
+gh/
+gtk-2.0/
+htop/
+jgit/
+nvim/.netrwhist
+nvim/extra_plugins/
+nvim/spell/
+swi-prolog/
