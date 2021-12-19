@@ -297,6 +297,59 @@ local clangd_attach = function(client, bufnr)
 
 end
 
+-- lua, sumneko
+if true then
+  -- common nvim-cmp init
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(
+    vim.lsp.protocol.make_client_capabilities()
+  )
+
+  local LUA_PATH = vim.split(package.path, ';')
+  table.insert(LUA_PATH, "lua/?.lua")
+  table.insert(LUA_PATH, "lua/?/init.lua")
+
+  local lua_on_attach = function(client, bufnr)
+      -- `<Plug>(Luadev-RunLine)`      | Execute the current line
+      -- `<Plug>(Luadev-Run)`          | Operator to execute lua code over a movement or text object.
+      -- `<Plug>(Luadev-RunWord)`      | Eval identifier under cursor, including `table.attr`
+      -- `<Plug>(Luadev-Complete)`     | in insert mode: complete (nested) global table fields
+      local opts = { noremap=false, silent=false }
+      vim.api.nvim_buf_set_keymap(bufnr,
+          'n', '<leader>ll', '<Plug>(Luadev-RunLine)', opts)
+      vim.api.nvim_buf_set_keymap(bufnr,
+          'v', '<leader>lr', '<Plug>(Luadev-Run)', opts)
+      print("welcome to luaville")
+      return common_on_attach(client, bufnr)
+  end
+
+  require'lspconfig'.sumneko_lua.setup {
+    capabilities = capabilities,
+    on_attach = lua_on_attach,
+    settings = {
+      Lua = {
+        runtime = {
+          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+          version = 'LuaJIT',
+          -- Setup your lua path
+          path = LUA_PATH,
+        },
+        diagnostics = {
+          -- Get the language server to recognize the `vim` global
+          globals = {'vim'},
+        },
+        workspace = {
+          -- Make the server aware of Neovim runtime files
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+        -- Do not send telemetry data containing a randomized but unique identifier
+        telemetry = {
+          enable = false,
+        },
+      },
+    },
+  }
+end
+
 
 if completion_plugin == "nvim-cmp" then
   -- assume this will have been made when initializing rust config

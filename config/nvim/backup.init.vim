@@ -91,6 +91,10 @@ nnoremap <silent> <Leader>` :NV<CR>
 
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
+
+" lua repl hooked into the neovim lua env
+Plug 'bfredl/nvim-luadev'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
