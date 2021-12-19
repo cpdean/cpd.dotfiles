@@ -6,6 +6,11 @@ holds the repl
 
 TODO: this could be made smarter to take in a custom --match= so that editor tooling
       can control how to instantiate the repl and send to the correct window
+
+test
+
+echo echo sup | kitty @ send-text --match=num:1 --stdin
+
 """
 import sys
 import io
