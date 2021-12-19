@@ -16,7 +16,8 @@ if [ -d ~/.olddotfiles ]
     else
         mkdir ~/.olddotfiles
         installFile .vim
-        installFile .config
+        # storing files with . prefix messes with editor tooling
+        #installFile .config
         installFile .bashrc
         installFile .bashrc.darwin
         installFile .bash_profile
