@@ -94,7 +94,7 @@ call plug#begin('~/.config/nvim/extra_plugins')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'rust-lang/rust.vim'
+"Plug 'rust-lang/rust.vim'
 
 if s:lsp_impl == 'autozimu/LanguageClient-neovim'
     Plug 'autozimu/LanguageClient-neovim', {
@@ -283,7 +283,9 @@ let g:cm_complete_start_delay = 1000
 if s:lsp_impl == 'autozimu/LanguageClient-neovim'
     source $HOME/.config/nvim/config/languageclient-neovim.vim
 elseif s:lsp_impl == 'neovim/nvim-lspconfig'
-    source $HOME/.config/nvim/config/nvim-lsp.vim
+    "source $HOME/.config/nvim/config/nvim-lsp.vim
+    lua require("cpdean_config/nvim-lsp")
+    "echo "disabling config for a sec"
 elseif s:lsp_impl == 'w0rp/ale'
     source $HOME/.config/nvim/config/ale.vim
 elseif s:lsp_impl == 'coc.nvim'
