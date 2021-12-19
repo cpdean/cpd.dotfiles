@@ -133,6 +133,12 @@ if s:lsp_impl == 'neovim/nvim-lspconfig'
         " author of nvim-compe did a rewrite
         Plug 'hrsh7th/cmp-nvim-lsp'
         Plug 'hrsh7th/nvim-cmp'
+
+        " extras
+        " Plug 'hrsh7th/cmp-buffer'
+        " Plug 'hrsh7th/cmp-path'
+        " Plug 'hrsh7th/cmp-cmdline'
+
         Plug 'hrsh7th/cmp-vsnip'
         Plug 'hrsh7th/vim-vsnip'
     else
