@@ -67,7 +67,7 @@ fi
 #     export JAVA_HOME=$(/usr/libexec/java_home)
 # fi
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(brew shellenv)"
 . "$HOME/.cargo/env"
 # for openjdk java? not sure what added
 export PATH="$(brew --prefix)/opt/openjdk/bin:$PATH"
