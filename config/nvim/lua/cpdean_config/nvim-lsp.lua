@@ -62,6 +62,8 @@ elseif completion_plugin == "nvim-cmp" then
         { name = 'nvim_lsp' },
         { name = 'buffer' },
         { name = 'vsnip' },
+        -- nvim lua api
+        { name = 'nvim_lua' },
       },
       mapping = {
         --['<C-x><C-o>'] = cmp.mapping.complete(), --- Manually trigger completion

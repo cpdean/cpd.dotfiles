@@ -135,14 +135,18 @@ if s:lsp_impl == 'neovim/nvim-lspconfig'
         Plug 'hrsh7th/vim-vsnip'
     elseif g:completion_plugin == 'nvim-cmp'
         " author of nvim-compe did a rewrite
-        Plug 'hrsh7th/cmp-nvim-lsp'
         Plug 'hrsh7th/nvim-cmp'
+        " hook into lsp for nvim-cmp
+        Plug 'hrsh7th/cmp-nvim-lsp'
+        " completions for neovim's lua api
+        Plug 'hrsh7th/cmp-nvim-lua'
 
         " extras
         " Plug 'hrsh7th/cmp-buffer'
         " Plug 'hrsh7th/cmp-path'
         " Plug 'hrsh7th/cmp-cmdline'
 
+        " integrate with a snippet plugin for cmp
         Plug 'hrsh7th/cmp-vsnip'
         Plug 'hrsh7th/vim-vsnip'
     else
