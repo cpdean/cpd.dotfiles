@@ -24,6 +24,16 @@ export EDITOR=nvim
 alias iso="date -u +%FT%TZ"
 #export PATH=$HOME/javatrash/apache-hive-1.1.0-bin/bin:$PATH
 PS1='$? - ❯❯❯ '
+
+if [ -d /opt/homebrew/bin ]; then
+    # m1 mac puts it here
+    BREW_STUFF=/opt/homebrew/bin
+else
+    # otherwise do it here
+    BREW_STUFF=/usr/local/bin
+fi
+export PATH=$BREW_STUFF:$PATH
+
 # add .local for pipx
 export PATH=$HOME/.local/bin:$PATH
 # rabbit installs to /usr/local/sbin/ for some reason where nothing else does
