@@ -34,6 +34,16 @@ else
 fi
 export PATH=$BREW_STUFF:$PATH
 
+# hardcode ruby for now
+export RUBY_GEMS_BIN=$HOME/.gem/ruby/2.6.0/bin
+export PATH=$RUBY_GEMS_BIN:$PATH
+
+# hardcode random python thing
+export PATH=$HOME/Library/Python/3.8/bin:$PATH
+
+# 'brew install rbenv' because the installed ruby does not work with jekyll anymore
+eval "$(rbenv init - bash)"
+
 # add .local for pipx
 export PATH=$HOME/.local/bin:$PATH
 # rabbit installs to /usr/local/sbin/ for some reason where nothing else does
