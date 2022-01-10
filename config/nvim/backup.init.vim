@@ -172,7 +172,10 @@ Plug 'scrooloose/nerdtree'
 " point. 
 " 9cba97f4db4e0af4275f802c2de977f553d26ec6 - 2021-03-01
 
-Plug 'tpope/vim-fugitive', {'commit': '9cba97f4db4e0af4275f802c2de977f553d26ec6'}
+"Plug 'tpope/vim-fugitive', {'commit': '9cba97f4db4e0af4275f802c2de977f553d26ec6'}
+" at some point neovim broke fugitive, so trying latest
+
+Plug 'tpope/vim-fugitive'
 
 " installs a handler for :Gbrowse, so the url to files can be opened in a
 " browser
