@@ -416,6 +416,8 @@ autocmd BufNewFile,BufRead *.hql set filetype=hive
 
 source $HOME/.config/nvim/config/rust.vim
 
+autocmd FileType lua set sw=2
+
 
 " hope that you have elm-format on your path
 "autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
