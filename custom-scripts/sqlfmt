@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# installation instructions
+#  python3 -m virtualenv $HOME/.virtualenvs/sqlfmt
+#  . $HOME/.virtualenvs/sqlfmt/bin/activate
+#  python3 -m pip install sqlparse==0.4.2
+
+VENVPATH=$HOME/.virtualenvs/sqlfmt
+
+# activate venv just for this thing
+source $VENVPATH/bin/activate
+
+# do work
+python3 -c 'import sqlparse, sys; print(sqlparse.format(sys.stdin.read(), reindent=True, keyword_case="upper"))' </dev/stdin
