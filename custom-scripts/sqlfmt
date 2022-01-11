@@ -5,6 +5,12 @@
 #  . $HOME/.virtualenvs/sqlfmt/bin/activate
 #  python3 -m pip install sqlparse==0.4.2
 
+## USAGE: pipe a sql query to it and it prints it out formatted
+## in vim, select the query text, hit :
+## it will fill the boundary syntax in giving you :'<,'>
+## then type !sqlfmt so that the selected text is replaced with what is returned by this query
+## :'<,'>!sqlfmt
+
 VENVPATH=$HOME/.virtualenvs/sqlfmt
 
 # activate venv just for this thing
