@@ -296,6 +296,13 @@ local clangd_attach = function(client, bufnr)
   common_on_attach(client, bufnr)
   local opts = { noremap=true, silent=true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<Cmd>ClangdSwitchSourceHeader<CR>', opts)
+  -- TODO: autocmd to disable when in $HOME/dev/foss/cpp
+  if true then
+    vim.api.nvim_exec([[
+      autocmd BufWritePre *.cpp,*.h lua vim.lsp.buf.formatting_sync(nil, 1000)
+    ]], false)
+  end
+
 
 end
 
