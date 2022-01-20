@@ -77,7 +77,7 @@ case $TERM in
 esac
 
 if [ -f $HOME/.bashrc.darwin.work ]; then
-    export PATH=$(pyenv root)/shims:$PATH
+    #export PATH=$(pyenv root)/shims:$PATH
     source $HOME/.bashrc.darwin.work
 fi
 
