@@ -43,6 +43,8 @@
     # instead of opening all files:
     # git reviewone foo.js bar.js
     reviewone = !nvim -p +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+    # alias for the alias
+    ro = reviewone
 
 [includeIf "gitdir:~/dev/work/"]
     path = .gitconfig-sqsp
