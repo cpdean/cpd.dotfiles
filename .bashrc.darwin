@@ -42,7 +42,9 @@ export PATH=$RUBY_GEMS_BIN:$PATH
 export PATH=$HOME/Library/Python/3.8/bin:$PATH
 
 # 'brew install rbenv' because the installed ruby does not work with jekyll anymore
-eval "$(rbenv init - bash)"
+if $(which rbenv); then
+    eval "$(rbenv init - bash)"
+fi
 
 # add .local for pipx
 export PATH=$HOME/.local/bin:$PATH
