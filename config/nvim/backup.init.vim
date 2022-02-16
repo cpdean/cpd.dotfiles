@@ -654,8 +654,8 @@ function! s:show_documentation()
     endif
 endfunction
 
-" show me this thing on an internet!!
-vnoremap <silent> gh :Gbrowse<CR>
+" open line in github
+vnoremap <silent> gh :GBrowse<CR>
 
 " faster save
 nmap <silent> <Leader>w :w<CR>
