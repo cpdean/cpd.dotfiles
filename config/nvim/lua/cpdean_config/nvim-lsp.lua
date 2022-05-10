@@ -270,13 +270,28 @@ end
 --         update_in_insert = true,
 --       }
 --     )
+--
+
+-- custom settings for rust-analyzer
+local rust_analyzer_attach = function(client, bufnr)
+  common_on_attach(client, bufnr)
+  local opts = { noremap=true, silent=true }
+  -- TODO: autocmd to disable when in $HOME/dev/foss/rust
+  if true then
+    vim.api.nvim_exec([[
+      autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+    ]], false)
+  end
+
+
+end
 
 if completion_plugin == "compe" then
    local capabilities = vim.lsp.protocol.make_client_capabilities()
    capabilities.textDocument.completion.completionItem.snippetSupport = true
 
    nvim_lsp.rust_analyzer.setup {
-     on_attach = common_on_attach,
+     on_attach = rust_analyzer_attach,
      capabilities = capabilities,
    }
 elseif completion_plugin == "nvim-cmp" then
@@ -286,10 +301,10 @@ elseif completion_plugin == "nvim-cmp" then
   )
   nvim_lsp.rust_analyzer.setup {
       capabilities = capabilities,
-      on_attach = common_on_attach
+      on_attach = rust_analyzer_attach
   }
 else 
-  nvim_lsp.rust_analyzer.setup { on_attach = common_on_attach  }
+  nvim_lsp.rust_analyzer.setup { on_attach = rust_analyzer_attach  }
 end
 
 local clangd_attach = function(client, bufnr)
