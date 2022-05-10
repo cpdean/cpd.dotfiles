@@ -673,6 +673,13 @@ nmap <silent> <leader>W :wq<CR>
 " register `t` and then sending the contents of the register to the command.
 vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>
 
+" format selected xml
+vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
+
+" format sql
+" brew install pgformatter
+autocmd FileType yaml set formatprg=pg_format
+
 " jenkinsfiles are groovy
 autocmd BufNewFile,BufRead Jenkinsfile set filetype=groovy
 
