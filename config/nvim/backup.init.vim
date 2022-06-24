@@ -251,8 +251,9 @@ Plug 'tpope/vim-markdown'
 " Plug 'junegunn/goyo.vim'
 " Plug 'junegunn/limelight.vim'
 " Plug 'reedes/vim-pencil'
-"
 
+" visually display your position in a file
+Plug 'wellle/context.vim'
 call plug#end()
 
 syntax enable
