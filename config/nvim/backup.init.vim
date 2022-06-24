@@ -596,7 +596,7 @@ endfunction
 " experimenting with ctrlp and fzf.vim side by side
 nmap <silent> <C-L> :FZF<CR>
 " override default fzf source so i can see .config files inside a repo
-let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git'
+let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 
 
 
