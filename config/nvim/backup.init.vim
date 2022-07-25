@@ -682,7 +682,8 @@ vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(
 
 " format sql
 " brew install pgformatter
-autocmd FileType yaml set formatprg=pg_format
+" setlocal because `set` scopes it to the entire session.
+autocmd FileType yaml setlocal formatprg=pg_format
 
 " jenkinsfiles are groovy
 autocmd BufNewFile,BufRead Jenkinsfile set filetype=groovy
