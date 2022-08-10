@@ -4,6 +4,10 @@ if status --is-login
         eval (/opt/homebrew/bin/brew shellenv)
     end
     fish_add_path -g --prepend $HOME/.cargo/bin
+    fish_add_path -g --prepend $HOME/.dotfiles/custom-scripts/
+
+    # intel macos puts some things here so
+    fish_add_path -g --prepend /usr/local/sbin
     set -x EDITOR nvim
 
 
