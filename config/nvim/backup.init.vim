@@ -205,6 +205,8 @@ Plug 'hylang/vim-hy'
 
 Plug 'bakpakin/fennel.vim'
 
+Plug 'dag/vim-fish'
+
 " nevermind paredit.vim is awful and unusable. there is a bug that unbalnces
 " parens as you type, not just making it worthless but then the 'paren
 " balancing' features of it then prevent you from fixing its mistakes.
