@@ -14,9 +14,16 @@ if status --is-login
 end
 
 if status is-interactive
+    # i think im good without the greeting for now
+    set fish_greeting
+
     # old habits
     abbr -g vim nvim
 
     # ls for my gits
     abbr -g gs git status
+
+    set -x FZF_DEFAULT_COMMAND 'fd --type f'
+    set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"
+
 end
