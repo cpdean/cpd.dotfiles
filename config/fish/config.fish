@@ -10,6 +10,13 @@ if status --is-login
     fish_add_path -g --prepend $HOME/.cargo/bin
     set -x EDITOR nvim
 
+
+end
+
+if status is-interactive
+    # old habits
     abbr -g vim nvim
 
+    # ls for my gits
+    abbr -g gs git status
 end
