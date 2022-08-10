@@ -1,7 +1,3 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 if status --is-login
     # TODO: intel homebrew
     if test -f /opt/homebrew/bin/brew
