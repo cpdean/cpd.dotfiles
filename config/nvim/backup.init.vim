@@ -80,6 +80,11 @@ let g:completion_plugin = 'nvim-cmp'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" fish breaks how vim runs commands so set it to a shell that doesn't
+if &shell =~# 'fish$'
+    set shell=sh
+endif
+
 let mapleader = "\<Space>"
 
 " for notational

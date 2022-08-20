@@ -31,6 +31,8 @@ if status is-interactive
     abbr -g dc docker-compose
 
     set -x FZF_DEFAULT_COMMAND 'fd --type f'
-    set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"
+    # disabling because too many files
+    # set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"
+    set -g FZF_CTRL_T_COMMAND "command fd --type f"
 
 end
