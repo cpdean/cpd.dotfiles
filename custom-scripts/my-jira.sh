@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 source $HOME/.jirapass
 
-QUERY=jql=not+%28status+%3D++Done%29+AND+assignee+in+%28$USER_ID%29
+RAW_QUERY="assignee in ($USER_ID) and status != \"Completed\" and status != \"Closed\" and status != \"Done\" AND status != \"Will not do\" AND created >= -150d order by created DESC"
+
+QUERY=$(echo "${RAW_QUERY}" | python3 -c "import sys, urllib.parse as p; print(p.urlencode({'jql': sys.stdin.read().strip()}))")
 
 CACHE=~/.my-jira-cache
 if [[ -f  $CACHE ]]; then
