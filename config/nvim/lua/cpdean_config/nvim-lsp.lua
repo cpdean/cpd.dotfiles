@@ -65,7 +65,7 @@ elseif completion_plugin == "nvim-cmp" then
         -- nvim lua api
         { name = 'nvim_lua' },
       },
-      mapping = {
+      mapping = cmp.mapping.preset.insert({
         --['<C-x><C-o>'] = cmp.mapping.complete(), --- Manually trigger completion
         ['<C-space>'] = cmp.mapping.complete(), --- Manually trigger completion
         ['<Right>'] = cmp.mapping.confirm({
@@ -76,13 +76,12 @@ elseif completion_plugin == "nvim-cmp" then
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         }),
-      },
+      }),
       snippet = {
         expand = function(args)
           vim.fn["vsnip#anonymous"](args.body)
         end,
       },
-
     })
 else
   function wiki_complete_get_metadata(...)
@@ -285,6 +284,7 @@ local rust_analyzer_attach = function(client, bufnr)
 
 
 end
+
 
 if completion_plugin == "compe" then
    local capabilities = vim.lsp.protocol.make_client_capabilities()
