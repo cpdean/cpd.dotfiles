@@ -18,6 +18,9 @@
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
 	whatwas = "log --follow --"
 
+    # prints a concise report about when, who, and what happened
+    story= "log --format=\"%Cgreen %h%Creset %<(19,trunc)%ae %Cgreen%as%Creset %s\""
+
     # from https://blog.jez.io/cli-code-review/
     # list files which have changed since REVIEW_BASE
     # (REVIEW_BASE defaults to 'master' in bashrc)
