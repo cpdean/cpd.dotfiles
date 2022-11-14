@@ -30,6 +30,11 @@ if status is-interactive
 
     abbr -g dc docker-compose
 
+    # love too python
+    abbr -g vmake python3 -m venv venv
+    abbr -g vuse source ./venv/bin/activate.fish
+
+
     set -x FZF_DEFAULT_COMMAND 'fd --type f'
     # disabling because too many files
     # set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"

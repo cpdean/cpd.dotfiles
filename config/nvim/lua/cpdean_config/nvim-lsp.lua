@@ -321,6 +321,12 @@ local clangd_attach = function(client, bufnr)
 
 end
 
+-- brew install pyright
+  require'lspconfig'.pyright.setup({
+    capabilities = capabilities,
+    on_attach = common_on_attach,
+})
+
 -- lua, sumneko
 if true then
   -- common nvim-cmp init

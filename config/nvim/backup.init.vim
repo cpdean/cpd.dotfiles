@@ -193,6 +193,9 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
+" trying out this movement plugin
+Plug 'ggandor/leap.nvim'
+
 
 " default python support is p dismal
 Plug 'vim-scripts/python.vim--Vasiliev'
@@ -700,3 +703,6 @@ autocmd BufNewFile,BufRead  *.sls set filetype=python
 
 " like ctrl+L but only for open files
 map <leader><leader> :Buffers<CR>
+
+" enable leap.nvim plugin for movement tricks
+lua require('leap').add_default_mappings()
