@@ -215,6 +215,8 @@ Plug 'bakpakin/fennel.vim'
 
 Plug 'dag/vim-fish'
 
+Plug 'vim-scripts/forth.vim'
+
 " nevermind paredit.vim is awful and unusable. there is a bug that unbalnces
 " parens as you type, not just making it worthless but then the 'paren
 " balancing' features of it then prevent you from fixing its mistakes.
@@ -478,6 +480,9 @@ au BufNewFile,BufRead *.md               set ft=markdown
 " cljs might as well be clojure
 au BufNewFile,BufRead *.cljs             set ft=clojure
 
+" .fs is normally fsharp, but i'm on a FORTH kick now
+au BufNewFile,BufRead *.fs             set ft=forth
+
 
 " Keep track of code folding
 """ i don't use codefolding so much, and this might be producing too many view
@@ -686,6 +691,8 @@ nmap <silent> <leader>W :wq<CR>
 " the following tries to fix this by storing the text of the selection in the
 " register `t` and then sending the contents of the register to the command.
 vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>
+
+autocmd FileType forth vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -r", getreg("@t"))<CR>
 
 " format selected xml
 vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>

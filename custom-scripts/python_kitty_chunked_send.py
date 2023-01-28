@@ -16,8 +16,11 @@ import sys
 import io
 import subprocess
 
-# q and ctrl-u
-default_reset = "q\025"
+if "-r" in sys.argv:
+    default_reset = ""
+else:
+    # q and ctrl-u
+    default_reset = "q\025"
 
 # warning: this buffers all of stdin into memory
 lines = sys.stdin.readlines()
