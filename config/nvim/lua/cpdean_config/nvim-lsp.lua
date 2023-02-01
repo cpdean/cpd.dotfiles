@@ -288,26 +288,24 @@ local rust_analyzer_attach = function(client, bufnr)
 end
 
 
-if completion_plugin == "compe" then
-   local capabilities = vim.lsp.protocol.make_client_capabilities()
-   capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-   nvim_lsp.rust_analyzer.setup {
-     on_attach = rust_analyzer_attach,
-     capabilities = capabilities,
-   }
-elseif completion_plugin == "nvim-cmp" then
-
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(
-    vim.lsp.protocol.make_client_capabilities()
-  )
-  nvim_lsp.rust_analyzer.setup {
-      capabilities = capabilities,
-      on_attach = rust_analyzer_attach
-  }
-else 
-  nvim_lsp.rust_analyzer.setup { on_attach = rust_analyzer_attach  }
+local add_auto_complete = function(capabilities)
+  if completion_plugin == "compe" then
+     capabilities.textDocument.completion.completionItem.snippetSupport = true
+  elseif completion_plugin == "nvim-cmp" then
+    capabilities = require('cmp_nvim_lsp').update_capabilities(
+      capabilities
+    )
+  end
+  return capabilities
 end
+
+local capabilities = add_auto_complete(vim.lsp.protocol.make_client_capabilities())
+
+nvim_lsp.rust_analyzer.setup {
+  on_attach = rust_analyzer_attach,
+  capabilities = capabilities,
+}
+
 
 local clangd_attach = function(client, bufnr)
   common_on_attach(client, bufnr)
