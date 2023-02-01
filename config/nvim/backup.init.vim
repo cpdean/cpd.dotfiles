@@ -406,11 +406,11 @@ let g:jedi#auto_initialization = 0
 " pick features ala carte
 " --
 " go to where the item was defined, following import trail
-autocmd FileType python nnoremap <buffer> gd :call jedi#goto_definitions()<CR>
-autocmd FileType python nnoremap <buffer> gu :call jedi#usages()<CR>
-autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
+"autocmd FileType python nnoremap <buffer> gd :call jedi#goto_definitions()<CR>
+"autocmd FileType python nnoremap <buffer> gu :call jedi#usages()<CR>
+"autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
-autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
+"autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
 autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 " this is not working suddenly... attempting to use this other apio
 
