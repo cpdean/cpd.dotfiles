@@ -348,7 +348,6 @@ if true then
           'n', '<leader>ll', '<Plug>(Luadev-RunLine)', opts)
       vim.api.nvim_buf_set_keymap(bufnr,
           'v', '<leader>lr', '<Plug>(Luadev-Run)', opts)
-      print("welcome to luaville")
       return common_on_attach(client, bufnr)
   end
 
