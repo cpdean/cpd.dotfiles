@@ -1,0 +1,70 @@
+{
+  "rust-analyzer.cargo.allFeatures": true,
+  "git.autofetch": true,
+  "git.autofetchPeriod": 10800,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "w"
+      ],
+      "commands": [
+        ":w"
+      ]
+    },
+    {
+      "before": [
+        "<up>"
+      ],
+      "commands": [
+        "editor.action.smartSelect.expand"
+      ]
+    },
+    {
+      "before": [
+        "<down>"
+      ],
+      "commands": [
+        "editor.action.smartSelect.shrink"
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<up>"
+      ],
+      "commands": [
+        "editor.action.smartSelect.expand"
+      ]
+    },
+    {
+      "before": [
+        "<down>"
+      ],
+      "commands": [
+        "editor.action.smartSelect.shrink"
+      ]
+    }
+  ],
+  "vim.leader": "<space>",
+  "editor.quickSuggestionsDelay": 500,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.fontSize": 13,
+  "[markdown]": {
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
+    "editor.wordBasedSuggestions": false,
+  },
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "off"
+  },
+  "workbench.preferredHighContrastColorTheme": "Red",
+  "window.autoDetectColorScheme": true
+}
