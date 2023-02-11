@@ -292,9 +292,7 @@ local add_auto_complete = function(capabilities)
   if completion_plugin == "compe" then
      capabilities.textDocument.completion.completionItem.snippetSupport = true
   elseif completion_plugin == "nvim-cmp" then
-    capabilities = require('cmp_nvim_lsp').update_capabilities(
-      capabilities
-    )
+    capabilities = require('cmp_nvim_lsp').default_capabilities()
   end
   return capabilities
 end
@@ -330,9 +328,7 @@ end
 -- lua, sumneko
 if true then
   -- common nvim-cmp init
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(
-    vim.lsp.protocol.make_client_capabilities()
-  )
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
   local LUA_PATH = vim.split(package.path, ';')
   table.insert(LUA_PATH, "lua/?.lua")
@@ -382,9 +378,7 @@ end
 
 if completion_plugin == "nvim-cmp" then
   -- assume this will have been made when initializing rust config
-  -- local capabilities = require('cmp_nvim_lsp').update_capabilities(
-  --   vim.lsp.protocol.make_client_capabilities()
-  -- )
+  -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
   nvim_lsp.clangd.setup {
     on_attach = clangd_attach,
     capabilities = capabilities
