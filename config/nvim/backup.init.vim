@@ -205,10 +205,6 @@ Plug 'scrooloose/syntastic'
 " trying out autofmt on save
 Plug 'ambv/black'
 
-
-" go language stuff
-Plug 'fatih/vim-go'
-
 Plug 'hylang/vim-hy'
 
 Plug 'bakpakin/fennel.vim'
