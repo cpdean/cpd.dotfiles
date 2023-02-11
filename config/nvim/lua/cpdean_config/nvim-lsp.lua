@@ -390,6 +390,15 @@ else
   nvim_lsp.clangd.setup { on_attach = clangd_attach }
 end
 
+local golang_attach = function(client, bufnr)
+  common_on_attach(client, bufnr)
+end
+
+require'lspconfig'.gopls.setup{
+    capabilities = capabilities,
+    on_attach = golang_attach,
+}
+
 -- from RishabhRD/nvim-lsputils
 -- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
