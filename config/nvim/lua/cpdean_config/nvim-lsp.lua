@@ -300,6 +300,9 @@ end
 local capabilities = add_auto_complete(vim.lsp.protocol.make_client_capabilities())
 
 nvim_lsp.rust_analyzer.setup {
+  settings = {
+    ['rust-analyzer'] = { cargo = { features = "all" } }
+  },
   on_attach = rust_analyzer_attach,
   capabilities = capabilities,
 }
