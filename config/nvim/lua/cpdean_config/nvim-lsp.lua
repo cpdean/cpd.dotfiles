@@ -350,7 +350,7 @@ if true then
       return common_on_attach(client, bufnr)
   end
 
-  require'lspconfig'.sumneko_lua.setup {
+  require'lspconfig'.lua_ls.setup {
     capabilities = capabilities,
     on_attach = lua_on_attach,
     settings = {
