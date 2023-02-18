@@ -108,6 +108,10 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'rust-lang/rust.vim'
 
+" global or per-project editor settings
+Plug 'folke/neoconf.nvim'
+
+
 if s:lsp_impl == 'autozimu/LanguageClient-neovim'
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',

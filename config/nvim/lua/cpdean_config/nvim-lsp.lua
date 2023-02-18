@@ -1,5 +1,8 @@
 
-
+-- neoconf must be set up before lsp servers
+require("neoconf").setup({
+  -- overrides here
+})
 
 -- mini before seeing the example in the readme
 -- local nvim_lsp = require'lspconfig'
