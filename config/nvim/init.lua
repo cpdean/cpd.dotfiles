@@ -57,6 +57,15 @@ TODO: plugins to try
   | https://github.com/LinArcX/telescope-command-palette.nvim
   |   same things
 
+  plugin management
+  | currently use vim-plug. it's fine, but packer.nvim has become pretty
+  | popular instead
+  | https://github.com/wbthomason/packer.nvim
+  |   really popular, config through lua so i can ditch vimscript
+  | https://github.com/folke/lazy.nvim
+  |   claims to do magic for speeding up startup times. also has a UI
+
+
   jump-nav
   |
   | I currently use leap.nvim. it's pretty good. the alternatives here
