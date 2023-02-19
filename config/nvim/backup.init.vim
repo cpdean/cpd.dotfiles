@@ -266,6 +266,16 @@ Plug 'tpope/vim-markdown'
 
 " visually display your position in a file
 Plug 'wellle/context.vim'
+
+" trying to use vim as a github client
+" deps of octo.nvim
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+" gh client
+Plug 'pwntester/octo.nvim'
+
+
 call plug#end()
 
 syntax enable
@@ -294,6 +304,7 @@ colorscheme gruvbox
 highlight! link Search IncSearch
 
 
+lua require"octo".setup()
 
 
 " setup language server for all the great things
