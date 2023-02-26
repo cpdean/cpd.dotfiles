@@ -283,7 +283,7 @@ local rust_analyzer_attach = function(client, bufnr)
   -- TODO: autocmd to disable when in $HOME/dev/foss/rust
   if true then
     vim.api.nvim_exec([[
-      autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+      autocmd BufWritePre *.rs lua vim.lsp.buf.format({ async = false })
     ]], false)
   end
 
