@@ -25,67 +25,72 @@ end
 local completion_plugin = "nvim-cmp"
 
 if completion_plugin == "completion" then
-    local completion = require('completion')
-    completer_configs = function(client, bufnr)
-      -- completion-nvim settings
+  local completion = require('completion')
+  completer_configs = function(client, bufnr)
+    -- completion-nvim settings
 
-      -- disable the auto popup. by default it opens as you type, and by default it
-      -- automatically selects and inserts the first item in the list and as you keep
-      -- typing you insert characters after the item that was inserted.
-      --
-      -- so by design completion-nvim is horribly unusable out of the box.
-      -- disabling config because it does not work
-      if false then
-        vim.api.nvim_set_var('completion_enable_auto_popup', 0)
-        vim.api.nvim_set_var('completion_matching_strategy_list', {'exact', 'substring', 'fuzzy', 'all'})
+    -- disable the auto popup. by default it opens as you type, and by default it
+    -- automatically selects and inserts the first item in the list and as you keep
+    -- typing you insert characters after the item that was inserted.
+    --
+    -- so by design completion-nvim is horribly unusable out of the box.
+    -- disabling config because it does not work
+    if false then
+      vim.api.nvim_set_var('completion_enable_auto_popup', 0)
+      vim.api.nvim_set_var('completion_matching_strategy_list', {'exact', 'substring', 'fuzzy', 'all'})
 
-        -- imap <silent> <c-p> <Plug>(completion_trigger)
-        vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-p>', '<Plug>(completion_trigger)', { silent=true} )
-      end
-      -- set completeopt=menuone,noinsert,noselect
-      vim.api.nvim_set_option('completeopt', 'menuone,noinsert,noselect')
-
-      -- completion-nvim
-      completion.on_attach(client, bufnr)
+      -- imap <silent> <c-p> <Plug>(completion_trigger)
+      vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-p>', '<Plug>(completion_trigger)', { silent=true} )
     end
+    -- set completeopt=menuone,noinsert,noselect
+    vim.api.nvim_set_option('completeopt', 'menuone,noinsert,noselect')
+
+    -- completion-nvim
+    completion.on_attach(client, bufnr)
+  end
 elseif completion_plugin == "nvim-cmp" then
-    local cmp = require('cmp')
-    cmp.setup({
-      -- paste entire obj because i don't kno whow to selectively disable one option
-      completion = {
-        autocomplete = false,  -- disable opening completion menu by default
-        completeopt = 'menu,menuone,noselect',  -- original default
-        keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],  -- original default
-        keyword_length = 1,  -- original default
-        get_trigger_characters = function(trigger_characters)  -- original default
-          return trigger_characters  -- original default
-        end,  -- original default
-      },
-      sources = {
-        { name = 'nvim_lsp' },
-        { name = 'buffer' },
-        { name = 'vsnip' },
-        -- nvim lua api
-        { name = 'nvim_lua' },
-      },
-      mapping = cmp.mapping.preset.insert({
-        --['<C-x><C-o>'] = cmp.mapping.complete(), --- Manually trigger completion
-        ['<C-space>'] = cmp.mapping.complete(), --- Manually trigger completion
-        ['<Right>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        }),
-        ['<Tab>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        }),
+  local cmp = require('cmp')
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+
+    -- paste entire obj because i don't kno whow to selectively disable one option
+    completion = {
+      autocomplete = false,  -- disable opening completion menu by default
+      completeopt = 'menu,menuone,noselect',  -- original default
+      keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],  -- original default
+      keyword_length = 1,  -- original default
+      get_trigger_characters = function(trigger_characters)  -- original default
+        return trigger_characters  -- original default
+      end,  -- original default
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+      { name = 'nvim_lua' },
+    },
+    {
+      { name = 'buffer' },
+    }),
+    mapping = {
+      --['<C-x><C-o>'] = cmp.mapping.complete(), --- Manually trigger completion
+      ['<C-space>'] = cmp.mapping.complete(), --- Manually trigger completion
+      ['<Right>'] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
       }),
-      snippet = {
-        expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body)
-        end,
-      },
-    })
+      ['<Tab>'] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      }),
+    },
+  })
 else
   function wiki_complete_get_metadata(...)
     return {
@@ -98,10 +103,10 @@ else
 
   function wiki_complete_determine(self, context)
     -- i do not know what the hell these mean so
-      return {
-        ['keyword_pattern_offset']= 0,
-        ['trigger_character_offset']= 0,
-      }
+    return {
+      ['keyword_pattern_offset']= 0,
+      ['trigger_character_offset']= 0,
+    }
   end
 
   function wiki_complete_stuff(a)
