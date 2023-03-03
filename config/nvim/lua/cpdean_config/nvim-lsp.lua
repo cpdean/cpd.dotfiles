@@ -405,4 +405,5 @@ require'lspconfig'.gopls.setup{
 -- from RishabhRD/nvim-lsputils
 -- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
-
+-- run :SymbolsOutline
+require("symbols-outline").setup()

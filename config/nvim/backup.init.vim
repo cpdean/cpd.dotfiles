@@ -111,6 +111,7 @@ Plug 'rust-lang/rust.vim'
 " global or per-project editor settings
 Plug 'folke/neoconf.nvim'
 
+Plug 'simrat39/symbols-outline.nvim'
 
 if s:lsp_impl == 'autozimu/LanguageClient-neovim'
     Plug 'autozimu/LanguageClient-neovim', {
