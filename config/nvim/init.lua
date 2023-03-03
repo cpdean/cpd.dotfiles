@@ -149,3 +149,9 @@ https://github.com/Pocco81/true-zen.nvim
 require('cpdean_config.languages')
 require('cpdean_config.neovide')
 vim.cmd([[source $HOME/.config/nvim/backup.init.vim]])
+
+local normal_menus = {'g'}
+for m = 1, #normal_menus do
+  local query = '<leader>' .. normal_menus[m]
+  vim.keymap.set('n', query , ':nmap ' .. query .. '<CR>')
+end
