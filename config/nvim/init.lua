@@ -150,8 +150,19 @@ require('cpdean_config.languages')
 require('cpdean_config.neovide')
 vim.cmd([[source $HOME/.config/nvim/backup.init.vim]])
 
-local normal_menus = {'g'}
+local normal_menus = {'<leader>', '<leader>g', '<leader>t'}
 for m = 1, #normal_menus do
-  local query = '<leader>' .. normal_menus[m]
+  local query = normal_menus[m]
   vim.keymap.set('n', query , ':nmap ' .. query .. '<CR>')
 end
+
+local visual_menus = {'<leader>'}
+for m = 1, #visual_menus do
+  local query = visual_menus[m]
+  vim.keymap.set('v', query , ':<C-U>vmap ' .. query .. '<CR>' )
+end
+
+vim.keymap.set('n', "<leader>et" , ':lua require"init"<CR>' )
+
+--require('cpdean_config.dap_config')
+--require("dapui").setup()
