@@ -43,4 +43,6 @@ if status is-interactive
     # set -g FZF_CTRL_T_COMMAND "command find -L \$dir -type f 2> /dev/null | sed '1d; s#^\./##'"
     set -g FZF_CTRL_T_COMMAND "command fd --type f"
 
+    set -g DOCKER_DEFAULT_PLATFORM "linux/amd64"
+
 end
