@@ -13,6 +13,7 @@ if status --is-login
     fish_add_path -g --prepend $HOME/.dotfiles/custom-scripts/
     fish_add_path -g --prepend $HOME/.local/bin/
     fish_add_path -g --prepend $HOME/go/bin/
+    fish_add_path -g (brew --prefix)/opt/llvm/bin
 
     set -x EDITOR nvim
 
@@ -35,6 +36,7 @@ if status is-interactive
     abbr -g vmake python3 -m venv venv
     abbr -g vuse source ./venv/bin/activate.fish
 
+    set -x RIPGREP_CONFIG_PATH $HOME/.dotfiles/config/ripgreprc
 
     set -x FZF_DEFAULT_COMMAND 'fd --type f'
     # disabling because too many files
