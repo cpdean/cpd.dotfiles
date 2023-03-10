@@ -171,7 +171,7 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
 
 Plug 'mileszs/ack.vim'
-Plug 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim'
 
 Plug 'tpope/vim-surround'
 
