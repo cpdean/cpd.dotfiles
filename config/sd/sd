@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import subprocess
+import stat
 import sys
 
 # idea from: https://ianthehenry.com/posts/a-cozy-nest-for-your-scripts/
@@ -60,19 +61,34 @@ def parse_args(args):
     return sd_bin, os.path.join(bin_dir(), bin_path), remaining_args, edit_mode
 
 def open_for_editing(path_to_bin):
+    os.makedirs(os.path.dirname(path_to_bin), exist_ok=True)
     editor = os.environ.get("EDITOR", "nano")
-    return subprocess.run([editor, path_to_bin])
+    edit_result = subprocess.run([editor, path_to_bin])
+    if edit_result.returncode == 0:
+        os.chmod(path_to_bin, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+        return exit(0)
+    else:
+        return exit(edit_result.returncode)
+
 
 def run_command(path_to_bin, args_to_bin):
-    finished = subprocess.run([path_to_bin] + args_to_bin)
-    return exit(finished.returncode)
+    try:
+        finished = subprocess.run([path_to_bin] + args_to_bin)
+        return exit(finished.returncode)
+    except FileNotFoundError:
+        print(f"script not found, no file: '{path_to_bin}'")
+        raise
 
 def main(args):
     (_sd, path_to_bin, args_to_bin, edit_mode) = parse_args(args)
     if edit_mode:
         return open_for_editing(path_to_bin)
     else:
-        return run_command(path_to_bin, args_to_bin)
+        try:
+            return run_command(path_to_bin, args_to_bin)
+        except FileNotFoundError:
+            print("create script with:")
+            print(f"    {' '.join(args)} --edit")
 
 
 
