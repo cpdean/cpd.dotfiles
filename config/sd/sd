@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+# idea from: https://ianthehenry.com/posts/a-cozy-nest-for-your-scripts/
+#            https://github.com/ianthehenry/sd#installation
+
+"""
+# use the chain of words to find the script
+sd git sync
+
+-> $(sd --bin-path)/git/sync
+
+# you can use named args (but not unnamed argv)
+sd git sync --all
+# I think it'd be hard to support shortform flags, so maybe this is unsupported
+# for now:
+sd git sync -a
+
+
+
+# edit (or create) a script
+sd git sync --edit
+# TODO: maybe like this?
+sd git --edit sync 
+"""
+
+def bin_dir():
+    """
+    the bin dir is where user scripts are kept. by default the bin dir is a
+    sibling to sd itself.
+    """
+    path_to_sd = __file__
+    return os.path.join(os.path.dirname(path_to_sd), "bin")
+
+
+def parse_args(args):
+    (sd_bin, *remaining_args) = args
+    edit_mode = remaining_args[-1] == "--edit"
+    # find the first arg that looks like a flag
+    first_flag = None
+    for i, e in enumerate(remaining_args):
+        if e.startswith("--"):
+            first_flag = i
+            break
+    if first_flag is not None:
+        bin_coordinates, remaining_args = remaining_args[:first_flag], remaining_args[first_flag:]
+    else:
+        bin_coordinates = remaining_args
+        # zero out the rest
+        remaining_args = []
+
+    bin_path = os.path.join(*bin_coordinates)
+
+
+    if first_flag is None:
+        pass
+
+    return sd_bin, os.path.join(bin_dir(), bin_path), remaining_args, edit_mode
+
+def open_for_editing(path_to_bin):
+    editor = os.environ.get("EDITOR", "nano")
+    return subprocess.run([editor, path_to_bin])
+
+def run_command(path_to_bin, args_to_bin):
+    finished = subprocess.run([path_to_bin] + args_to_bin)
+    return exit(finished.returncode)
+
+def main(args):
+    (_sd, path_to_bin, args_to_bin, edit_mode) = parse_args(args)
+    if edit_mode:
+        return open_for_editing(path_to_bin)
+    else:
+        return run_command(path_to_bin, args_to_bin)
+
+
+
+if __name__ == "__main__":
+    main(sys.argv)
+
+
+def test_parse_args():
+    (sd, path_to_bin, args_to_bin, edit_mode) = parse_args(["sd", "git", "sync", "--all", "--source", "gitlab.com"])
+    assert sd == "sd"
+    assert path_to_bin.endswith("bin/git/sync")
+    assert args_to_bin == ["--all", "--source", "gitlab.com"]
