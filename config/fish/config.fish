@@ -13,6 +13,7 @@ if status --is-login
     fish_add_path -g --prepend $HOME/.dotfiles/custom-scripts/
     fish_add_path -g --prepend $HOME/.local/bin/
     fish_add_path -g --prepend $HOME/go/bin/
+    fish_add_path -g --prepend $HOME/.config/sd/
     fish_add_path -g (brew --prefix)/opt/llvm/bin
 
     set -x EDITOR nvim
