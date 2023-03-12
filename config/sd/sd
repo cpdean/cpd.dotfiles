@@ -35,9 +35,20 @@ def bin_dir():
     path_to_sd = __file__
     return os.path.join(os.path.dirname(path_to_sd), "bin")
 
+def sd_command(args):
+    if "--bin-path" in args:
+        print(bin_dir())
+        exit(0)
+    print("we need to figure out how to parse these")
+    print(args)
+    exit(1)
 
 def parse_args(args):
     (sd_bin, *remaining_args) = args
+    # check if first arg is a flag
+    if remaining_args[0].startswith("--"):
+        return sd_command(remaining_args)
+
     edit_mode = remaining_args[-1] == "--edit"
     # find the first arg that looks like a flag
     first_flag = None
