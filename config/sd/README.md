@@ -62,3 +62,8 @@ Your script can take long-form arguments
 > sd whatever --hello --there
 running: /../../sd/bin/whatever "--hello --there"
 ```
+
+## TODO
+1. sd snapshot name of new command "!!"
+2. sd --help : all the sd-level commands, followed by a tree-print of the sub commands and their docstring
+3. fish completions
