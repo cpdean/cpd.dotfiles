@@ -33,6 +33,9 @@ if status is-interactive
 
     abbr -g dc docker-compose
 
+    # short command to go somewhere specific
+    abbr -g gp cd '$(find ~/dev/projects -maxdepth 1 | fzf)'
+
     # love too python
     abbr -g vmake python3 -m venv venv
     abbr -g vuse source ./venv/bin/activate.fish
