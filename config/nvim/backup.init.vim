@@ -276,6 +276,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 " gh client
 Plug 'pwntester/octo.nvim'
 
+" welcome to the eighties
+Plug 'vim-test/vim-test'
 
 call plug#end()
 
@@ -443,6 +445,13 @@ autocmd BufNewFile,BufRead *.hql set filetype=hive
 
 
 source $HOME/.config/nvim/config/rust.vim
+
+nmap <silent> <leader>i :TestNearest<CR>
+nmap <silent> <leader>I :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+
 
 autocmd FileType lua set sw=2
 
@@ -703,6 +712,8 @@ nmap <silent> <leader>W :wq<CR>
 " the following tries to fix this by storing the text of the selection in the
 " register `t` and then sending the contents of the register to the command.
 vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>
+
+"vmap <silent> <leader>tt "ty:call system("./zellij-send-text.sh", getreg("@t"))<CR>
 
 autocmd FileType forth vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -r", getreg("@t"))<CR>
 
