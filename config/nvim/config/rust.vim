@@ -11,11 +11,12 @@
 
 " in rust, add a binding for 'cargo build' so i can see compiler errors in a
 " split
-autocmd FileType rust nnoremap <buffer> <leader>b :split term://cargo build<CR>
-autocmd FileType rust nnoremap <buffer> <leader>t :split term://cargo test<CR>
+" swapping in favor of vim-test
+"autocmd FileType rust nnoremap <buffer> <leader>b :split term://cargo build<CR>
+"autocmd FileType rust nnoremap <buffer> <leader>t :split term://cargo test<CR>
 
 " remove repl-friendly mappings when we are in rust
-autocmd FileType rust silent! nunmap <leader>tt
+"autocmd FileType rust silent! nunmap <leader>tt
 
 " surround expression in a dbg! macro
 " how: into the 'n' register, cut what is selected, then

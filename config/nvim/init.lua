@@ -150,6 +150,46 @@ require('cpdean_config.languages')
 require('cpdean_config.neovide')
 vim.cmd([[source $HOME/.config/nvim/backup.init.vim]])
 
+-- Neotest
+require("neotest").setup({
+  adapters = {
+    require("neotest-rust"),
+  },
+})
+
+local neotest = require("neotest")
+neotest.setup({
+    discovery = { enabled = false },
+    log_level = 0,
+    adapters = {
+        require("neotest-rust")({}),
+        require("neotest-plenary")({}),
+        require("neotest-python")({
+            args = { "-v" },
+        }),
+    },
+})
+
+local bufopts = { noremap = true, silent = true }
+-- Run the nearest test
+vim.keymap.set("n", "<leader>ii", neotest.run.run, bufopts)
+-- Run all tests in the file
+vim.keymap.set("n", "<leader>I", function()
+    neotest.run.run(vim.fn.expand("%"))
+end, bufopts)
+-- run the whole suite
+vim.keymap.set("n", "<leader>II", function() neotest.run.run({suite=true}) end, bufopts)
+-- rerun the test from the last position
+vim.keymap.set("n", "<leader>ir", neotest.run.run_last, bufopts)
+
+
+-- View the test output
+vim.keymap.set("n", "<leader>io", neotest.output.open, bufopts)
+-- View the test summary
+vim.keymap.set("n", "<leader>is", neotest.summary.open, bufopts)
+
+
+
 local normal_menus = {'<leader>', '<leader>g', '<leader>t'}
 for m = 1, #normal_menus do
   local query = normal_menus[m]

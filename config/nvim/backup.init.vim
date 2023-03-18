@@ -266,7 +266,7 @@ Plug 'tpope/vim-markdown'
 " Plug 'reedes/vim-pencil'
 
 " visually display your position in a file
-Plug 'wellle/context.vim'
+"Plug 'wellle/context.vim'
 
 " trying to use vim as a github client
 " deps of octo.nvim
@@ -276,8 +276,19 @@ Plug 'kyazdani42/nvim-web-devicons'
 " gh client
 Plug 'pwntester/octo.nvim'
 
+Plug 'nvim-treesitter/nvim-treesitter'
 " welcome to the eighties
-Plug 'vim-test/vim-test'
+"    Plug 'vim-test/vim-test'
+
+" better test controls
+Plug 'nvim-neotest/neotest'
+Plug 'nvim-neotest/neotest-python'
+Plug 'nvim-neotest/neotest-plenary'
+Plug 'tpope/vim-scriptease'
+
+" hello andy
+Plug 'rouge8/neotest-rust'
+
 
 call plug#end()
 
@@ -446,11 +457,17 @@ autocmd BufNewFile,BufRead *.hql set filetype=hive
 
 source $HOME/.config/nvim/config/rust.vim
 
-nmap <silent> <leader>i :TestNearest<CR>
-nmap <silent> <leader>I :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
+"nmap <silent> <leader>i :TestNearest<CR>
+"nmap <silent> <leader>I :TestFile<CR>
+"nmap <silent> <leader>a :TestSuite<CR>
+"nmap <silent> <leader>l :TestLast<CR>
+"nmap <silent> <leader>g :TestVisit<CR>
+
+nmap <silent> <leader>i :lua require("neotest").run.run()<CR>
+nmap <silent> <leader>I :lua require("neotest").run.run(vim.fn.expand("%"))<CR>
+"nmap <silent> <leader>a :TestSuite<CR>
+"nmap <silent> <leader>l :TestLast<CR>
+"nmap <silent> <leader>g :TestVisit<CR>
 
 
 autocmd FileType lua set sw=2
