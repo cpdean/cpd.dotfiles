@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd ~/.dotfiles
+git add $(git status -su -- config/sd/bin/ | awk '{ print $2 }' | fzf)
