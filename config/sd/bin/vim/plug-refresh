@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+nvim +PlugClean +PlugUpdate +PlugInstall -c "map q :qa!<CR>"
