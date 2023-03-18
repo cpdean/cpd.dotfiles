@@ -4,5 +4,6 @@ SCRIPT="$(git status -su -- config/sd/bin/ | awk '{ print $2 }' | fzf)"
 if [ -n "$SCRIPT" ]; then
     git add $SCRIPT
     git commit -v
+else
+    echo "No script selected"
 fi
-echo "No script selected"
