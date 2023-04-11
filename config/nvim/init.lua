@@ -206,3 +206,10 @@ vim.keymap.set('n', "<leader>et" , ':lua require"init"<CR>' )
 
 --require('cpdean_config.dap_config')
 --require("dapui").setup()
+
+-- docs are wrong?
+-- vim.api.nvim_exec([[
+-- if isdirectory($HOME . '/dev/work')
+-- :Copilot enable
+-- endif
+-- ]], false)
