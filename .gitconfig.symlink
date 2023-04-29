@@ -12,7 +12,7 @@
 [core]
     ignorecase = false
     autocrlf = input
-    excludesfile = ~/.gitignore_global
+    excludesfile = ~/.dotfiles/gitignore_global
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
