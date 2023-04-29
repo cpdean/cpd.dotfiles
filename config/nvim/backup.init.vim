@@ -289,6 +289,9 @@ Plug 'tpope/vim-scriptease'
 " hello andy
 Plug 'rouge8/neotest-rust'
 
+if isdirectory($HOME . '/dev/work')
+    Plug 'github/copilot.vim'
+endif
 
 call plug#end()
 
