@@ -48,6 +48,7 @@
     reviewone = !nvim -p +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
     # alias for the alias
     ro = reviewone
+    pr = !gh pr checkout $(gh pr list | fzf | awk '{print $1}')
 
 [includeIf "gitdir:~/dev/work/"]
     path = .gitconfig-sqsp
