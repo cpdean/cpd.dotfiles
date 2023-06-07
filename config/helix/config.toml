@@ -1,0 +1,26 @@
+theme = "dark_plus"
+
+[keys.normal.space]
+w = ":write"
+q = ":quit"
+
+# wrap text in dbg!(...)
+[keys.normal.space.space.s]
+d = ":pipe ~/.config/helix/custom-scripts/wrap_dbg_macro"
+
+# remove outer dbg!(...)
+[keys.normal.space.space.d]
+d = ":pipe ~/.config/helix/custom-scripts/unwrap_dbg_macro"
+
+[editor]
+auto-format = true
+#line-number = "relative"
+#mouse = false
+
+#[editor.cursor-shape]
+#insert = "bar"
+#normal = "block"
+#select = "underline"
+
+#[editor.file-picker]
+#hidden = false
