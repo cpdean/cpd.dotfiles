@@ -4,10 +4,10 @@ if status --is-login
         eval (/opt/homebrew/bin/brew shellenv)
     end
 
-    # intel
-    if test -f /usr/local/bin/brew
-        eval (/usr/local/bin/brew shellenv)
-    end
+    ## intel
+    #if test -f /usr/local/bin/brew
+    #    eval (/usr/local/bin/brew shellenv)
+    #end
 
     fish_add_path -g --prepend $HOME/.cargo/bin
     fish_add_path -g --prepend $HOME/.dotfiles/custom-scripts/
