@@ -40,6 +40,9 @@ if status is-interactive
     abbr -g vmake python3 -m venv venv
     abbr -g vuse source ./venv/bin/activate.fish
 
+    # this is easier to do than the proper terminal support install kitty recommends
+    abbr -g ssh "TERM=xterm ssh"
+
     set -x RIPGREP_CONFIG_PATH $HOME/.dotfiles/config/ripgreprc
 
     set -x FZF_DEFAULT_COMMAND 'fd --type f'
