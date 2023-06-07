@@ -756,3 +756,8 @@ map <leader><leader> :Buffers<CR>
 
 " enable leap.nvim plugin for movement tricks
 lua require('leap').add_default_mappings()
+
+
+
+let g:copilot_no_tab_map = v:true
+imap <silent><script><expr> <C-j> copilot#Accept('\<CR>')
