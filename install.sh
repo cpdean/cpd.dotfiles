@@ -17,12 +17,12 @@ if [ -d ~/.olddotfiles ]
         mkdir ~/.olddotfiles
         installFile .vim
         # storing files with . prefix messes with editor tooling
-        #installFile .config
+        installFile config
         installFile .bashrc
         installFile .bashrc.darwin
         installFile .bash_profile
         installFile .bash_aliases
-        installFile .vimrc
+        #installFile .vimrc
         installFile .pythonrc
         installFile .tmux.conf
         installFile .atom
