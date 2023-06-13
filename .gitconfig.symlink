@@ -51,7 +51,7 @@
     pr = !gh pr checkout $(gh pr list | fzf | awk '{print $1}')
 
 [includeIf "gitdir:~/dev/work/"]
-    path = .gitconfig-sqsp
+    path = .gitconfig-work
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
