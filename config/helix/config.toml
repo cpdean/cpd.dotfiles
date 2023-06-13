@@ -12,6 +12,12 @@ d = ":pipe ~/.config/helix/custom-scripts/wrap_dbg_macro"
 [keys.normal.space.space.d]
 d = ":pipe ~/.config/helix/custom-scripts/unwrap_dbg_macro"
 
+[keys.select.space.t]
+t = ":pipe ~/.dotfiles/custom-scripts/python_kitty_chunked_send.py -e"
+
+[keys.normal.space.t]
+t = ":pipe ~/.dotfiles/custom-scripts/python_kitty_chunked_send.py -e"
+
 [editor]
 auto-format = true
 #line-number = "relative"
