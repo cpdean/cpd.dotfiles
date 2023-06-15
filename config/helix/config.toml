@@ -18,8 +18,16 @@ t = ":pipe ~/.dotfiles/custom-scripts/python_kitty_chunked_send.py -e"
 [keys.normal.space.t]
 t = ":pipe ~/.dotfiles/custom-scripts/python_kitty_chunked_send.py -e"
 
+
+[keys.normal.space.c]
+o = ":config-open"
+r = ":config-reload"
+
+
 [editor]
 auto-format = true
+#lsp.display-inlay-hints = true
+
 #line-number = "relative"
 #mouse = false
 
