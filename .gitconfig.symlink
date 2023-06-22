@@ -48,7 +48,9 @@
     reviewone = !nvim -p +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
     # alias for the alias
     ro = reviewone
-    pr = !gh pr checkout $(gh pr list | fzf | awk '{print $1}')
+    pr = !gh pr checkout $(gh pr list | fzf --height=10 --reverse | awk '{print $1}')
+    # show the history of ci runs for the branch we are on
+    show-ci = !gh run list -b $(git branch --show-current)
 
 [includeIf "gitdir:~/dev/work/"]
     path = .gitconfig-work
