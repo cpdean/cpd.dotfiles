@@ -87,13 +87,6 @@ endif
 
 let mapleader = "\<Space>"
 
-" for notational
-" let g:nv_main_directory = ['./docs']
-" let g:nv_search_paths = ['~/.j/wiki', '~/.j/notes', './docs', './doc', './notes']
-let g:nv_search_paths = ['~/.j/vimwiki', './docs', './doc', './notes']
-nnoremap <silent> <Leader><tab> :NV<CR>
-nnoremap <silent> <Leader>` :NV<CR>
-
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
 " for lols
@@ -255,9 +248,6 @@ endif
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
 Plug 'morhetz/gruvbox'
-
-" playing with a plugin
-Plug 'https://github.com/alok/notational-fzf-vim'
 
 " writing
 Plug 'tpope/vim-markdown'
