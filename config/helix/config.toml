@@ -4,6 +4,10 @@ theme = "dark_plus"
 w = ":write"
 q = ":quit"
 
+# go to the githubs, requires my var substitution pr
+[keys.normal.g]
+H = ":sh open_in_github.sh {{filename}} {{selection_line_start}} {{selection_line_end}}"
+
 # wrap text in dbg!(...)
 [keys.normal.space.space.s]
 d = ":pipe ~/.config/helix/custom-scripts/wrap_dbg_macro"
