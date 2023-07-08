@@ -12,3 +12,13 @@
 .nvim/extra_plugins/**
 # i don't know what this, i think vim file navigator
 .nvim/.netrwhist
+ M config/fish/fish_variables
+.DS_Store
+__pycache__
+
+# apps I don't care to version control
+config/bashtop
+config/broot
+config/gitui
+config/neomutt
+config/pudb
