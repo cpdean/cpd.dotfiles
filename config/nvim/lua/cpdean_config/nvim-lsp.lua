@@ -4,22 +4,6 @@ require("neoconf").setup({
   -- overrides here
 })
 
--- mini before seeing the example in the readme
--- local nvim_lsp = require'lspconfig'
--- nvim_lsp.rust_analyzer.setup{}
--- nvim_lsp.clangd.setup{}
-
-
--- look at coc config for ideas $HOME/.config/nvim/config/coc.vim
---
---
-
-local common = require("cpdean_config.common_lsp_config")
-
--- toggle between completion-nvim and nvim-compe
-
---local completion_plugin = "compe"
-local completion_plugin = "nvim-cmp"
 
 local cmp = require('cmp')
 cmp.setup({
@@ -79,6 +63,8 @@ end
 
 local capabilities = add_auto_complete(vim.lsp.protocol.make_client_capabilities())
 
+local common = require("cpdean_config.common_lsp_config")
+
 nvim_lsp.rust_analyzer.setup {
   settings = {
     ['rust-analyzer'] = { cargo = { features = "all" } }
@@ -103,9 +89,9 @@ local clangd_attach = function(client, bufnr)
 end
 
 -- brew install pyright
-  require'lspconfig'.pyright.setup({
-    capabilities = capabilities,
-    on_attach = common.common_on_attach,
+require'lspconfig'.pyright.setup({
+  capabilities = capabilities,
+  on_attach = common.common_on_attach,
 })
 
 -- lua, sumneko
@@ -159,16 +145,10 @@ if true then
 end
 
 
-if completion_plugin == "nvim-cmp" then
-  -- assume this will have been made when initializing rust config
-  -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  nvim_lsp.clangd.setup {
-    on_attach = clangd_attach,
-    capabilities = capabilities
-  }
-else
-  nvim_lsp.clangd.setup { on_attach = clangd_attach }
-end
+nvim_lsp.clangd.setup {
+  on_attach = clangd_attach,
+  capabilities = capabilities
+}
 
 local golang_attach = function(client, bufnr)
   common.common_on_attach(client, bufnr)
