@@ -159,6 +159,17 @@ require'lspconfig'.gopls.setup{
     on_attach = golang_attach,
 }
 
+-- TODO: does not work with tauri typescript
+-- cargo install deno --locked
+-- -- vim.g.markdown_fenced_languages = {
+-- --   "ts=typescript"
+-- -- }
+-- -- 
+-- -- require'lspconfig'.denols.setup{}
+
+-- npm install -g typescript typescript-language-server
+require'lspconfig'.tsserver.setup{}
+
 -- from RishabhRD/nvim-lsputils
 -- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
