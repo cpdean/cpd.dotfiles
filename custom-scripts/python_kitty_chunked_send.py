@@ -16,6 +16,8 @@ import sys
 import io
 import subprocess
 
+always_newline = False
+
 if "-r" in sys.argv:
     # some repls do not understand the escape code for deleting
     # the previous character, and they fortunately do not have a pager
@@ -26,6 +28,10 @@ else:
     # q      : quits out of a pager you are potentially in
     # ctrl-u : deletes q in case we were not in a pager
     default_reset = "q\025"
+
+if "-d" in sys.argv:
+    # always append a \r\n
+    always_newline = True
 
 echo_input = False
 if "-e" in sys.argv:
@@ -48,8 +54,13 @@ for i in range(0, len(lines), batch_size):
     clear_repl = default_reset if i == 0 else ""
     # add an extra ENTER key if there was none at the end
     extra_newline = ""
-    if len(lines) <= (i + batch_size) and batch[-1][-1] != "\n":
-        extra_newline = "\n"
+    if always_newline:
+        # \r\n because this feature was added for janet, and janet only
+        # recognizes newlines with carriage returns
+        extra_newline = "\r\n"
+    else:
+        if len(lines) <= (i + batch_size) and batch[-1][-1] != "\n":
+            extra_newline = "\n"
 
     current_batch = ''.join(batch)
     kitty = subprocess.run(

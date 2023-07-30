@@ -101,6 +101,8 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'rust-lang/rust.vim'
 
+Plug 'janet-lang/janet.vim'
+
 " global or per-project editor settings
 Plug 'folke/neoconf.nvim'
 
@@ -726,6 +728,9 @@ vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg(
 "vmap <silent> <leader>tt "ty:call system("./zellij-send-text.sh", getreg("@t"))<CR>
 
 autocmd FileType forth vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -r", getreg("@t"))<CR>
+
+" janet repl needs lines to end in \r\n for it to run a command
+autocmd FileType janet vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -d", getreg("@t"))<CR>
 
 " format selected xml
 vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
