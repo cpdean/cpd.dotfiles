@@ -26,31 +26,41 @@
     # (REVIEW_BASE defaults to 'master' in bashrc)
     jezfiles = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
     # better
-    files = !git diff --name-only $(git merge-base HEAD \"${@:-master}\")
+    files = !git diff --name-only $(git merge-base HEAD $(git trunk))
 
     # from https://blog.jez.io/cli-code-review/
     # Same as above, but with a diff stat instead of just names
     # (better for interactive use)
     jezstat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
     # better
-    stat = !git diff --stat $(git merge-base HEAD \"${@:-master}\")
+    #stat = !git diff --stat $(git merge-base HEAD \"${@:-master}\")
+    # best
+    stat = !git diff --stat $(git merge-base head $(git trunk))
+    pr-diff = !git diff $(git merge-base head $(git trunk))
 
     # from https://blog.jez.io/cli-code-review/
     # Open all files changed since REVIEW_BASE in Vim tabs
     # Then, run fugitive's :Gdiff in each tab, and finally
     # tell vim-gitgutter to show +/- for changes since REVIEW_BASE
-    review = !nvim -p $(git files) +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+    review = !nvim -p $(git files) +\"tabdo Gvdiffsplit $(git trunk)\" +\"let g:gitgutter_diff_base = '$(git trunk)'\"
 
     # from https://blog.jez.io/cli-code-review/
     # Same as the above, except specify names of files as arguments,
     # instead of opening all files:
     # git reviewone foo.js bar.js
-    reviewone = !nvim -p +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+    reviewone = !nvim -p +\"tabdo Gvdiffsplit $(git trunk)\" +\"let g:gitgutter_diff_base = '$(git trunk)'\"
     # alias for the alias
     ro = reviewone
+    # show PR picker to select a PR for review
     pr = !gh pr checkout $(gh pr list | fzf --height=10 --reverse | awk '{print $1}')
     # show the history of ci runs for the branch we are on
     show-ci = !gh run list -b $(git branch --show-current)
+    open-ci = !gh run view --web $(gh run list -b $(git branch --show-current) --json createdAt,displayTitle,status,databaseId --template '{{range .}}{{tablerow .databaseId .createdAt .status .displayTitle}}{{end}}' | fzf --height=15 | awk '{ print $1 }')
+
+
+
+    # different repos have different trunks
+    trunk = rev-parse --abbrev-ref origin/HEAD
 
 [includeIf "gitdir:~/dev/work/"]
     path = .gitconfig-work
