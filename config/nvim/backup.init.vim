@@ -330,7 +330,7 @@ let g:cm_complete_start_delay = 1000
 if s:lsp_impl == 'autozimu/LanguageClient-neovim'
     source $HOME/.config/nvim/config/languageclient-neovim.vim
 elseif s:lsp_impl == 'neovim/nvim-lspconfig'
-    lua require("cpdean_config/nvim-lsp")
+    " lua require("cpdean_config/nvim-lsp")
 elseif s:lsp_impl == 'w0rp/ale'
     source $HOME/.config/nvim/config/ale.vim
 elseif s:lsp_impl == 'coc.nvim'

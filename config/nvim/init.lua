@@ -148,7 +148,10 @@ https://github.com/Pocco81/true-zen.nvim
 
 require('cpdean_config.languages')
 require('cpdean_config.neovide')
+
 vim.cmd([[source $HOME/.config/nvim/backup.init.vim]])
+
+require("cpdean_config/nvim-lsp").start_lsp_client()
 
 -- Neotest
 require("neotest").setup({
