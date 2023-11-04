@@ -66,5 +66,6 @@
     "strings": "off"
   },
   "workbench.preferredHighContrastColorTheme": "Red",
-  "window.autoDetectColorScheme": true
+  "window.autoDetectColorScheme": true,
+  "workbench.colorTheme": "Default Light+"
 }
