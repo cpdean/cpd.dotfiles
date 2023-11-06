@@ -30,6 +30,7 @@ if status is-interactive
 
     # ls for my gits
     abbr -g gs git status -uno
+    abbr -g gss git status
 
     abbr -g dc docker-compose
 
