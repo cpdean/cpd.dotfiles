@@ -29,7 +29,7 @@ if status is-interactive
     abbr -g vim nvim
 
     # ls for my gits
-    abbr -g gs git status
+    abbr -g gs git status -uno
 
     abbr -g dc docker-compose
 
