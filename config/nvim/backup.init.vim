@@ -188,9 +188,6 @@ Plug 'morhetz/gruvbox'
 
 " writing
 Plug 'tpope/vim-markdown'
-" Plug 'junegunn/goyo.vim'
-" Plug 'junegunn/limelight.vim'
-" Plug 'reedes/vim-pencil'
 
 " visually display your position in a file
 "Plug 'wellle/context.vim'
@@ -245,37 +242,19 @@ colorscheme gruvbox
 highlight! link Search IncSearch
 
 
-lua require"octo".setup()
-
-
 " setup language server for all the great things
 set hidden
 
 " for quick vim config iteration
-autocmd FileType vim nnoremap <silent> <Leader>O :source $HOME/.config/nvim/init.vim<CR>
+autocmd FileType vim nnoremap <silent> <Leader>O :source $HOME/.config/nvim/backup.init.vim<CR>
 
 " completion manager is too aggressive at 0
 let g:cm_complete_start_delay = 1000
-
-"" LANGUAGE SERVER CONFIGS
-
-if s:lsp_impl == 'autozimu/LanguageClient-neovim'
-    source $HOME/.config/nvim/config/languageclient-neovim.vim
-elseif s:lsp_impl == 'neovim/nvim-lspconfig'
-    " lua require("cpdean_config/nvim-lsp")
-elseif s:lsp_impl == 'w0rp/ale'
-    source $HOME/.config/nvim/config/ale.vim
-elseif s:lsp_impl == 'coc.nvim'
-    source $HOME/.config/nvim/config/coc.vim
-endif
 
 
 " for black.vim, save all python with it
 " autocmd BufWritePre *.py execute ':Black'
 " ugh, but currently disabled. i don't wnat to edit OTHER peoples code just mine.
-"
-" clean rust files on save
-" let g:rustfmt_autosave = 1
 
 
 filetype plugin indent on    " required
@@ -602,21 +581,6 @@ autocmd FileType gitcommit setlocal spell spelllang=en_us
 " comments but this binding would conflict with language server format
 " commands
 autocmd FileType markdown,gitcommit nmap <leader>f gwap
-
-function! ConradWritingSettings()
-    " limelight now has syntax errors.
-    " let g:limelight_conceal_ctermfg = 'gray'
-    " Limelight
-    "call pencil#init()
-endfunction
-
-" au group for vim-pencil
-augroup pencil
-    autocmd!
-    autocmd FileType markdown,mkd call ConradWritingSettings()
-    " i think 'text' extends to all files so...
-    " autocmd FileType text         call ConradWritingSettings()
-augroup END
 
 " ansible yaml drives me wild
 autocmd FileType yaml set nosmartindent
