@@ -108,59 +108,28 @@ Plug 'folke/neoconf.nvim'
 
 Plug 'simrat39/symbols-outline.nvim'
 
-if s:lsp_impl == 'autozimu/LanguageClient-neovim'
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
-elseif s:lsp_impl == 'neovim/nvim-lspconfig'
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/lsp_extensions.nvim'
-    " one dude's extensions. better code-action etc
-    Plug 'RishabhRD/popfix'
-    Plug 'RishabhRD/nvim-lsputils'
-elseif s:lsp_impl == 'w0rp/ale'
-    Plug 'w0rp/ale'
-elseif s:lsp_impl == 'coc.nvim'
-    "" NOTE: disabling LanguageClient for now.
-    " Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " coc is showing a ton of errors when i open any buffer or any new file from
-    " an already open buffer. little frustrated the author just puts everything on
-    " release and also has what appear to be zero tests
-    " let's figure out if there is a commit that isn't broken
-    " Plug 'neoclide/coc.nvim', {'commit': '1b8dfa58c35fa2d7cd05ee8a6da3e982dcae7d3a'}
-    " 2021-04-27 great. you can't pin coc plugins and so reinstalling it has
-    " forced me to need to unpin my coc version. likely gonna break someshit.
-    " i am not pleased with coc.nvim becoming a sub-ecosystem.
-    Plug 'neoclide/coc.nvim'
-else
-    echo 'could not find matching s:lsp_impl: ' . s:lsp_impl
-endif
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp_extensions.nvim'
+" one dude's extensions. better code-action etc
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-lsputils'
 
-if s:lsp_impl == 'neovim/nvim-lspconfig'
-    if g:completion_plugin == 'compe'
-        Plug 'hrsh7th/nvim-compe'
-        Plug 'hrsh7th/vim-vsnip'
-    elseif g:completion_plugin == 'nvim-cmp'
-        " author of nvim-compe did a rewrite
-        Plug 'hrsh7th/nvim-cmp'
-        " hook into lsp for nvim-cmp
-        Plug 'hrsh7th/cmp-nvim-lsp'
-        " completions for neovim's lua api
-        Plug 'hrsh7th/cmp-nvim-lua'
+" a completion framework that seemed to be good
+Plug 'hrsh7th/nvim-cmp'
+" hook into lsp for nvim-cmp
+Plug 'hrsh7th/cmp-nvim-lsp'
+" completions for neovim's lua api
+Plug 'hrsh7th/cmp-nvim-lua'
 
-        " extras
-        " Plug 'hrsh7th/cmp-buffer'
-        " Plug 'hrsh7th/cmp-path'
-        " Plug 'hrsh7th/cmp-cmdline'
+" extras
+" Plug 'hrsh7th/cmp-buffer'
+" Plug 'hrsh7th/cmp-path'
+" Plug 'hrsh7th/cmp-cmdline'
 
-        " integrate with a snippet plugin for cmp
-        Plug 'hrsh7th/cmp-vsnip'
-        Plug 'hrsh7th/vim-vsnip'
-    else
-        Plug 'nvim-lua/completion-nvim'
-    endif
-endif
+" integrate with a snippet plugin for cmp
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
 
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
@@ -231,17 +200,14 @@ Plug 'tpope/vim-markdown'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
-" gh client
-Plug 'pwntester/octo.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter'
-" welcome to the eighties
-"    Plug 'vim-test/vim-test'
 
 " better test controls
 Plug 'nvim-neotest/neotest'
 Plug 'nvim-neotest/neotest-python'
 Plug 'nvim-neotest/neotest-plenary'
+
 Plug 'tpope/vim-scriptease'
 
 " hello andy
