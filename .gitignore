@@ -22,6 +22,7 @@ config/broot
 config/gitui
 config/neomutt
 config/pudb
+config/raycast
 
 # some tool i dunno
 .luarc.json
