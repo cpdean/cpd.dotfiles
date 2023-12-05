@@ -50,7 +50,10 @@
   "vim.leader": "<space>",
   "editor.quickSuggestionsDelay": 500,
   "editor.acceptSuggestionOnEnter": "off",
-  "editor.fontSize": 13,
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'Monaspace Neon', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontLigatures": "'calt', 'liga', 'dlig', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08'",
   "[markdown]": {
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.quickSuggestions": {
@@ -67,5 +70,5 @@
   },
   "workbench.preferredHighContrastColorTheme": "Red",
   "window.autoDetectColorScheme": true,
-  "workbench.colorTheme": "Default Light+"
+  "workbench.colorTheme": "Default Light Modern"
 }
