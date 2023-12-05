@@ -32,6 +32,10 @@ if status is-interactive
     abbr -g gs git status -uno
     abbr -g gss git status
 
+    abbr -g cd. cd ..
+    abbr -g cd.. cd ../..
+    abbr -g cd... cd ../../..
+
     abbr -g dc docker-compose
 
     # short command to go somewhere specific
