@@ -206,6 +206,8 @@ for m = 1, #visual_menus do
 end
 
 vim.keymap.set('n', "<leader>et" , ':lua require"init"<CR>' )
+vim.keymap.set('n', "<leader>y" , '<cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>', {noremap = true, silent = true})
+
 
 --require('cpdean_config.dap_config')
 --require("dapui").setup()
