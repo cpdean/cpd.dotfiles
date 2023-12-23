@@ -214,6 +214,10 @@ if isdirectory($HOME . '/dev/work')
     Plug 'github/copilot.vim'
 endif
 
+" muscle memory file switching per project
+" Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon', { 'branch': 'harpoon2' }
+
 call plug#end()
 
 syntax enable
