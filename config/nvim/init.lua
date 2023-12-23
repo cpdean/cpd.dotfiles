@@ -235,11 +235,11 @@ vim.keymap.set("n", "<leader>k", function() harpoon:list():append() end)
 vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
 --vim.keymap.set("n", "<C-y>", function() harpoon:list():select(1) end)
--- 3 fingers that make sense and then ctrl-j
-vim.keymap.set("n", "<C-u>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<C-i>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<C-o>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<C-j>", function() harpoon:list():select(4) end)
+-- j is for the central file, with u, i, o, being 3 others
+vim.keymap.set("n", "<C-j>", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<C-u>", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<C-i>", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<C-o>", function() harpoon:list():select(4) end)
 
 -- the author had this, not yet sure how i feel about it. will probably ditch
 -- Toggle previous & next buffers stored within Harpoon list
