@@ -19,16 +19,29 @@ end)
 local W_LEFT = -1
 local W_RIGHT = 1
 
+local moveTo = function(current, rect)
+    return current:setFrame({
+        x=rect.x,
+        y=rect.y,
+        w=rect.w,
+        h=rect.h
+    }, 0.1)
+end
+
+
 hs.hotkey.bind(usual, "K", function()
     local current = hs.window.focusedWindow()
     local screen = current:screen()
     local frame = screen:frame()
-    current:setFrame({
-        x=frame.x,
-        y=frame.y,
-        w=screen:currentMode().w,
-        h=screen:currentMode().h
-    })
+    moveTo(
+        current,
+        {
+            x=frame.x,
+            y=frame.y,
+            w=screen:currentMode().w,
+            h=screen:currentMode().h
+        }
+    )
 end)
 
 local half_height = function(rect)
@@ -168,14 +181,14 @@ local establish_window_placer = function(number_of_sections)
         local current = hs.window.focusedWindow()
         local screenFrame = current:screen():frame()
         local section_width = get_next_frame(current:screen():currentMode(), screenFrame, current, number_of_sections, W_LEFT)
-        current:setFrame(section_width)
+        moveTo(current, section_width)
     end)
 
     hs.hotkey.bind(usual, "L", function()
         local current = hs.window.focusedWindow()
         local screenFrame = current:screen():frame()
         local section_width = get_next_frame(current:screen():currentMode(), screenFrame, current, number_of_sections, W_RIGHT)
-        current:setFrame(section_width)
+        moveTo(current, section_width)
     end)
 
 end
@@ -248,7 +261,7 @@ hs.hotkey.bind(usual, "J", function()
     print("about to decide top or bottom")
     if is_near(center_of(app_rect), center_of(bottom_half_viewport_rect)) then
         print("going to top")
-        current_app:setFrame({
+        moveTo(current_app, {
             x=top_half_viewport_rect.x,
             y=top_half_viewport_rect.y,
             w=top_half_viewport_rect.w,
@@ -256,7 +269,7 @@ hs.hotkey.bind(usual, "J", function()
         })
     else
         print("going to bottom")
-        current_app:setFrame({
+        moveTo(current_app, {
             x=bottom_half_viewport_rect.x,
             y=bottom_half_viewport_rect.y,
             w=bottom_half_viewport_rect.w,
