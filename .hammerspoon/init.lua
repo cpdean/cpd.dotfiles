@@ -20,12 +20,19 @@ local W_LEFT = -1
 local W_RIGHT = 1
 
 local moveTo = function(current, rect)
-    return current:setFrame({
-        x=rect.x,
-        y=rect.y,
-        w=rect.w,
-        h=rect.h
-    }, 0.1)
+    local gap = 0
+    local ugh = function()
+      return current:setFrame({
+          x=rect.x + gap,
+          y=rect.y + gap,
+          w=rect.w - gap,
+          h=rect.h - gap
+      }, 0.05)
+    end
+    -- for some reason firefox drags its feet??
+    ugh()
+    ugh()
+    return ugh()
 end
 
 
