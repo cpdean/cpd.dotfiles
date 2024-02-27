@@ -9,6 +9,7 @@ if status --is-login
     #    eval (/usr/local/bin/brew shellenv)
     #end
 
+    fish_add_path -g --prepend $HOME/Library/Python/3.9/bin
     fish_add_path -g --prepend $HOME/.cargo/bin
     fish_add_path -g --prepend $HOME/.dotfiles/custom-scripts/
     fish_add_path -g --prepend $HOME/.local/bin/
