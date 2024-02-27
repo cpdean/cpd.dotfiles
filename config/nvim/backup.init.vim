@@ -216,7 +216,7 @@ endif
 
 " muscle memory file switching per project
 " Plug 'nvim-lua/plenary.nvim'
-Plug 'ThePrimeagen/harpoon', { 'branch': 'harpoon2' }
+"Plug 'ThePrimeagen/harpoon', { 'branch': 'harpoon2' }
 
 call plug#end()
 
