@@ -439,9 +439,9 @@ au BufNewFile,BufRead *.fs             set ft=forth
 ""au BufWinEnter * silent! loadview
 
 " Unfuck my screen
-noremap <leader>r :call ConradClearScreen()<cr>
+noremap <leader>r :call _ClearScreen()<cr>
 
-function! ConradClearScreen()
+function! _ClearScreen()
     " wipe search highlight stuff
     "  for some reason this has to be first...
     execute ':nohlsearch'
