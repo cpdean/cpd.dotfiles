@@ -193,7 +193,7 @@ vim.keymap.set("n", "<leader>is", neotest.summary.open, bufopts)
 
 
 
-local normal_menus = {'<leader>', '<leader>g', '<leader>t'}
+local normal_menus = {'<leader>g', '<leader>t'}
 for m = 1, #normal_menus do
   local query = normal_menus[m]
   vim.keymap.set('n', query , ':nmap ' .. query .. '<CR>')
@@ -224,24 +224,24 @@ vim.keymap.set('n', "<leader>y" , '<cmd>lua vim.diagnostic.open_float(0, { scope
 --
 -- persistent marks and an API to customize how you deal with them
 -- harpoon navigation
-local harpoon = require("harpoon")
-
--- REQUIRED
-harpoon:setup()
--- REQUIRED
-
-vim.keymap.set("n", "<leader>k", function() harpoon:list():append() end)
--- ctrl-e to open the list of harpoons. edit it like a file to re-order or remove harpoons
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-
---vim.keymap.set("n", "<C-y>", function() harpoon:list():select(1) end)
--- j is for the central file, with u, i, o, being 3 others
-vim.keymap.set("n", "<C-j>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<C-u>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<C-i>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<C-o>", function() harpoon:list():select(4) end)
-
--- the author had this, not yet sure how i feel about it. will probably ditch
--- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set("n", "<leader><C-p>", function() harpoon:list():prev() end)
-vim.keymap.set("n", "<leader><C-n>", function() harpoon:list():next() end)
+--      local harpoon = require("harpoon")
+--      
+--      -- REQUIRED
+--      harpoon:setup()
+--      -- REQUIRED
+--      
+--      vim.keymap.set("n", "<leader>k", function() harpoon:list():append() end)
+--      -- ctrl-e to open the list of harpoons. edit it like a file to re-order or remove harpoons
+--      vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+--      
+--      --vim.keymap.set("n", "<C-y>", function() harpoon:list():select(1) end)
+--      -- j is for the central file, with u, i, o, being 3 others
+--      vim.keymap.set("n", "<C-j>", function() harpoon:list():select(1) end)
+--      vim.keymap.set("n", "<C-u>", function() harpoon:list():select(2) end)
+--      vim.keymap.set("n", "<C-i>", function() harpoon:list():select(3) end)
+--      vim.keymap.set("n", "<C-o>", function() harpoon:list():select(4) end)
+--      
+--      -- the author had this, not yet sure how i feel about it. will probably ditch
+--      -- Toggle previous & next buffers stored within Harpoon list
+--      vim.keymap.set("n", "<leader><C-p>", function() harpoon:list():prev() end)
+--      vim.keymap.set("n", "<leader><C-n>", function() harpoon:list():next() end)
