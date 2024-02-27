@@ -480,10 +480,12 @@ nnoremap <down>  :lnext<cr>zvzz
 nmap <F6> :w<CR>:!python %<CR>
 "nmap <leader>f :vim <C-R><C-W> **/*.py "deprecating, should probably remove
 
-
+" open a search across the current dir
 nmap <leader>s :Ack -i 
-" search word under cursor, now!
+" search the word the cursor is on
 nmap <leader>S :Ack <C-R><C-W><cr>
+" search the selection
+vmap <leader>s "sy:Ack <C-R>s<cr>
 
 " auto insert a breakpoint
 autocmd FileType python nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
