@@ -41,6 +41,9 @@ end
 
 local moveTo = function(current, rect)
     local gap = 0
+    -- while loop and count necessary because for some  reason
+    -- Firefox on macOS 14.1.2  has  started  to  drag and get
+    -- stuck when being moved with hammerspoon windowing stuff
     local count = 20
     while (count > 0 and not match(current, rect))
       do
