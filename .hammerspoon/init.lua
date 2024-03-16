@@ -10,8 +10,19 @@ local intense = {"ctrl", "shift", "alt"}
 local usual = {"ctrl", "shift"}
 
 -- lock_screen
-hs.hotkey.bind(usual, "\\", function()
+    hs.hotkey.bind(usual, "\\", function()
     hs.caffeinate.startScreensaver()
+end)
+
+-- reload the config to make it easier to test new stuff
+
+hs.hotkey.bind(usual, "R", function()
+  hs.reload()
+  hs.alert.show("goatgoat")
+end)
+
+hs.hotkey.bind(usual, "C", function()
+  hs.reload()
 end)
 
 -- WINDOW PLACER APP
@@ -19,20 +30,28 @@ end)
 local W_LEFT = -1
 local W_RIGHT = 1
 
+local match = function(current, rect)
+  return (
+    current.x == rect.x and
+    current.y == rect.y and
+    current.w == rect.w and
+    current.h == rect.h
+  )
+end
+
 local moveTo = function(current, rect)
     local gap = 0
-    local ugh = function()
-      return current:setFrame({
-          x=rect.x + gap,
-          y=rect.y + gap,
-          w=rect.w - gap,
-          h=rect.h - gap
-      }, 0.05)
-    end
-    -- for some reason firefox drags its feet??
-    ugh()
-    ugh()
-    return ugh()
+    local count = 20
+    while (count > 0 and not match(current, rect))
+      do
+        count = count - 1
+        current:setFrame({
+            x=rect.x + gap,
+            y=rect.y + gap,
+            w=rect.w - gap,
+            h=rect.h - gap
+        }, 0.05)
+      end
 end
 
 
