@@ -16,7 +16,7 @@
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
-	whatwas = "log --follow --"
+	whatwas = "log --follow -p --"
 
     # prints a concise report about when, who, and what happened
     story= "log --format=\"%Cgreen %h%Creset %<(19,trunc)%ae %Cgreen%as%Creset %s\""
