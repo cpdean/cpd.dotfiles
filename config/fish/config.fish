@@ -61,4 +61,6 @@ if status is-interactive
     # need to tell helix where to find stuff
     set -x HELIX_RUNTIME "/opt/homebrew/Cellar/helix/23.05/libexec/runtime"
 
+    fzf --fish | source
+
 end
