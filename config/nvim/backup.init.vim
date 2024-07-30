@@ -92,6 +92,8 @@ call plug#begin('~/.config/nvim/extra_plugins')
 " for lols
 Plug 'dstein64/vim-startuptime'
 
+Plug 'nvim-neotest/nvim-nio'
+
 " lua repl hooked into the neovim lua env
 "
 Plug 'bfredl/nvim-luadev'
