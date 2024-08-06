@@ -16,7 +16,7 @@ if status --is-login
     fish_add_path -g --prepend $HOME/go/bin/
     fish_add_path -g --prepend $HOME/.config/sd/
     fish_add_path -g (brew --prefix)/opt/llvm/bin
-
+    fish_add_path -g (brew --prefix)/opt/openjdk/bin
     set -x EDITOR nvim
 
 
@@ -41,6 +41,8 @@ if status is-interactive
 
     # short command to go somewhere specific
     abbr -g gp cd '$(find ~/dev/projects -maxdepth 1 | fzf)'
+    abbr -g gf "cd $HOME/dev/foss/(fd --type d --maxdepth 2 . ~/dev/foss | sed -e \"s%$HOME/dev/foss/%%\" | fzf)"
+
 
     # love too python
     abbr -g vmake python3 -m venv venv
