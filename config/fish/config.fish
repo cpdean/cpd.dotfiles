@@ -17,6 +17,8 @@ if status --is-login
     fish_add_path -g --prepend $HOME/.config/sd/
     fish_add_path -g (brew --prefix)/opt/llvm/bin
     fish_add_path -g (brew --prefix)/opt/openjdk/bin
+    fish_add_path -g (brew --prefix)/opt/openjdk@17/bin
+
     set -x EDITOR nvim
 
 
