@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# use the github cli to approve and merge simple PRs
+# must be run from within the repo
+
+set -e
+
+PR="$(gh pr list --state open | fzf --height=5 | awk '{print $1}')"
+
+if [ -z "$PR" ]; then
+    echo "no PR selected"
+    exit 1
+fi
+
+gh pr diff $PR
+gh pr view $PR
+
+echo "Approve and merge PR $PR? (y/n)"
+
+read -r ANSWER
+ANSWER=$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]') # y or Y
+
+if [ "$ANSWER" == "y" ]; then
+    gh pr review $PR --approve
+    gh pr merge $PR --auto
+else
+    echo "PR not approved. to view PR in a browser:"
+    echo "gh pr view $PR --web"
+    echo "do you want to do that? (y/n)"
+    read -r ANSWER
+    ANSWER=$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')
+    if [ "$ANSWER" == "y" ]; then
+        gh pr view $PR --web
+    fi
+fi
