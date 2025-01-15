@@ -39,7 +39,7 @@ if status is-interactive
     abbr -g cd.. cd ../..
     abbr -g cd... cd ../../..
 
-    abbr -g dc docker-compose
+    abbr -g dc docker compose
 
     # short command to go somewhere specific
     abbr -g gp cd '$(find ~/dev/projects -maxdepth 1 | fzf)'
