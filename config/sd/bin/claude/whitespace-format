@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# claude code post-tool hook to strip empty lines and trailing whitespace
+
+set -euo pipefail
+
+echo "start" >> whitespace-format.log
+# get modified files from claude's hook context and clean them
+jq -r '.files[]? // empty' | while read -r file; do
+    # skip if file doesn't exist or is binary
+    [[ -f "$file" ]] && file "$file" | grep -q "text" && {
+        # strip trailing whitespace and remove trailing empty lines
+        sed -i '' -e 's/[[:space:]]*$//' -e :a -e '/^\s*$/{$d;N;ba' -e '}' "$file"
+        echo "Cleaned whitespace in: $file"
+        echo "Cleaned whitespace in: $file" >> whitespace-format.log
+    }
+done
+date >> whitespace-format.log

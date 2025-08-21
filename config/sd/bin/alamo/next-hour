@@ -1,0 +1,11 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "httpx",        # Any PyPI package
+#     "ffmpeg-normalize"
+# ]
+# ///
+import httpx
+print(httpx.get("https://google.com"))

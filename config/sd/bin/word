@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+# due to how 'sd' works, there will always be a `--` argument at the front
+
+# if there are not exactly 2 arguments
+if [ "$#" -ne 2 ]; then
+    echo "print words from /usr/share/dict/words that match a regex"
+    echo "Usage  : sd word -- <regex>"
+    echo "Example: sd word -- ...ed ; 5 letter words ending in 'ed'"
+    exit 1
+fi
+
+rg "^$2\$" /usr/share/dict/words
