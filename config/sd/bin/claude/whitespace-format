@@ -1,18 +1,56 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 # claude code post-tool hook to strip empty lines and trailing whitespace
 
-set -euo pipefail
+import json
+import subprocess
+import sys
+from pathlib import Path
 
-echo "start" >> whitespace-format.log
-# get modified files from claude's hook context and clean them
-jq -r '.files[]? // empty' | while read -r file; do
-    # skip if file doesn't exist or is binary
-    [[ -f "$file" ]] && file "$file" | grep -q "text" && {
-        # strip trailing whitespace and remove trailing empty lines
-        sed -i '' -e 's/[[:space:]]*$//' -e :a -e '/^\s*$/{$d;N;ba' -e '}' "$file"
-        echo "Cleaned whitespace in: $file"
-        echo "Cleaned whitespace in: $file" >> whitespace-format.log
-    }
-done
-date >> whitespace-format.log
+
+def main():
+    try:
+        # Read the hook input
+        hook_data = json.load(sys.stdin)
+
+        # Extract the file path from tool_input for Edit tool
+        if hook_data.get("tool_name") == "Edit" and "tool_input" in hook_data:
+            file_path = hook_data["tool_input"].get("file_path")
+
+            if file_path and Path(file_path).exists():
+                # Check if file is text (not binary)
+                try:
+                    result = subprocess.run(
+                        ["file", file_path], capture_output=True, text=True
+                    )
+                    if "text" in result.stdout:
+                        # Strip trailing whitespace and remove trailing empty lines
+                        with open(file_path, "r") as f:
+                            content = f.read()
+
+                        # Strip trailing whitespace from each line and remove trailing newlines
+                        lines = content.splitlines()
+                        cleaned_lines = [line.rstrip() for line in lines]
+
+                        # Remove trailing empty lines
+                        while cleaned_lines and not cleaned_lines[-1]:
+                            cleaned_lines.pop()
+
+                        # Write back with single trailing newline
+                        with open(file_path, "w") as f:
+                            if cleaned_lines:
+                                f.write("\n".join(cleaned_lines) + "\n")
+                            else:
+                                f.write("")
+
+                        print(f"Cleaned whitespace in: {file_path}")
+
+                except Exception as e:
+                    print(f"Error processing {file_path}: {e}")
+
+    except Exception as e:
+        print(f"Hook error: {e}")
+
+
+if __name__ == "__main__":
+    main()
