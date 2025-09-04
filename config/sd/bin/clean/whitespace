@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+# given a list of paths, open each file and remove trailing whitespace from each line
+# if no file is given, recursesively through the current directory
+
+import os
+import sys
+
+NEWLINE = "\n"  # eventually we should detect what the file is using
+
+ALLOWED_EXTENSIONS = {
+    ".py",
+    ".rs",
+}
+
+IGNORE_DIRS = {
+    ".git",
+    "node_modules",
+    "target",
+    "worktrees",
+    "venv",
+    ".venv",
+    "__pycache__",
+}
+
+def get_files(args):
+    # we may be given a:
+    # 1. list of files
+    # 2. a directory
+    # 3. nothing, in which case we recurse through the current directory (same as "." for above)
+    files = []
+    if len(args) == 0:
+        args = ["."]
+
+    # check if we have 1 arg and that it is a directory
+    if len(args) == 1 and os.path.isdir(args[0]):
+        for root, _, filenames in os.walk(args[0]):
+            if root.split(os.sep)[-1] in IGNORE_DIRS:
+                continue
+            for filename in filenames:
+                files.append(os.path.join(root, filename))
+    else:
+        # we are given a single file or list of files
+        for arg in args:
+            if os.path.isfile(arg):
+                files.append(arg)
+            else:
+                print(f"Warning: {arg} is not a file or directory, skipping")
+    # exclude anything in IGNORE_DIRS
+    files = [f for f in files if not any(ign in f.split(os.sep) for ign in IGNORE_DIRS)]
+    return [f for f in files if os.path.splitext(f)[1] in ALLOWED_EXTENSIONS]
+
+
+def main():
+    files = get_files(sys.argv[1:])
+    for file in files:
+        print(f"Processing {file}")
+        with open(file, "r") as f:
+            lines = f.readlines()
+        with open(file, "w") as f:
+            for line in lines:
+                f.write(line.rstrip() + NEWLINE)
+
+if __name__ == "__main__":
+    main()
