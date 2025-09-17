@@ -12,7 +12,8 @@
 [core]
     ignorecase = false
     autocrlf = input
-    excludesfile = ~/.dotfiles/gitignore_global
+	excludesFile = ~/.gitignore
+	hooksPath = /Users/conraddean/.config/git/hooks
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
@@ -56,6 +57,12 @@
     # show the history of ci runs for the branch we are on
     show-ci = !gh run list -b $(git branch --show-current)
     open-ci = !gh run view --web $(gh run list -b $(git branch --show-current) --json createdAt,displayTitle,status,databaseId --template '{{range .}}{{tablerow .databaseId .createdAt .status .displayTitle}}{{end}}' | fzf --height=15 | awk '{ print $1 }')
+
+    # chop the ticket id out of the jira url in your clipboard and check it out as a branch
+    #work-on = !git checkout -b $(pbpaste | rev | cut -d/ -f 1 | rev | cut -d"?" -f1)
+
+    # like the above but takes the url as an arg instead of getting it from clipboard
+    work-on = "!f() { git checkout -b $(echo \"$1\" | rev | cut -d/ -f1 | rev | cut -d'?' -f1); }; f"
 
 
 
