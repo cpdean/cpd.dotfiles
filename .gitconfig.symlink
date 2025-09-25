@@ -12,8 +12,8 @@
 [core]
     ignorecase = false
     autocrlf = input
-    excludesfile = ~/.config/git/ignore
-    hooksPath = ~/.config/git/hooks
+	excludesFile = ~/.gitignore
+	hooksPath = ~/.config/git/hooks
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
