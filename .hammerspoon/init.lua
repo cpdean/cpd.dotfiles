@@ -1,3 +1,4 @@
+--
 --hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
   --hs.alert.show("Hello World!")
 --end)
@@ -10,19 +11,19 @@ local intense = {"ctrl", "shift", "alt"}
 local usual = {"ctrl", "shift"}
 
 -- lock_screen
-    hs.hotkey.bind(usual, "\\", function()
+hs.hotkey.bind(usual, "\\", function()
     hs.caffeinate.startScreensaver()
 end)
 
 -- reload the config to make it easier to test new stuff
 
 hs.hotkey.bind(usual, "R", function()
+  hs.alert.show("reloading config")
   hs.reload()
-  hs.alert.show("goatgoat")
 end)
 
 hs.hotkey.bind(usual, "C", function()
-  hs.reload()
+  hs.openConsole()
 end)
 
 -- WINDOW PLACER APP
@@ -30,7 +31,16 @@ end)
 local W_LEFT = -1
 local W_RIGHT = 1
 
+
 local match = function(current, rect)
+  print("x: " .. tostring(current.x) .. " vs " .. tostring(rect.x) .. ", equals? " .. tostring(current.x == rect.x))
+  print("y: " .. tostring(current.y) .. " vs " .. tostring(rect.y) .. ", equals? " .. tostring(current.y == rect.y))
+  print("h: " .. tostring(current.h) .. " vs " .. tostring(rect.h) .. ", equals? " .. tostring(current.h == rect.h))
+  print("w: " .. tostring(current.w) .. " vs " .. tostring(rect.w) .. ", equals? " .. tostring(current.w == rect.w))
+  --print("y: " .. current.y .. " vs " .. rect.y)
+  --print("w: " .. current.w .. " vs " .. rect.w)
+  --print("h: " .. current.h .. " vs " .. rect.h)
+
   return (
     current.x == rect.x and
     current.y == rect.y and
@@ -40,38 +50,54 @@ local match = function(current, rect)
 end
 
 local moveTo = function(current, rect)
+    print("beginning a new move")
     local gap = 0
+    local speed = 2
     -- while loop and count necessary because for some  reason
     -- Firefox on macOS 14.1.2  has  started  to  drag and get
     -- stuck when being moved with hammerspoon windowing stuff
-    local count = 20
-    while (count > 0 and not match(current, rect))
+    local count = 10
+    print("here is where we want the frame: " .. tostring(rect.x))
+    while (count > 0 and not match(current:frame(), rect))
       do
+        print("here is where the window is: " ..tostring(current:frame().x))
         count = count - 1
+        if speed > 0 then
+          speed = speed - 0.05
+        else
+          speed = 0
+        end
         current:setFrame({
             x=rect.x + gap,
             y=rect.y + gap,
             w=rect.w - gap,
             h=rect.h - gap
-        }, 0.05)
+        }, 0.1)
       end
+    print("finished the thing")
+      os.execute("sleep "..tonumber(0.3))
+    print("are we there? " .. tostring(match(current:frame(), rect)))
 end
 
 
-hs.hotkey.bind(usual, "K", function()
-    local current = hs.window.focusedWindow()
-    local screen = current:screen()
-    local frame = screen:frame()
-    moveTo(
-        current,
-        {
-            x=frame.x,
-            y=frame.y,
-            w=screen:currentMode().w,
-            h=screen:currentMode().h
-        }
-    )
-end)
+-- macos 14.2.1 broke window placement for firefox specifically
+-- not for any other application
+-- just firefox
+-- need to find a new way to do windows or switch to safari
+-- hs.hotkey.bind(usual, "K", function()
+--     local current = hs.window.focusedWindow()
+--     local screen = current:screen()
+--     local frame = screen:frame()
+--     moveTo(
+--         current,
+--         {
+--             x=frame.x,
+--             y=frame.y,
+--             w=screen:currentMode().w,
+--             h=screen:currentMode().h
+--         }
+--     )
+-- end)
 
 local half_height = function(rect)
     return {
@@ -222,7 +248,11 @@ local establish_window_placer = function(number_of_sections)
 
 end
 
-establish_window_placer(2)
+-- macos 14.2.1 broke window placement for firefox specifically
+-- not for any other application
+-- just firefox
+-- need to find a new way to do windows or switch to safari
+-- establish_window_placer(2)
 
 hs.hotkey.bind(usual, "2", function()
     establish_window_placer(2)
