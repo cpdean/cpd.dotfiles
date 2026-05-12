@@ -351,42 +351,67 @@ local center_cursor_on = function(win_obj)
 end
 
 local create_mjm_switcher = function(key_register)
-    local this_id = 0 -- store window id
-    local this_previous = 0  -- store window before switching focus
+    local this_id = 0
+    local this_app_name = nil  -- fallback for apps that reassign window ids (e.g. ghostty tabs)
+    local this_previous = 0
+    local this_previous_app_name = nil
+
+    -- find a window by id, falling back to the app's main window if the id is stale
+    local find_win = function(id, app_name)
+        local w = hs.window.find(id)
+        if w ~= nil then return w end
+        if app_name ~= nil then
+            local app = hs.application.find(app_name)
+            if app ~= nil then return app:mainWindow() end
+        end
+        return nil
+    end
+
+    -- check if `current` is the target, by id or by app name (handles stale ids from tab switches)
+    local is_target = function(current, id, app_name)
+        if current == nil then return false end
+        if current:id() == id then return true end
+        if app_name ~= nil and current:application():name() == app_name then return true end
+        return false
+    end
 
     -- create app binding at runtime
     hs.hotkey.bind(intense, key_register, function()
-        this_id = hs.window.focusedWindow():id()
+        local win = hs.window.focusedWindow()
+        this_id = win:id()
+        this_app_name = win:application():name()
         print('binding new keybinding')
         hs.alert.show(
             "setting new '" .. key_register .. "' binding" .. "\n" ..
-            hs.window.find(this_id):title() .. " ::: " ..
-            hs.window.find(this_id):id()
+            win:title() .. " ::: " .. this_id
         , 2)
     end)
 
-    --
     hs.hotkey.bind(usual, key_register, function()
         local switcher = function()
             if this_id ~= 0 then
                 local current = hs.window.focusedWindow()
-                -- if theres a focused window, and it is the id
-                if current ~= nil and current:id() == this_id then
+                if is_target(current, this_id, this_app_name) then
                     print("have to switch to previous app: " .. this_previous)
-                    hs.window.find(this_previous):focus()
-                    print("going to center on previous app")
-                    center_cursor_on(hs.window.find(this_previous))
+                    local prev = find_win(this_previous, this_previous_app_name)
+                    if prev ~= nil then
+                        prev:focus()
+                        print("going to center on previous app")
+                        center_cursor_on(prev)
+                    end
                 else
                     if current ~= nil then
                         print("switching to the saved app:"..current:id())
                         this_previous = current:id()
+                        this_previous_app_name = current:application():name()
                     end
-                    local w = hs.window.find(this_id)
+                    local w = find_win(this_id, this_app_name)
                     print("window is::")
                     print(w)
-                    print("yep")
-                    w:focus()
-                    center_cursor_on(w)
+                    if w ~= nil then
+                        w:focus()
+                        center_cursor_on(w)
+                    end
                 end
             else
                 hs.alert.show("'" .. key_register .. "' not yet bound")
