@@ -38,6 +38,7 @@
     # best
     stat = !git diff --stat $(git merge-base head $(git trunk))
     pr-diff = !git diff $(git merge-base head $(git trunk))
+    pr-title = !get-pr-title
 
     # from https://blog.jez.io/cli-code-review/
     # Open all files changed since REVIEW_BASE in Vim tabs
