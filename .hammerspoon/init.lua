@@ -84,20 +84,20 @@ end
 -- not for any other application
 -- just firefox
 -- need to find a new way to do windows or switch to safari
--- hs.hotkey.bind(usual, "K", function()
---     local current = hs.window.focusedWindow()
---     local screen = current:screen()
---     local frame = screen:frame()
---     moveTo(
---         current,
---         {
---             x=frame.x,
---             y=frame.y,
---             w=screen:currentMode().w,
---             h=screen:currentMode().h
---         }
---     )
--- end)
+hs.hotkey.bind(usual, "K", function()
+    local current = hs.window.focusedWindow()
+    local screen = current:screen()
+    local frame = screen:frame()
+    moveTo(
+        current,
+        {
+            x=frame.x,
+            y=frame.y,
+            w=screen:currentMode().w,
+            h=screen:currentMode().h
+        }
+    )
+end)
 
 local half_height = function(rect)
     return {
@@ -252,7 +252,7 @@ end
 -- not for any other application
 -- just firefox
 -- need to find a new way to do windows or switch to safari
--- establish_window_placer(2)
+establish_window_placer(2)
 
 hs.hotkey.bind(usual, "2", function()
     establish_window_placer(2)
