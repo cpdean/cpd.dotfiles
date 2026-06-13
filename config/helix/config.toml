@@ -4,9 +4,9 @@ theme = "dark_plus"
 w = ":write"
 q = ":quit"
 
-# go to the githubs, requires my var substitution pr
-[keys.normal.g]
-H = ":sh open_in_github.sh {{filename}} {{selection_line_start}} {{selection_line_end}}"
+[keys.normal.space.g]
+h = ":sh gh browse %{buffer_name}:%{cursor_line}"
+
 
 # wrap text in dbg!(...)
 [keys.normal.space.space.s]
@@ -35,10 +35,10 @@ auto-format = true
 #line-number = "relative"
 #mouse = false
 
-#[editor.cursor-shape]
-#insert = "bar"
-#normal = "block"
-#select = "underline"
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
 
 #[editor.file-picker]
 #hidden = false
