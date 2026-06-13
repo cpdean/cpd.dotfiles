@@ -1,2 +1,6 @@
 # to match the vmake/vuse aliases
 venv
+_etc/*
+.todo.db
+CLAUDE.md
+**/.claude/settings.local.json
