@@ -108,6 +108,13 @@ function cpdean_nvm_lsp.start_lsp_client()
     table.insert(LUA_PATH, "lua/?.lua")
     table.insert(LUA_PATH, "lua/?/init.lua")
 
+
+
+    table.insert(LUA_PATH, "/Applications/Hammerspoon.app/Contents/Resources/extensions/?.lua")
+    table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/?.lua")
+    table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/?/init.lua")
+    table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/spoons/?.spoon/init.lua")
+
     local lua_on_attach = function(client, bufnr)
         -- `<Plug>(Luadev-RunLine)`      | Execute the current line
         -- `<Plug>(Luadev-Run)`          | Operator to execute lua code over a movement or text object.
