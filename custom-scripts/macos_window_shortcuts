@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""manage native macos window tiling keyboard shortcuts
+
+usage: macos_window_shortcuts [check|install|uninstall]
+
+shortcuts installed:
+  ctrl+shift+h  move window to left side
+  ctrl+shift+l  move window to right side
+  ctrl+shift+m  maximize (zoom, not fullscreen)
+  ctrl+shift+f  enter full screen
+"""
+
+import plistlib
+import subprocess
+import sys
+
+DOMAIN = "NSGlobalDomain"
+PREF_KEY = "NSUserKeyEquivalents"
+DISABLED = "@~~disabled@~"
+
+# modifier encoding: ^ ctrl, $ shift, ~ option, @ cmd
+SHORTCUTS = {
+    "Move Window to Left Side of Screen": "^$h",
+    "Move Window to Right Side of Screen": "^$l",
+    "Zoom": "^$k",
+    "Enter Full Screen": "^$f",
+}
+
+
+def read_shortcuts():
+    result = subprocess.run(
+        ["defaults", "export", DOMAIN, "-"],
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        return {}
+    prefs = plistlib.loads(result.stdout)
+    return prefs.get(PREF_KEY, {})
+
+
+def write_shortcut(name, value):
+    subprocess.run(
+        ["defaults", "write", DOMAIN, PREF_KEY, "-dict-add", name, value],
+        check=True,
+    )
+
+
+def check():
+    current = read_shortcuts()
+    all_ok = True
+    for name, want in SHORTCUTS.items():
+        actual = current.get(name)
+        if actual == want:
+            status = f"ok  ({actual})"
+        elif actual is None:
+            status = "not set"
+            all_ok = False
+        elif actual == DISABLED:
+            status = "disabled"
+            all_ok = False
+        else:
+            status = f"wrong  got={actual!r}  want={want!r}"
+            all_ok = False
+        print(f"  {name}: {status}")
+    return all_ok
+
+
+def install():
+    for name, value in SHORTCUTS.items():
+        write_shortcut(name, value)
+        print(f"  set: {name!r} -> {value}")
+    print("done — restart apps (or log out/in) to apply")
+
+
+def uninstall():
+    for name in SHORTCUTS:
+        write_shortcut(name, DISABLED)
+        print(f"  disabled: {name!r}")
+    print("done — restart apps (or log out/in) to apply")
+
+
+def help():
+    print("usage: macos_window_shortcuts [check|install|uninstall|--help]")
+    print()
+    print("manages global keyboard shortcuts for native macos window tiling.")
+    print("shortcuts apply to all applications via NSUserKeyEquivalents.")
+    print()
+    print("shortcuts:")
+    col = max(len(name) for name in SHORTCUTS) + 2
+    for name, code in SHORTCUTS.items():
+        readable = (
+            code.replace("^", "ctrl+")
+                .replace("$", "shift+")
+                .replace("~", "opt+")
+                .replace("@", "cmd+")
+        )
+        print(f"  {readable:<16}  menu item: {name!r}")
+    print()
+    print("modes:")
+    print("  check      print current status of each shortcut, exit 1 if any wrong")
+    print("  install    write shortcuts to macos preferences")
+    print("  uninstall  disable shortcuts (keeps keys, clears bindings)")
+    print()
+    print("note: restart apps (or log out/in) after install/uninstall to apply.")
+
+
+if __name__ == "__main__":
+    modes = ("check", "install", "uninstall", "--help")
+    if len(sys.argv) != 2 or sys.argv[1] not in modes:
+        print(f"usage: {sys.argv[0]} [check|install|uninstall|--help]")
+        sys.exit(1)
+
+    mode = sys.argv[1]
+    if mode == "--help":
+        help()
+    elif mode == "check":
+        ok = check()
+        sys.exit(0 if ok else 1)
+    elif mode == "install":
+        install()
+    elif mode == "uninstall":
+        uninstall()

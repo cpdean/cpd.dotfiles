@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+filename="$1"
+line="$2"
+gh browse 
