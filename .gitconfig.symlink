@@ -1,6 +1,6 @@
 [user]
     name = Conrad Dean
-    email = conrad.p.dean@gmail.com
+    email = github@conradpdean.com
     username = cpdean
 [credential]
     helper = "cache --timeout=3600"
@@ -12,8 +12,8 @@
 [core]
     ignorecase = false
     autocrlf = input
-	excludesFile = ~/.gitignore
-	hooksPath = /Users/conraddean/.config/git/hooks
+    excludesfile = ~/.config/git/ignore
+    hooksPath = ~/.config/git/hooks
 
 [alias]
     shame = '!s() { git blame -p $@ | sed -n "s/^author-mail //p" | head -n 1; }; s'
