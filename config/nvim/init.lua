@@ -209,6 +209,8 @@ vim.keymap.set('n', "<leader>et" , ':lua require"init"<CR>' )
 vim.keymap.set('n', "<leader>y" , '<cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "single" })<CR>', {noremap = true, silent = true})
 
 
+
+
 --require('cpdean_config.dap_config')
 --require("dapui").setup()
 
@@ -245,3 +247,17 @@ vim.keymap.set('n', "<leader>y" , '<cmd>lua vim.diagnostic.open_float(0, { scope
 --      -- Toggle previous & next buffers stored within Harpoon list
 --      vim.keymap.set("n", "<leader><C-p>", function() harpoon:list():prev() end)
 --      vim.keymap.set("n", "<leader><C-n>", function() harpoon:list():next() end)
+
+require("code_explain").setup({
+  -- how to open the terminal: "split", "vsplit", or "tabnew"
+  window = "vsplit",
+  -- height/width of the split (lines or columns)
+  size = 49,
+})
+
+-- trigger from visual mode with <leader>e
+vim.keymap.set("v", "<leader>e", function()
+  -- drop back to normal mode so the '< '> marks are set
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+  require("code_explain").explain()
+end, { desc = "Explain selected code with Claude" })
