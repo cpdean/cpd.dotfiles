@@ -31,3 +31,15 @@ config/fish/local-config.fish
 
 # fish rewrites this every session, machine-specific state
 config/fish/fish_variables
+
+# app runtime state / install receipts, not config
+config/ad-poster/campaigns.db
+config/uv/uv-receipt.json
+config/iterm2/AppSupport
+# sol app state (config.json is kept)
+config/sol/mmkv.default
+config/sol/mmkv.default.crc
+config/sol/images_pasteboard/
+# opencode deps also covered by config/opencode/.gitignore
+config/opencode/node_modules/
+config/opencode/package-lock.json
