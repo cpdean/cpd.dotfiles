@@ -177,6 +177,7 @@ Plug 'scrooloose/syntastic'
 Plug 'ambv/black'
 
 Plug 'hylang/vim-hy'
+Plug 'gpanders/nvim-parinfer'
 
 Plug 'bakpakin/fennel.vim'
 
@@ -212,9 +213,10 @@ Plug 'tpope/vim-scriptease'
 " hello andy
 Plug 'rouge8/neotest-rust'
 
-if isdirectory($HOME . '/dev/work')
-    Plug 'github/copilot.vim'
-endif
+" if isdirectory($HOME . '/dev/work')
+"     Plug 'github/copilot.vim'
+" endif
+Plug 'github/copilot.vim'
 
 " muscle memory file switching per project
 " Plug 'nvim-lua/plenary.nvim'
@@ -636,6 +638,15 @@ autocmd FileType forth vmap <silent> <leader>tt "ty:call system("python_kitty_ch
 " janet repl needs lines to end in \r\n for it to run a command
 autocmd FileType janet vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -d", getreg("@t"))<CR>
 
+
+
+autocmd FileType python vmap <silent> <Leader>sd "ndiic()<esc>"nP
+
+" delete surrounding dbg! macro
+" how: searches backwards to the first instance of dbg!, cuts what is
+" in parens, pastes overtop the now-empty dbg!()
+autocmd FileType python nmap <silent> <Leader>dd ?\<ic\><CR>f(dibnvf)p
+
 " format selected xml
 vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
 
@@ -660,3 +671,5 @@ lua require('leap').add_default_mappings()
 
 let g:copilot_no_tab_map = v:true
 imap <silent><script><expr> <C-j> copilot#Accept('\<CR>')
+
+
