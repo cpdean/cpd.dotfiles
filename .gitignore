@@ -12,7 +12,6 @@
 .nvim/extra_plugins/**
 # i don't know what this, i think vim file navigator
 .nvim/.netrwhist
- M config/fish/fish_variables
 .DS_Store
 __pycache__
 
@@ -29,3 +28,6 @@ config/raycast
 
 # machine-local fish env (sourced by config.fish)
 config/fish/local-config.fish
+
+# fish rewrites this every session, machine-specific state
+config/fish/fish_variables
