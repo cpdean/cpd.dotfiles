@@ -61,7 +61,7 @@
       "strings": "off",
       "other": "off"
     },
-    "editor.wordBasedSuggestions": false,
+    "editor.wordBasedSuggestions": "off",
   },
   "editor.quickSuggestions": {
     "other": "on",
@@ -69,6 +69,5 @@
     "strings": "off"
   },
   "workbench.preferredHighContrastColorTheme": "Red",
-  "window.autoDetectColorScheme": true,
-  "workbench.colorTheme": "Default Light Modern"
+  "window.autoDetectColorScheme": true
 }
