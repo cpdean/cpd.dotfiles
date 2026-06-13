@@ -26,3 +26,6 @@ config/raycast
 
 # some tool i dunno
 .luarc.json
+
+# machine-local fish env (sourced by config.fish)
+config/fish/local-config.fish

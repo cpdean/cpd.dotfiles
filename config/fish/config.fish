@@ -21,7 +21,6 @@ if status --is-login
 
     set -x EDITOR nvim
 
-
 end
 
 if status is-interactive
@@ -67,4 +66,10 @@ if status is-interactive
 
     fzf --fish | source
 
+end
+
+# machine-local paths/env (installer dumps, per-machine stuff) live here, not
+# in this tracked file. see local-config.fish.example.
+if test -f $HOME/.dotfiles/config/fish/local-config.fish
+    source $HOME/.dotfiles/config/fish/local-config.fish
 end

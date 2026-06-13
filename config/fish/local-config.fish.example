@@ -1,0 +1,18 @@
+# template for machine-local fish env.
+# copy this to local-config.fish (which is gitignored) and edit per machine.
+# this is where installer-dumped PATH lines and per-machine env belong, so
+# the tracked config.fish stays portable.
+
+# examples:
+
+# fish_add_path -g --prepend "$HOME/.rye/shims"
+# set -gx PIPX_DEFAULT_PYTHON (uv python find 3.12)
+# alias love='/Applications/love.app/Contents/MacOS/love'
+
+# set -gx PNPM_HOME $HOME/Library/pnpm
+# if not string match -q -- $PNPM_HOME $PATH
+#   set -gx PATH "$PNPM_HOME" $PATH
+# end
+
+# fish_add_path "$HOME/.codeium/windsurf/bin"
+# set -gx PATH $PATH "$HOME/.lmstudio/bin"
