@@ -380,33 +380,18 @@ nmap <silent> <leader>I :lua require("neotest").run.run(vim.fn.expand("%"))<CR>
 "nmap <silent> <leader>g :TestVisit<CR>
 
 
-autocmd FileType lua set sw=2
-
-
 " hope that you have elm-format on your path
 "autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
 
 " lets see how horrible haskell tooling can be
 au FileType haskell nnoremap <buffer> <leader>ee :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <silent> <leader>ec :HdevtoolsClear<CR>
-" hothasktags suggested this
-au FileType haskell set iskeyword=a-z,A-Z,_,.,39
-
-" writing a lot more
-au FileType markdown setlocal spell spelllang=en_us
 
 
 " editor options moved to lua/cpdean_config/core/options.lua
 
 
-" md means markdown, vim.
-au BufNewFile,BufRead *.md               set ft=markdown
-
-" cljs might as well be clojure
-au BufNewFile,BufRead *.cljs             set ft=clojure
-
-" .fs is normally fsharp, but i'm on a FORTH kick now
-au BufNewFile,BufRead *.fs             set ft=forth
+" filetype detection moved to lua/cpdean_config/core/autocmds.lua
 
 
 " Keep track of code folding
@@ -550,8 +535,6 @@ let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 " WRITING
 " =======
 " config to make writing english in vim better
-autocmd FileType markdown setlocal spell spelllang=en_us
-autocmd FileType gitcommit setlocal spell spelllang=en_us
 " enable ctrl+n/p autocomplete on english words
 "set complete+=kspell
 
@@ -565,11 +548,7 @@ autocmd FileType gitcommit setlocal spell spelllang=en_us
 " commands
 autocmd FileType markdown,gitcommit nmap <leader>f gwap
 
-" ansible yaml drives me wild
-autocmd FileType yaml set nosmartindent
-autocmd FileType yaml set copyindent
-autocmd FileType yaml set autoindent
-autocmd FileType yaml set sw=2
+" ansible yaml indent settings moved to lua/cpdean_config/core/autocmds.lua
 
 " all these spelling errors
 map <leader>n :set nospell<CR>
@@ -623,16 +602,8 @@ autocmd FileType python nmap <silent> <Leader>dd ?\<ic\><CR>f(dibnvf)p
 " format selected xml
 vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
 
-" format sql
-" brew install pgformatter
-" setlocal because `set` scopes it to the entire session.
-autocmd FileType yaml setlocal formatprg=pg_format
-
-" jenkinsfiles are groovy
-autocmd BufNewFile,BufRead Jenkinsfile set filetype=groovy
-
-" salt files are basically python?
-autocmd BufNewFile,BufRead  *.sls set filetype=python
+" yaml formatprg, Jenkinsfile, and *.sls detection moved to
+" lua/cpdean_config/core/autocmds.lua
 
 " like ctrl+L but only for open files
 map <leader><leader> :Buffers<CR>
