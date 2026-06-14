@@ -235,8 +235,7 @@ highlight! link Search IncSearch
 
 " setup language server for all the great things
 
-" for quick vim config iteration
-autocmd FileType vim nnoremap <silent> <Leader>O :source $HOME/.config/nvim/backup.init.vim<CR>
+" vim ft-local <Leader>O reload map moved to after/ftplugin/vim.lua
 
 " completion manager is too aggressive at 0
 let g:cm_complete_start_delay = 1000
