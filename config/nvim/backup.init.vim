@@ -1,20 +1,4 @@
-" specific venv just for neovim
-
-" on macos
-" no idea how to do it for python2 but these are notes...
-" python -m ensurepip --upgrade --user
-" python -m pip install virtualenv --user
-" mkdir ~/.virtualenvs
-" pip install neovim flake8 black
-let g:python_host_prog  = '$HOME/.virtualenvs/neovimpy2/bin/python'
-
-" add a python3 venv
-" python3 -m venv ~/.virtualenvs/neovim
-" source ~/.virtualenvs/neovim/bin/activate
-" python -m pip install neovim flake8 black
-
-"let g:python3_host_prog = '$HOME/.virtualenvs/nvim/bin/python'
-let g:python3_host_prog = '$HOME/.virtualenvs/neovim/bin/python'
+" python host providers moved to lua/cpdean_config/core/providers.lua
 
 " LANGUAGE SERVER INTEGRATION
 " there are so many generc LSP plugins, rather than reliable vim plugins
