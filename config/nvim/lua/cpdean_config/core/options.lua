@@ -26,3 +26,19 @@ vim.opt.hlsearch = true -- highlight matches
 -- new splits open below / to the right
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+
+-- conditional options (migrated from backup.init.vim).
+-- (nocompatible was dropped: it's a no-op in neovim.)
+
+-- fish breaks how vim runs commands, so fall back to a posix shell
+if vim.o.shell:match("fish$") then
+  vim.opt.shell = "sh"
+end
+
+-- yank to the system clipboard
+if vim.fn.has("clipboard") == 1 then
+  vim.opt.clipboard = "unnamed"
+  if vim.fn.has("unnamedplus") == 1 then -- X11 support
+    vim.opt.clipboard:append("unnamedplus")
+  end
+end

@@ -61,13 +61,10 @@ let g:completion_plugin = 'nvim-cmp'
 " no idea how this is supposed to work tbh
 
 "" 1. Vundle Stuff
-set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" fish breaks how vim runs commands so set it to a shell that doesn't
-if &shell =~# 'fish$'
-    set shell=sh
-endif
+" nocompatible (no-op in nvim) dropped; fish shell fallback moved to
+" lua/cpdean_config/core/options.lua
 
 let mapleader = "\<Space>"
 
@@ -416,14 +413,7 @@ endfunction
 
 " I used to have special mappings for clipboard copy-paste but
 " i can't handle the mode-error anymore
-" yank to clipboard
-if has("clipboard")
-  set clipboard=unnamed " copy to the system clipboard
-
-  if has("unnamedplus") " X11 support
-    set clipboard+=unnamedplus
-  endif
-endif
+" yank-to-clipboard config moved to lua/cpdean_config/core/options.lua
 
 function! Scrolling(cmd, slide)
     " MINI PLUGIN - This adds an ease-in/ease-out function for page-wise
