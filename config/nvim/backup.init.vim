@@ -551,8 +551,6 @@ endfunction
 " open line in github
 vnoremap <silent> gh :GBrowse<CR>
 
-" faster save
-nmap <silent> <Leader>w :w<CR>
 " bail instant
 nmap <silent> <leader>q :q!<CR>
 " writequit

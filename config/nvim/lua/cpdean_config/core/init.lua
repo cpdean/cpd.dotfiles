@@ -4,3 +4,4 @@
 require('cpdean_config.core.options')
 require('cpdean_config.core.autocmds')
 require('cpdean_config.core.providers')
+require('cpdean_config.core.keymaps')
