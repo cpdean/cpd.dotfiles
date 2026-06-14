@@ -146,6 +146,24 @@ https://github.com/Pocco81/true-zen.nvim
 --]]
 
 
+-- lazy.nvim bootstrap (gradual-refactor-init.lua, phase 0).
+-- clones the lazy plugin manager but registers no plugins yet; vim-plug in
+-- backup.init.vim still manages everything until phase 2 migrates the specs.
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup({})
+
+
 require('cpdean_config.languages')
 require('cpdean_config.neovide')
 
@@ -227,22 +245,22 @@ vim.keymap.set('n', "<leader>y" , '<cmd>lua vim.diagnostic.open_float(0, { scope
 -- persistent marks and an API to customize how you deal with them
 -- harpoon navigation
 --      local harpoon = require("harpoon")
---      
+--
 --      -- REQUIRED
 --      harpoon:setup()
 --      -- REQUIRED
---      
+--
 --      vim.keymap.set("n", "<leader>k", function() harpoon:list():append() end)
 --      -- ctrl-e to open the list of harpoons. edit it like a file to re-order or remove harpoons
 --      vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
---      
+--
 --      --vim.keymap.set("n", "<C-y>", function() harpoon:list():select(1) end)
 --      -- j is for the central file, with u, i, o, being 3 others
 --      vim.keymap.set("n", "<C-j>", function() harpoon:list():select(1) end)
 --      vim.keymap.set("n", "<C-u>", function() harpoon:list():select(2) end)
 --      vim.keymap.set("n", "<C-i>", function() harpoon:list():select(3) end)
 --      vim.keymap.set("n", "<C-o>", function() harpoon:list():select(4) end)
---      
+--
 --      -- the author had this, not yet sure how i feel about it. will probably ditch
 --      -- Toggle previous & next buffers stored within Harpoon list
 --      vim.keymap.set("n", "<leader><C-p>", function() harpoon:list():prev() end)
