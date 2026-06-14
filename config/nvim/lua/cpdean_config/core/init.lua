@@ -2,3 +2,4 @@
 -- modules get added here as phase 1 extracts them: options, autocmds,
 -- providers, keymaps.
 require('cpdean_config.core.options')
+require('cpdean_config.core.autocmds')

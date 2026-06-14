@@ -351,8 +351,6 @@ let g:jedi#auto_initialization = 0
 autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
 " this is not working suddenly... attempting to use this other apio
 
-"why doesn't the hive syntax plugin do this already??
-autocmd BufNewFile,BufRead *.hql set filetype=hive
 
 
 " disabling paredit stuff until paredit can be fixed
