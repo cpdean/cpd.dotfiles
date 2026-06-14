@@ -238,7 +238,6 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-set background=dark
 " contrast can be soft, medium, or hard
 let g:gruvbox_contrast_dark = "medium"
 " search result color clashes with the cursor color, picking
@@ -251,7 +250,6 @@ highlight! link Search IncSearch
 
 
 " setup language server for all the great things
-set hidden
 
 " for quick vim config iteration
 autocmd FileType vim nnoremap <silent> <Leader>O :source $HOME/.config/nvim/backup.init.vim<CR>
@@ -400,28 +398,7 @@ au FileType haskell set iskeyword=a-z,A-Z,_,.,39
 au FileType markdown setlocal spell spelllang=en_us
 
 
-"shows stuff on bottom
-set showcmd
-"give visual indication of what's available for tab completion
-set wildmenu
-" I don't know what these do, I just do them
-set ts =4
-set expandtab
-set tabstop=4
-set shiftwidth=4
-
-" Search usability
-set ignorecase      " search matches ignore case
-set smartcase       " search matches case if you start using it
-set incsearch       " Search as you type the regex
-set hlsearch        " Highlight found search results
-set ruler           " Show the line number and column of cursor position
-set linebreak       " More visually appealing wordwrap
-
-" new splits happen in the parts of the screen you visualize as
-" happening "after", or "in the future".  at least in right-to-left reading
-set splitbelow
-set splitright
+" editor options moved to lua/cpdean_config/core/options.lua
 
 
 " md means markdown, vim.
