@@ -24,12 +24,6 @@ vim.cmd([[source $HOME/.config/nvim/backup.init.vim]])
 require("cpdean_config/nvim-lsp").start_lsp_client()
 
 -- Neotest
-require("neotest").setup({
-  adapters = {
-    require("neotest-rust"),
-  },
-})
-
 local neotest = require("neotest")
 neotest.setup({
     discovery = { enabled = false },
