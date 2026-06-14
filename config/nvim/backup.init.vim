@@ -296,8 +296,6 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|class|)$',
   \ }
 
-" so i can open nerdtree
-map <leader>; :NERDTreeToggle<CR>
 " uncomment if it is annoying having NERDTree keep vim open when i had intended
 " to close vim
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -384,9 +382,7 @@ au FileType haskell nnoremap <buffer> <silent> <leader>ec :HdevtoolsClear<CR>
 ""au BufWinLeave * silent! mkview
 ""au BufWinEnter * silent! loadview
 
-" Unfuck my screen
-noremap <leader>r :call _ClearScreen()<cr>
-
+" <leader>r (_ClearScreen) map moved to lua/cpdean_config/core/keymaps.lua
 function! _ClearScreen()
     " wipe search highlight stuff
     "  for some reason this has to be first...
@@ -401,11 +397,7 @@ function! _ClearScreen()
     execute ':helpc'
 endfunction
 
-" fugitive.vim bindings
-nmap <leader>gs :Gstatus<CR>
-nmap <leader>gg :Gcommit<CR>
-" of course
-nmap <leader>gb :Git blame<CR>
+" fugitive.vim bindings moved to lua/cpdean_config/core/keymaps.lua
 
 " better list navigation
 " move through spaces in the quickfix list by hitting arrow keys
@@ -413,25 +405,15 @@ nmap <leader>gb :Git blame<CR>
 
 " quickfix
 " nav between ag search results
-nnoremap <left>  :cprev<cr>zvzz
-nnoremap <right> :cnext<cr>zvzz
-" location list?
-" nav between syntastic results
-nnoremap <up>    :lprev<cr>zvzz
-nnoremap <down>  :lnext<cr>zvzz
+" arrow-key quickfix/loclist nav moved to lua/cpdean_config/core/keymaps.lua
 
 
 " add <F6> binding for running python code
 " should eventually update it so that I can make <F6> run things based on filetype
-nmap <F6> :w<CR>:!python %<CR>
+" <F6> python-run map moved to lua/cpdean_config/core/keymaps.lua
 "nmap <leader>f :vim <C-R><C-W> **/*.py "deprecating, should probably remove
 
-" open a search across the current dir
-nmap <leader>s :Ack -i
-" search the word the cursor is on
-nmap <leader>S :Ack <C-R><C-W><cr>
-" search the selection
-vmap <leader>s "sy:Ack <C-R>s<cr>
+" Ack search maps moved to lua/cpdean_config/core/keymaps.lua
 
 " auto insert a breakpoint
 autocmd FileType python nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
@@ -505,7 +487,7 @@ endfunction
 
 " manually install fzf vim plugin. ctrlp is gettin slow
 " experimenting with ctrlp and fzf.vim side by side
-nmap <silent> <C-L> :FZF<CR>
+" <C-L> FZF map moved to lua/cpdean_config/core/keymaps.lua
 " override default fzf source so i can see .config files inside a repo
 let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 
@@ -534,8 +516,7 @@ autocmd FileType markdown,gitcommit nmap <leader>f gwap
 
 " ansible yaml indent settings moved to lua/cpdean_config/core/autocmds.lua
 
-" all these spelling errors
-map <leader>n :set nospell<CR>
+" <leader>n (:set nospell) moved to lua/cpdean_config/core/keymaps.lua
 
 
 nmap <silent> <Leader>h :call <SID>show_documentation()<CR>
@@ -548,13 +529,9 @@ function! s:show_documentation()
     endif
 endfunction
 
-" open line in github
-vnoremap <silent> gh :GBrowse<CR>
+" gh (GBrowse) map moved to lua/cpdean_config/core/keymaps.lua
 
-" bail instant
-nmap <silent> <leader>q :q!<CR>
-" writequit
-nmap <silent> <leader>W :wq<CR>
+" <leader>q / <leader>W quit maps moved to lua/cpdean_config/core/keymaps.lua
 
 " switching to kitty fulltime
 "vmap <silent> <leader>tt ::w !python_kitty_chunked_send.py<CR><CR>
@@ -563,7 +540,7 @@ nmap <silent> <leader>W :wq<CR>
 " defines the selection range in WHOLE LINES)
 " the following tries to fix this by storing the text of the selection in the
 " register `t` and then sending the contents of the register to the command.
-vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>
+" global <leader>tt moved to lua/cpdean_config/core/keymaps.lua (ft variants below)
 
 "vmap <silent> <leader>tt "ty:call system("./zellij-send-text.sh", getreg("@t"))<CR>
 
@@ -581,14 +558,12 @@ autocmd FileType python vmap <silent> <Leader>sd "ndiic()<esc>"nP
 " in parens, pastes overtop the now-empty dbg!()
 autocmd FileType python nmap <silent> <Leader>dd ?\<ic\><CR>f(dibnvf)p
 
-" format selected xml
-vmap <silent> <leader>xf :'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
+" <leader>xf (format selected xml) moved to lua/cpdean_config/core/keymaps.lua
 
 " yaml formatprg, Jenkinsfile, and *.sls detection moved to
 " lua/cpdean_config/core/autocmds.lua
 
-" like ctrl+L but only for open files
-map <leader><leader> :Buffers<CR>
+" <leader><leader> (:Buffers) moved to lua/cpdean_config/core/keymaps.lua
 
 " enable leap.nvim plugin for movement tricks
 lua require('leap').add_default_mappings()
