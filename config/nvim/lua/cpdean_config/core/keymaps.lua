@@ -51,3 +51,13 @@ vim.keymap.set("v", "<leader>tt", '"ty:call system("python_kitty_chunked_send.py
 
 -- pretty-print selected xml
 vim.keymap.set("v", "<leader>xf", [[:'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>]], { remap = true, silent = true })
+
+-- contextual help: :help for vim files, otherwise K (hover). was the
+-- s:show_documentation() + <SID> map in backup.init.vim.
+vim.keymap.set("n", "<Leader>h", function()
+  if vim.bo.filetype == "vim" then
+    vim.cmd("h " .. vim.fn.expand("<cword>"))
+  else
+    vim.cmd("normal K")
+  end
+end, { silent = true })

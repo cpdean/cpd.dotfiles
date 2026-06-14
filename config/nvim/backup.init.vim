@@ -515,15 +515,7 @@ let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 " <leader>n (:set nospell) moved to lua/cpdean_config/core/keymaps.lua
 
 
-nmap <silent> <Leader>h :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-    if &filetype == 'vim'
-        execute 'h '.expand('<cword>')
-    else
-        normal K
-    endif
-endfunction
+" <Leader>h (show_documentation) moved to lua/cpdean_config/core/keymaps.lua
 
 " gh (GBrowse) map moved to lua/cpdean_config/core/keymaps.lua
 
