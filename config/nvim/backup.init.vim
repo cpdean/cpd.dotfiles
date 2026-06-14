@@ -329,7 +329,7 @@ let g:jedi#auto_initialization = 0
 "autocmd FileType python nnoremap <buffer> <leader>dd :call jedi#goto_definitions()<CR>
 " go to where item was defined for this file
 "autocmd FileType python nnoremap <buffer> <leader>da :call jedi#goto_assignments()<CR>
-autocmd FileType python nnoremap <buffer> ga :call jedi#goto_assignments()<CR>
+" python ft-local maps moved to after/ftplugin/python.lua
 " this is not working suddenly... attempting to use this other apio
 
 
@@ -364,9 +364,7 @@ nmap <silent> <leader>I :lua require("neotest").run.run(vim.fn.expand("%"))<CR>
 " hope that you have elm-format on your path
 "autocmd BufWritePost *.elm silent execute "!elm-format --yes % > /dev/null" | edit! | set filetype=elm
 
-" lets see how horrible haskell tooling can be
-au FileType haskell nnoremap <buffer> <leader>ee :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> <silent> <leader>ec :HdevtoolsClear<CR>
+" haskell hdevtools maps moved to after/ftplugin/haskell.lua
 
 
 " editor options moved to lua/cpdean_config/core/options.lua
@@ -414,8 +412,7 @@ endfunction
 
 " Ack search maps moved to lua/cpdean_config/core/keymaps.lua
 
-" auto insert a breakpoint
-autocmd FileType python nmap <leader>b Oimport pytest; pytest.set_trace()<ESC>
+" pytest breakpoint map moved to after/ftplugin/python.lua
 
 " I used to have special mappings for clipboard copy-paste but
 " i can't handle the mode-error anymore
@@ -511,7 +508,7 @@ let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 " format paragraph at cursor, only for prose. it is nice for formatting
 " comments but this binding would conflict with language server format
 " commands
-autocmd FileType markdown,gitcommit nmap <leader>f gwap
+" <leader>f prose-format moved to after/ftplugin/markdown.lua + gitcommit.lua
 
 " ansible yaml indent settings moved to lua/cpdean_config/core/autocmds.lua
 
@@ -543,19 +540,11 @@ endfunction
 
 "vmap <silent> <leader>tt "ty:call system("./zellij-send-text.sh", getreg("@t"))<CR>
 
-autocmd FileType forth vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -r", getreg("@t"))<CR>
-
-" janet repl needs lines to end in \r\n for it to run a command
-autocmd FileType janet vmap <silent> <leader>tt "ty:call system("python_kitty_chunked_send.py -d", getreg("@t"))<CR>
+" forth/janet <leader>tt kitty-send maps moved to after/ftplugin/forth.lua and janet.lua
 
 
 
-autocmd FileType python vmap <silent> <Leader>sd "ndiic()<esc>"nP
-
-" delete surrounding dbg! macro
-" how: searches backwards to the first instance of dbg!, cuts what is
-" in parens, pastes overtop the now-empty dbg!()
-autocmd FileType python nmap <silent> <Leader>dd ?\<ic\><CR>f(dibnvf)p
+" python <Leader>sd / <Leader>dd ic-macro maps moved to after/ftplugin/python.lua
 
 " <leader>xf (format selected xml) moved to lua/cpdean_config/core/keymaps.lua
 
