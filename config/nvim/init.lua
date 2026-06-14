@@ -16,6 +16,9 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({})
 
 
+-- core editor config (options/autocmds/providers/keymaps), loaded before the shim
+require('cpdean_config.core')
+
 require('cpdean_config.languages')
 require('cpdean_config.neovide')
 

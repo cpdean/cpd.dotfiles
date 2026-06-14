@@ -148,7 +148,7 @@ Plug 'scrooloose/nerdtree'
 " for git things
 " Plug 'tpope/vim-fugitive'
 " 2021-08-02: hard-coding a commit because fugitive stopped working on neovim at some
-" point. 
+" point.
 " 9cba97f4db4e0af4275f802c2de977f553d26ec6 - 2021-03-01
 
 "Plug 'tpope/vim-fugitive', {'commit': '9cba97f4db4e0af4275f802c2de977f553d26ec6'}
@@ -359,8 +359,8 @@ autocmd BufNewFile,BufRead *.hql set filetype=hive
 
 " disabling paredit stuff until paredit can be fixed
 " function! ConradPareditBindings()
-"     call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()') 
-"     call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()') 
+"     call RepeatableNNoRemap(g:paredit_leader . 'm', ':<C-U>call PareditMoveLeft()')
+"     call RepeatableNNoRemap(g:paredit_leader . '.', ':<C-U>call PareditMoveRight()')
 " endfunction
 " au FileType lisp      call ConradPareditBindings()
 " au FileType *clojure* call ConradPareditBindings()
@@ -409,8 +409,6 @@ set ts =4
 set expandtab
 set tabstop=4
 set shiftwidth=4
-"line numbersss
-set number
 
 " Search usability
 set ignorecase      " search matches ignore case
@@ -438,7 +436,7 @@ au BufNewFile,BufRead *.fs             set ft=forth
 
 " Keep track of code folding
 """ i don't use codefolding so much, and this might be producing too many view
-""" files so disabling for now 
+""" files so disabling for now
 ""au BufWinLeave * silent! mkview
 ""au BufWinEnter * silent! loadview
 
@@ -485,7 +483,7 @@ nmap <F6> :w<CR>:!python %<CR>
 "nmap <leader>f :vim <C-R><C-W> **/*.py "deprecating, should probably remove
 
 " open a search across the current dir
-nmap <leader>s :Ack -i 
+nmap <leader>s :Ack -i
 " search the word the cursor is on
 nmap <leader>S :Ack <C-R><C-W><cr>
 " search the selection
@@ -671,5 +669,3 @@ lua require('leap').add_default_mappings()
 
 let g:copilot_no_tab_map = v:true
 imap <silent><script><expr> <C-j> copilot#Accept('\<CR>')
-
-
