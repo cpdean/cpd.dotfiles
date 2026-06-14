@@ -1,6 +1,6 @@
--- lazy.nvim bootstrap (gradual-refactor-init.lua, phase 0).
--- clones the lazy plugin manager but registers no plugins yet; vim-plug in
--- backup.init.vim still manages everything until phase 2 migrates the specs.
+-- lazy.nvim bootstrap (gradual-refactor-init.lua, phase 2).
+-- plugins migrated to lazy live in lua/cpdean_config/plugins/*.lua. plugins not
+-- yet migrated are still managed by vim-plug in backup.init.vim.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
@@ -13,7 +13,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup({})
+require("lazy").setup("cpdean_config.plugins")
 
 
 -- core editor config (options/autocmds/providers/keymaps), loaded before the shim

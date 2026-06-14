@@ -70,8 +70,7 @@ let mapleader = "\<Space>"
 
 " for some reason the kids these days use vim-plug
 call plug#begin('~/.config/nvim/extra_plugins')
-" for lols
-Plug 'dstein64/vim-startuptime'
+" vim-startuptime migrated to lua/cpdean_config/plugins/startuptime.lua (lazy)
 
 Plug 'nvim-neotest/nvim-nio'
 
