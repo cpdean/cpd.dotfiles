@@ -43,3 +43,6 @@ config/sol/images_pasteboard/
 # opencode deps also covered by config/opencode/.gitignore
 config/opencode/node_modules/
 config/opencode/package-lock.json
+
+# zed prompts library is a binary db, keep settings.json only
+config/zed/prompts/
