@@ -1,5 +1,0 @@
-{
-  "suggest.timeout": 5000,
-  "suggest.autoTrigger": "none",
-  "clangd.disableDiagnostics": true
-}
