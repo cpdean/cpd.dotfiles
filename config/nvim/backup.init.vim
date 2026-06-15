@@ -286,7 +286,7 @@ let g:jedi#auto_initialization = 0
 " maybe someday i'll try out the short mappings instead
 
 
-source $HOME/.config/nvim/config/rust.vim
+" config/rust.vim folded into after/ftplugin/rust.lua
 
 "nmap <silent> <leader>i :TestNearest<CR>
 "nmap <silent> <leader>I :TestFile<CR>
