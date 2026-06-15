@@ -72,7 +72,7 @@ let mapleader = "\<Space>"
 call plug#begin('~/.config/nvim/extra_plugins')
 " vim-startuptime migrated to lua/cpdean_config/plugins/startuptime.lua (lazy)
 
-Plug 'nvim-neotest/nvim-nio'
+" nvim-nio migrated to lua/cpdean_config/plugins/testing.lua (neotest dep)
 
 " lua repl hooked into the neovim lua env
 "
@@ -151,15 +151,11 @@ Plug 'tpope/vim-markdown'
 
 " nvim-treesitter migrated to lua/cpdean_config/plugins/treesitter.lua (lazy)
 
-" better test controls
-Plug 'nvim-neotest/neotest'
-Plug 'nvim-neotest/neotest-python'
-Plug 'nvim-neotest/neotest-plenary'
+" neotest + python/plenary adapters migrated to plugins/testing.lua (lazy)
 
 Plug 'tpope/vim-scriptease'
 
-" hello andy
-Plug 'rouge8/neotest-rust'
+" neotest-rust migrated to plugins/testing.lua (neotest dep)
 
 " if isdirectory($HOME . '/dev/work')
 "     Plug 'github/copilot.vim'
