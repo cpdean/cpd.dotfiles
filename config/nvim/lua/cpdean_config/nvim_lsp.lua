@@ -174,7 +174,7 @@ function cpdean_nvm_lsp.start_lsp_client()
   -- -- require'lspconfig'.denols.setup{}
 
   -- npm install -g typescript typescript-language-server
-  require'lspconfig'.tsserver.setup{}
+  require'lspconfig'.ts_ls.setup{}
 
   -- from RishabhRD/nvim-lsputils
   -- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
