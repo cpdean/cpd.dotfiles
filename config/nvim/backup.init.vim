@@ -80,17 +80,14 @@ Plug 'bfredl/nvim-luadev'
 
 " fzf + fzf.vim migrated to lua/cpdean_config/plugins/finder.lua (lazy)
 
-Plug 'rust-lang/rust.vim'
-
-Plug 'janet-lang/janet.vim'
+" rust.vim + janet.vim migrated to lua/cpdean_config/plugins/languages.lua (lazy)
 
 " lsp + completion plugins (neoconf, lspconfig, lsp_extensions, popfix,
 " nvim-lsputils, symbols-outline, nvim-cmp + sources, vim-vsnip) migrated to
 " lua/cpdean_config/plugins/lsp.lua (lazy)
 
 
-Plug 'elixir-lang/vim-elixir'
-Plug 'slashmili/alchemist.vim'
+" vim-elixir + alchemist.vim migrated to plugins/languages.lua (lazy)
 
 Plug 'mileszs/ack.vim'
 "Plug 'davidhalter/jedi-vim'
@@ -117,29 +114,21 @@ Plug 'kristijanhusak/vim-dadbod-completion'
 " leap.nvim migrated to lua/cpdean_config/plugins/editing.lua (lazy)
 
 
-" default python support is p dismal
-Plug 'vim-scripts/python.vim--Vasiliev'
-Plug 'mitsuhiko/vim-python-combined'
+" python.vim--Vasiliev + vim-python-combined migrated to plugins/languages.lua
 Plug 'scrooloose/syntastic'
 
 " trying out autofmt on save
 Plug 'ambv/black'
 
-Plug 'hylang/vim-hy'
+" vim-hy migrated to plugins/languages.lua (lazy)
 " nvim-parinfer migrated to lua/cpdean_config/plugins/editing.lua (lazy)
-
-Plug 'bakpakin/fennel.vim'
-
-Plug 'dag/vim-fish'
-
-Plug 'vim-scripts/forth.vim'
+" fennel.vim, vim-fish, forth.vim migrated to plugins/languages.lua (lazy)
 
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
 " gruvbox migrated to lua/cpdean_config/plugins/ui.lua (lazy)
 
-" writing
-Plug 'tpope/vim-markdown'
+" vim-markdown migrated to plugins/languages.lua (lazy)
 
 " visually display your position in a file
 "Plug 'wellle/context.vim'
