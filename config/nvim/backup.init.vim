@@ -76,7 +76,7 @@ call plug#begin('~/.config/nvim/extra_plugins')
 
 " lua repl hooked into the neovim lua env
 "
-Plug 'bfredl/nvim-luadev'
+" nvim-luadev migrated to lua/cpdean_config/plugins/tools.lua (lazy)
 
 " fzf + fzf.vim migrated to lua/cpdean_config/plugins/finder.lua (lazy)
 
@@ -89,12 +89,12 @@ Plug 'bfredl/nvim-luadev'
 
 " vim-elixir + alchemist.vim migrated to plugins/languages.lua (lazy)
 
-Plug 'mileszs/ack.vim'
+" ack.vim migrated to lua/cpdean_config/plugins/tools.lua (lazy)
 "Plug 'davidhalter/jedi-vim'
 
 " vim-surround migrated to lua/cpdean_config/plugins/editing.lua (lazy)
 
-Plug 'scrooloose/nerdtree'
+" nerdtree migrated to lua/cpdean_config/plugins/tools.lua (lazy)
 " however i'm really interested in trying this out for a file manager:
 " https://github.com/tpope/vim-vinegar
 
@@ -108,17 +108,16 @@ Plug 'scrooloose/nerdtree'
 " fugitive + rhubarb migrated to lua/cpdean_config/plugins/git.lua (lazy)
 
 " more db trickery
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-completion'
+" vim-dadbod + dadbod-completion migrated to plugins/tools.lua (lazy)
 
 " leap.nvim migrated to lua/cpdean_config/plugins/editing.lua (lazy)
 
 
 " python.vim--Vasiliev + vim-python-combined migrated to plugins/languages.lua
-Plug 'scrooloose/syntastic'
+" syntastic migrated to lua/cpdean_config/plugins/tools.lua (lazy)
 
 " trying out autofmt on save
-Plug 'ambv/black'
+" black migrated to lua/cpdean_config/plugins/tools.lua (lazy)
 
 " vim-hy migrated to plugins/languages.lua (lazy)
 " nvim-parinfer migrated to lua/cpdean_config/plugins/editing.lua (lazy)
@@ -142,14 +141,14 @@ Plug 'ambv/black'
 
 " neotest + python/plenary adapters migrated to plugins/testing.lua (lazy)
 
-Plug 'tpope/vim-scriptease'
+" vim-scriptease migrated to lua/cpdean_config/plugins/tools.lua (lazy)
 
 " neotest-rust migrated to plugins/testing.lua (neotest dep)
 
 " if isdirectory($HOME . '/dev/work')
 "     Plug 'github/copilot.vim'
 " endif
-Plug 'github/copilot.vim'
+" copilot.vim migrated to plugins/tools.lua (lazy; no_tab_map + <C-j> in spec)
 
 " muscle memory file switching per project
 " Plug 'nvim-lua/plenary.nvim'
@@ -483,5 +482,4 @@ let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 
 
 
-let g:copilot_no_tab_map = v:true
-imap <silent><script><expr> <C-j> copilot#Accept('\<CR>')
+" copilot no_tab_map + <C-j> accept map moved to its lazy spec (plugins/tools.lua)
