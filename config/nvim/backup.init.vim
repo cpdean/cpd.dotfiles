@@ -174,7 +174,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
-Plug 'nvim-treesitter/nvim-treesitter'
+" nvim-treesitter migrated to lua/cpdean_config/plugins/treesitter.lua (lazy)
 
 " better test controls
 Plug 'nvim-neotest/neotest'
