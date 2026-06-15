@@ -119,7 +119,7 @@ Plug 'slashmili/alchemist.vim'
 Plug 'mileszs/ack.vim'
 "Plug 'davidhalter/jedi-vim'
 
-Plug 'tpope/vim-surround'
+" vim-surround migrated to lua/cpdean_config/plugins/editing.lua (lazy)
 
 Plug 'scrooloose/nerdtree'
 " however i'm really interested in trying this out for a file manager:
@@ -138,8 +138,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
-" trying out this movement plugin
-Plug 'ggandor/leap.nvim'
+" leap.nvim migrated to lua/cpdean_config/plugins/editing.lua (lazy)
 
 
 " default python support is p dismal
@@ -151,7 +150,7 @@ Plug 'scrooloose/syntastic'
 Plug 'ambv/black'
 
 Plug 'hylang/vim-hy'
-Plug 'gpanders/nvim-parinfer'
+" nvim-parinfer migrated to lua/cpdean_config/plugins/editing.lua (lazy)
 
 Plug 'bakpakin/fennel.vim'
 
@@ -528,8 +527,7 @@ let $FZF_DEFAULT_COMMAND = 'fd --hidden --exclude .git --type f'
 
 " <leader><leader> (:Buffers) moved to lua/cpdean_config/core/keymaps.lua
 
-" enable leap.nvim plugin for movement tricks
-lua require('leap').add_default_mappings()
+" leap.nvim setup moved to its lazy spec config (plugins/editing.lua)
 
 
 
