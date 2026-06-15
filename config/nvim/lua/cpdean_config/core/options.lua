@@ -42,3 +42,17 @@ if vim.fn.has("clipboard") == 1 then
     vim.opt.clipboard:append("unnamedplus")
   end
 end
+
+-- truecolor (replaces the old $NVIM_TUI_ENABLE_TRUE_COLOR env hack)
+vim.opt.termguicolors = true
+
+vim.cmd("syntax enable")
+vim.cmd("filetype plugin indent on")
+
+-- ack.vim: prefer ripgrep when available
+if vim.fn.executable("rg") == 1 then
+  vim.g.ackprg = "rg --vimgrep"
+end
+
+-- fzf.vim: include hidden files, skip .git
+vim.env.FZF_DEFAULT_COMMAND = "fd --hidden --exclude .git --type f"

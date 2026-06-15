@@ -7,9 +7,6 @@ return {
   { "tpope/vim-dadbod", lazy = false },
   { "kristijanhusak/vim-dadbod-completion", lazy = false },
   { "tpope/vim-scriptease", lazy = false },
-  -- syntastic is largely superseded by LSP (see TODO.md); kept for parity.
-  -- its g:syntastic_* settings still live in backup.init.vim.
-  { "scrooloose/syntastic", lazy = false },
   { "ambv/black", lazy = false },
   {
     "github/copilot.vim",

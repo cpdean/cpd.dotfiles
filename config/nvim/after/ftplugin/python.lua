@@ -1,9 +1,6 @@
 -- python filetype-local maps, migrated from backup.init.vim (gradual-refactor
 -- phase 1). buffer-local, the idiomatic ftplugin way.
 
--- jump to assignment via jedi
-vim.keymap.set("n", "ga", ":call jedi#goto_assignments()<CR>", { buffer = true })
-
 -- drop a pytest breakpoint above the current line
 vim.keymap.set("n", "<leader>b", "Oimport pytest; pytest.set_trace()<ESC>", { buffer = true, remap = true })
 

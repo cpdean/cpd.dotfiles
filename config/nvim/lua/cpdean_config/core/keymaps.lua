@@ -14,8 +14,20 @@ vim.keymap.set("n", "<leader>W", ":wq<CR>", { remap = true, silent = true })
 -- file tree
 vim.keymap.set("", "<leader>;", ":NERDTreeToggle<CR>", { remap = true })
 
--- clear the kitty/terminal screen (calls a global vimscript fn in backup.init.vim)
-vim.keymap.set("", "<leader>r", ":call _ClearScreen()<cr>")
+-- clear search highlight, resync syntax, redraw, and close quickfix/help
+-- (was the _ClearScreen vimscript function in backup.init.vim)
+local function clear_screen()
+  vim.cmd("nohlsearch")
+  vim.cmd("syntax sync fromstart")
+  vim.cmd("redraw!")
+  vim.cmd("cclose")
+  vim.cmd("helpclose")
+end
+vim.keymap.set("", "<leader>r", clear_screen)
+
+-- neotest: run nearest test / run all tests in the file
+vim.keymap.set("n", "<leader>i", function() require("neotest").run.run() end, { silent = true })
+vim.keymap.set("n", "<leader>I", function() require("neotest").run.run(vim.fn.expand("%")) end, { silent = true })
 
 -- fugitive
 vim.keymap.set("n", "<leader>gs", ":Gstatus<CR>", { remap = true })
