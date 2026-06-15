@@ -85,32 +85,9 @@ Plug 'rust-lang/rust.vim'
 
 Plug 'janet-lang/janet.vim'
 
-" global or per-project editor settings
-Plug 'folke/neoconf.nvim'
-
-Plug 'simrat39/symbols-outline.nvim'
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/lsp_extensions.nvim'
-" one dude's extensions. better code-action etc
-Plug 'RishabhRD/popfix'
-Plug 'RishabhRD/nvim-lsputils'
-
-" a completion framework that seemed to be good
-Plug 'hrsh7th/nvim-cmp'
-" hook into lsp for nvim-cmp
-Plug 'hrsh7th/cmp-nvim-lsp'
-" completions for neovim's lua api
-Plug 'hrsh7th/cmp-nvim-lua'
-
-" extras
-" Plug 'hrsh7th/cmp-buffer'
-" Plug 'hrsh7th/cmp-path'
-" Plug 'hrsh7th/cmp-cmdline'
-
-" integrate with a snippet plugin for cmp
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
+" lsp + completion plugins (neoconf, lspconfig, lsp_extensions, popfix,
+" nvim-lsputils, symbols-outline, nvim-cmp + sources, vim-vsnip) migrated to
+" lua/cpdean_config/plugins/lsp.lua (lazy)
 
 
 Plug 'elixir-lang/vim-elixir'
