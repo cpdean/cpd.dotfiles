@@ -61,14 +61,8 @@ function cpdean_nvm_lsp.start_lsp_client()
   local rust_config = require("cpdean_config.languages.rust")
 
 
-  local add_auto_complete = function(capabilities)
-    capabilities = require('cmp_nvim_lsp').default_capabilities()
-    return capabilities
-  end
-
-  local capabilities = add_auto_complete(vim.lsp.protocol.make_client_capabilities())
-
-  local common = require("cpdean_config.common_lsp_config")
+  local common = require("cpdean_config.lsp")
+  local capabilities = common.capabilities()
 
   nvim_lsp.rust_analyzer.setup {
     settings = {
@@ -176,7 +170,7 @@ function cpdean_nvm_lsp.start_lsp_client()
   -- -- vim.g.markdown_fenced_languages = {
   -- --   "ts=typescript"
   -- -- }
-  -- -- 
+  -- --
   -- -- require'lspconfig'.denols.setup{}
 
   -- npm install -g typescript typescript-language-server

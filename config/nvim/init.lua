@@ -22,7 +22,7 @@ require("lazy").setup("cpdean_config.plugins")
 require('cpdean_config.languages')
 require('cpdean_config.neovide')
 
-require("cpdean_config/nvim-lsp").start_lsp_client()
+require("cpdean_config.nvim_lsp").start_lsp_client()
 
 -- Neotest
 local neotest = require("neotest")
