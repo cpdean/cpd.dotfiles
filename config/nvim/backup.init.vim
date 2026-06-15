@@ -78,8 +78,7 @@ Plug 'nvim-neotest/nvim-nio'
 "
 Plug 'bfredl/nvim-luadev'
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" fzf + fzf.vim migrated to lua/cpdean_config/plugins/finder.lua (lazy)
 
 Plug 'rust-lang/rust.vim'
 
@@ -147,8 +146,7 @@ Plug 'tpope/vim-markdown'
 
 " trying to use vim as a github client
 " deps of octo.nvim
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" plenary + telescope migrated to lua/cpdean_config/plugins/finder.lua (lazy)
 " nvim-web-devicons migrated to lua/cpdean_config/plugins/ui.lua (lazy)
 
 " nvim-treesitter migrated to lua/cpdean_config/plugins/treesitter.lua (lazy)
