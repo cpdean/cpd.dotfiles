@@ -13,11 +13,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("cpdean_config.plugins")
-
-
--- core editor config (options/autocmds/providers/keymaps), loaded before the shim
+-- core editor config (options/autocmds/providers/keymaps). loaded before lazy
+-- so options like background are set before plugin colorschemes load.
 require('cpdean_config.core')
+
+require("lazy").setup("cpdean_config.plugins")
 
 require('cpdean_config.languages')
 require('cpdean_config.neovide')

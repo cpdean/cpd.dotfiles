@@ -160,7 +160,7 @@ Plug 'vim-scripts/forth.vim'
 
 " a color
 " Plug 'drewtempelmeyer/palenight.vim'
-Plug 'morhetz/gruvbox'
+" gruvbox migrated to lua/cpdean_config/plugins/ui.lua (lazy)
 
 " writing
 Plug 'tpope/vim-markdown'
@@ -172,7 +172,7 @@ Plug 'tpope/vim-markdown'
 " deps of octo.nvim
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
+" nvim-web-devicons migrated to lua/cpdean_config/plugins/ui.lua (lazy)
 
 " nvim-treesitter migrated to lua/cpdean_config/plugins/treesitter.lua (lazy)
 
@@ -211,15 +211,7 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-" contrast can be soft, medium, or hard
-let g:gruvbox_contrast_dark = "medium"
-" search result color clashes with the cursor color, picking
-" something more muted so I can see where the cursor is
-let g:gruvbox_hls_cursor = "bg4"
-colorscheme gruvbox
-" gruvbox only lets you config the IncSearch cursor in a high-level way,
-" so just make that the same as the search to make search results readable
-highlight! link Search IncSearch
+" gruvbox colorscheme + config moved to lua/cpdean_config/plugins/ui.lua
 
 
 " setup language server for all the great things
