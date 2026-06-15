@@ -55,23 +55,21 @@ function cpdean_nvm_lsp.start_lsp_client()
     },
   })
 
-  -- taken from nvim-lspconfig readme
-  local nvim_lsp = require('lspconfig')
-
+  -- nvim 0.11 lsp api: vim.lsp.config(name, overrides) merges with the base
+  -- config nvim-lspconfig ships under lsp/<name>.lua, then vim.lsp.enable(name)
+  -- starts it on matching filetypes. (replaces the deprecated lspconfig framework.)
   local rust_config = require("cpdean_config.languages.rust")
-
-
   local common = require("cpdean_config.lsp")
-  local capabilities = common.capabilities()
 
-  nvim_lsp.rust_analyzer.setup {
+  -- cmp-aware capabilities for every server
+  vim.lsp.config('*', { capabilities = common.capabilities() })
+
+  vim.lsp.config('rust_analyzer', {
     settings = {
       ['rust-analyzer'] = { cargo = { features = "all" } }
     },
     on_attach = rust_config.rust_analyzer_attach,
-    capabilities = capabilities,
-  }
-
+  })
 
   local clangd_attach = function(client, bufnr)
     common.common_on_attach(client, bufnr)
@@ -83,101 +81,59 @@ function cpdean_nvm_lsp.start_lsp_client()
         autocmd BufWritePre *.cpp,*.h lua vim.lsp.buf.formatting_sync(nil, 1000)
       ]], false)
     end
-
-
   end
+  vim.lsp.config('clangd', { on_attach = clangd_attach })
 
   -- brew install pyright
-  require'lspconfig'.pyright.setup({
-    capabilities = capabilities,
-    on_attach = common.common_on_attach,
-  })
+  vim.lsp.config('pyright', { on_attach = common.common_on_attach })
 
-  -- lua, sumneko
-  if true then
-    -- common nvim-cmp init
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  -- lua, lua_ls
+  local LUA_PATH = vim.split(package.path, ';')
+  table.insert(LUA_PATH, "lua/?.lua")
+  table.insert(LUA_PATH, "lua/?/init.lua")
+  table.insert(LUA_PATH, "/Applications/Hammerspoon.app/Contents/Resources/extensions/?.lua")
+  table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/?.lua")
+  table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/?/init.lua")
+  table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/spoons/?.spoon/init.lua")
 
-    local LUA_PATH = vim.split(package.path, ';')
-    table.insert(LUA_PATH, "lua/?.lua")
-    table.insert(LUA_PATH, "lua/?/init.lua")
-
-
-
-    table.insert(LUA_PATH, "/Applications/Hammerspoon.app/Contents/Resources/extensions/?.lua")
-    table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/?.lua")
-    table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/?/init.lua")
-    table.insert(LUA_PATH, "~/.local/share/hammerspoon/site/spoons/?.spoon/init.lua")
-
-    local lua_on_attach = function(client, bufnr)
-        -- `<Plug>(Luadev-RunLine)`      | Execute the current line
-        -- `<Plug>(Luadev-Run)`          | Operator to execute lua code over a movement or text object.
-        -- `<Plug>(Luadev-RunWord)`      | Eval identifier under cursor, including `table.attr`
-        -- `<Plug>(Luadev-Complete)`     | in insert mode: complete (nested) global table fields
-        local opts = { noremap=false, silent=false }
-        vim.api.nvim_buf_set_keymap(bufnr,
-            'n', '<leader>ll', '<Plug>(Luadev-RunLine)', opts)
-        vim.api.nvim_buf_set_keymap(bufnr,
-            'v', '<leader>lr', '<Plug>(Luadev-Run)', opts)
-        return common.common_on_attach(client, bufnr)
-    end
-
-    require'lspconfig'.lua_ls.setup {
-      capabilities = capabilities,
-      on_attach = lua_on_attach,
-      settings = {
-        Lua = {
-          runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT',
-            -- Setup your lua path
-            path = LUA_PATH,
-          },
-          diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = {'vim'},
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = vim.api.nvim_get_runtime_file("", true),
-          },
-          -- Do not send telemetry data containing a randomized but unique identifier
-          telemetry = {
-            enable = false,
-          },
+  local lua_on_attach = function(client, bufnr)
+      -- `<Plug>(Luadev-RunLine)` / `<Plug>(Luadev-Run)` from nvim-luadev
+      local opts = { noremap=false, silent=false }
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ll', '<Plug>(Luadev-RunLine)', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>lr', '<Plug>(Luadev-Run)', opts)
+      return common.common_on_attach(client, bufnr)
+  end
+  vim.lsp.config('lua_ls', {
+    on_attach = lua_on_attach,
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+          path = LUA_PATH,
+        },
+        diagnostics = {
+          -- recognize the `vim` global
+          globals = {'vim'},
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+        telemetry = {
+          enable = false,
         },
       },
-    }
-  end
-
-
-  nvim_lsp.clangd.setup {
-    on_attach = clangd_attach,
-    capabilities = capabilities
-  }
+    },
+  })
 
   local golang_attach = function(client, bufnr)
     common.common_on_attach(client, bufnr)
   end
-
-  require'lspconfig'.gopls.setup{
-      capabilities = capabilities,
-      on_attach = golang_attach,
-  }
-
-  -- TODO: does not work with tauri typescript
-  -- cargo install deno --locked
-  -- -- vim.g.markdown_fenced_languages = {
-  -- --   "ts=typescript"
-  -- -- }
-  -- --
-  -- -- require'lspconfig'.denols.setup{}
+  vim.lsp.config('gopls', { on_attach = golang_attach })
 
   -- npm install -g typescript typescript-language-server
-  require'lspconfig'.ts_ls.setup{}
+  vim.lsp.config('ts_ls', {})
 
-  -- from RishabhRD/nvim-lsputils
-  -- vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+  vim.lsp.enable({ 'rust_analyzer', 'clangd', 'pyright', 'lua_ls', 'gopls', 'ts_ls' })
 
   -- run :SymbolsOutline
   require("symbols-outline").setup()
