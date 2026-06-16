@@ -15,7 +15,7 @@ return {
   { "RishabhRD/nvim-lsputils", dependencies = { "RishabhRD/popfix" }, lazy = false },
 
   -- symbols outline (on demand)
-  { "simrat39/symbols-outline.nvim", cmd = "SymbolsOutline" },
+  { "simrat39/symbols-outline.nvim", cmd = "SymbolsOutline", config = true },
 
   -- snippet engine used by the cmp config
   { "hrsh7th/vim-vsnip", lazy = false },
