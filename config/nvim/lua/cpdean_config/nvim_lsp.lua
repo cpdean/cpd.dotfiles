@@ -135,9 +135,6 @@ function cpdean_nvm_lsp.start_lsp_client()
 
   vim.lsp.enable({ 'rust_analyzer', 'clangd', 'pyright', 'lua_ls', 'gopls', 'ts_ls' })
 
-  -- symbols-outline sets itself up lazily on :SymbolsOutline (config = true in
-  -- its lazy spec), so it no longer loads (or warns) at startup.
-
 end
 
 return cpdean_nvm_lsp
