@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# open today's journal file in ~/dev/_log/YYYY-MM/YYYY-MM-DD.md
+# creates the file (and parent dirs) if missing
+
+set -e
+
+JOURNAL_DIR="$HOME/dev/_log"
+MONTH="$(date +%Y-%m)"
+DAY="$(date +%Y-%m-%d)"
+FILE="$JOURNAL_DIR/$MONTH/$DAY.md"
+
+mkdir -p "$(dirname "$FILE")"
+[ -f "$FILE" ] || printf '# %s\n\n' "$DAY" > "$FILE"
+
+exec "${EDITOR:-nano}" "$FILE"
