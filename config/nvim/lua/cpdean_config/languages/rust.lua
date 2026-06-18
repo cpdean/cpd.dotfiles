@@ -1,6 +1,6 @@
 local rust = {}
 
-local common = require("cpdean_config.common_lsp_config")
+local common = require("cpdean_config.lsp")
 
 -- custom settings for rust-analyzer
 rust.rust_analyzer_attach = function(client, bufnr)
