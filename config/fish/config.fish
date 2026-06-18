@@ -41,6 +41,7 @@ if status is-interactive
     abbr -g dc docker compose
 
     # short command to go somewhere specific
+    abbr -g gw cd '$(find ~/dev/work -maxdepth 2 | fzf)'
     abbr -g gp cd '$(find ~/dev/projects -maxdepth 1 | fzf)'
     abbr -g gf "cd $HOME/dev/foss/(fd --type d --maxdepth 2 . ~/dev/foss | sed -e \"s%$HOME/dev/foss/%%\" | fzf)"
 
