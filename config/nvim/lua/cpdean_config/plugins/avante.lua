@@ -21,6 +21,13 @@ return {
         api_key_name = "",
         endpoint = "http://127.0.0.1:1234/v1",
         model = "qwen3.5-4b",
+        -- the tool/function schemas avante sends are huge and blow past a small
+        -- local model's context; a 4b model can't use them well anyway.
+        disable_tools = true,
+        -- keep the output budget modest so prompt + response fit the window
+        extra_request_body = {
+          max_tokens = 4096,
+        },
       },
     },
   },
