@@ -108,15 +108,15 @@ vim.keymap.set("n", "<Leader>h", function()
   end
 end, { silent = true })
 
--- <leader>cy: copy the visual selection to the system clipboard with a
--- "path:start-end" header in a fenced code block, so it pastes into a chat as
--- self-describing context. takes whole lines of the selection.
-local function yank_with_context()
-  -- '< '> reflect this selection once we've left visual mode (map feeds <Esc>)
-  local start_line = vim.fn.line("'<")
-  local end_line = vim.fn.line("'>")
-  local snippet = table.concat(vim.fn.getline(start_line, end_line), "\n")
+-- yank the visual selection (whole lines) to the system clipboard with its
+-- "repo-relative-path:start-end" provenance, for pasting into a chat as context.
+-- two formats: <leader>cy markdown fence, <leader>cx xml tag.
 
+-- gather the selection + location. '< '> reflect the selection once we've left
+-- visual mode (the maps feed <Esc> first).
+local function selection_context()
+  local sl, el = vim.fn.line("'<"), vim.fn.line("'>")
+  local snippet = table.concat(vim.fn.getline(sl, el), "\n")
   -- path relative to the git root, falling back to cwd/home-relative
   local abs = vim.fn.expand("%:p")
   local root = vim.fn.systemlist({ "git", "-C", vim.fn.expand("%:p:h"), "rev-parse", "--show-toplevel" })[1]
@@ -126,15 +126,34 @@ local function yank_with_context()
   else
     path = vim.fn.fnamemodify(abs, ":~:.")
   end
+  return { path = path, sl = sl, el = el, snippet = snippet, ft = vim.bo.filetype }
+end
 
-  local loc = string.format("%s:%d-%d", path, start_line, end_line)
-  local block = string.format("%s\n```%s\n%s\n```\n", loc, vim.bo.filetype, snippet)
+local function copy_block(block, c)
+  local loc = string.format("%s:%d-%d", c.path, c.sl, c.el)
   vim.fn.setreg("+", block)
   vim.notify("yanked " .. loc .. " to clipboard")
 end
 
-vim.keymap.set("v", "<leader>cy", function()
-  -- leave visual so the '< '> marks are set, then build the context block
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
-  yank_with_context()
-end, { desc = "yank selection + file:line context to system clipboard" })
+-- markdown: path:start-end header + fenced code block
+local function yank_markdown()
+  local c = selection_context()
+  copy_block(string.format("%s:%d-%d\n```%s\n%s\n```\n", c.path, c.sl, c.el, c.ft, c.snippet), c)
+end
+
+-- xml: <file path="..." lines="..."> wrapper (anthropic's delimit-with-tags guidance)
+local function yank_xml()
+  local c = selection_context()
+  copy_block(string.format('<file path="%s" lines="%d-%d">\n%s\n</file>\n', c.path, c.sl, c.el, c.snippet), c)
+end
+
+-- run a formatter from visual mode: exit visual so '< '> are set, then format
+local function visual_yank(fn)
+  return function()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+    fn()
+  end
+end
+
+vim.keymap.set("v", "<leader>cy", visual_yank(yank_markdown), { desc = "yank selection + context (markdown) to clipboard" })
+vim.keymap.set("v", "<leader>cx", visual_yank(yank_xml), { desc = "yank selection + context (xml) to clipboard" })
