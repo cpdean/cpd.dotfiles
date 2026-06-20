@@ -107,3 +107,34 @@ vim.keymap.set("n", "<Leader>h", function()
     vim.cmd("normal K")
   end
 end, { silent = true })
+
+-- <leader>cy: copy the visual selection to the system clipboard with a
+-- "path:start-end" header in a fenced code block, so it pastes into a chat as
+-- self-describing context. takes whole lines of the selection.
+local function yank_with_context()
+  -- '< '> reflect this selection once we've left visual mode (map feeds <Esc>)
+  local start_line = vim.fn.line("'<")
+  local end_line = vim.fn.line("'>")
+  local snippet = table.concat(vim.fn.getline(start_line, end_line), "\n")
+
+  -- path relative to the git root, falling back to cwd/home-relative
+  local abs = vim.fn.expand("%:p")
+  local root = vim.fn.systemlist({ "git", "-C", vim.fn.expand("%:p:h"), "rev-parse", "--show-toplevel" })[1]
+  local path
+  if vim.v.shell_error == 0 and root and root ~= "" then
+    path = abs:sub(#root + 2)
+  else
+    path = vim.fn.fnamemodify(abs, ":~:.")
+  end
+
+  local loc = string.format("%s:%d-%d", path, start_line, end_line)
+  local block = string.format("%s\n```%s\n%s\n```\n", loc, vim.bo.filetype, snippet)
+  vim.fn.setreg("+", block)
+  vim.notify("yanked " .. loc .. " to clipboard")
+end
+
+vim.keymap.set("v", "<leader>cy", function()
+  -- leave visual so the '< '> marks are set, then build the context block
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+  yank_with_context()
+end, { desc = "yank selection + file:line context to system clipboard" })
