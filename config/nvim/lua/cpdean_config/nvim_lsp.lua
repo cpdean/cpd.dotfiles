@@ -133,7 +133,10 @@ function cpdean_nvm_lsp.start_lsp_client()
   -- npm install -g typescript typescript-language-server
   vim.lsp.config('ts_ls', {})
 
-  vim.lsp.enable({ 'rust_analyzer', 'clangd', 'pyright', 'lua_ls', 'gopls', 'ts_ls' })
+  -- brew install zls
+  vim.lsp.config('zls', { on_attach = common.common_on_attach })
+
+  vim.lsp.enable({ 'rust_analyzer', 'clangd', 'pyright', 'lua_ls', 'gopls', 'ts_ls', 'zls' })
 
 end
 
