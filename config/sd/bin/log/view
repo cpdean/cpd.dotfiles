@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# print the last 5 days of journal entries
+# shows each filename followed by markdown headlines (lines starting with #)
+# most recent entries appear at the bottom
+
+set -e
+
+JOURNAL_DIR="$HOME/dev/_log"
+
+files=$(find "$JOURNAL_DIR" -type f -name '????-??-??.md' \
+    | awk -F/ '{print $NF"\t"$0}' \
+    | sort \
+    | tail -n 5 \
+    | cut -f2-)
+
+first=1
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    if [ $first -eq 1 ]; then
+        first=0
+    else
+        echo "-"
+    fi
+    basename "$f"
+    grep -E '^#+ ' "$f" || true
+done <<< "$files"
