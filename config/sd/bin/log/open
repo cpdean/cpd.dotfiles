@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# pick a journal entry via fzf and open it in $EDITOR
+# most recent files appear at the top
+
+set -e
+
+JOURNAL_DIR="$HOME/dev/_log"
+
+selection=$(find "$JOURNAL_DIR" -type f -name '????-??-??.md' \
+    | awk -F/ '{print $(NF-1)"/"$NF"\t"$0}' \
+    | sort -r \
+    | fzf --delimiter='\t' --with-nth=1 --preview 'cat {2}' --prompt='log> ')
+
+file=$(printf '%s' "$selection" | cut -f2-)
+
+[ -z "$file" ] && exit 0
+
+exec "${EDITOR:-nano}" "$file"
