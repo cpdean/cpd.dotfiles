@@ -61,6 +61,40 @@ vim.keymap.set("v", "gh", ":GBrowse<CR>", { silent = true })
 -- send visual selection to a kitty window via python helper
 vim.keymap.set("v", "<leader>tt", '"ty:call system("python_kitty_chunked_send.py", getreg("@t"))<CR>', { remap = true, silent = true })
 
+-- send visual selection to an open neovim :terminal and press enter
+vim.keymap.set("v", "<leader>to", function()
+  vim.cmd('normal! "ty')
+  local text = vim.fn.getreg("t")
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "terminal" then
+      local chan = vim.b[buf].terminal_job_id
+      if chan then
+        vim.api.nvim_chan_send(chan, text .. "\n")
+        return
+      end
+    end
+  end
+  -- no terminal open: spawn one in a split and send
+  local origin = vim.api.nvim_get_current_win()
+  vim.cmd("botright split | terminal fish")
+  local chan = vim.b.terminal_job_id
+  vim.api.nvim_set_current_win(origin)
+  if chan then
+    vim.defer_fn(function()
+      vim.api.nvim_chan_send(chan, text .. "\n")
+    end, 100)
+  end
+end, { silent = true })
+
+-- open a new :terminal in a right-half vertical split
+vim.keymap.set("n", "<leader>tn", "<cmd>botright vsplit | terminal fish<CR>", { silent = true })
+
+-- open a new :terminal in a bottom-half horizontal split
+vim.keymap.set("n", "<leader>tN", "<cmd>botright split | terminal fish<CR>", { silent = true })
+
+-- escape terminal mode with plain <Esc>
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
 -- pretty-print selected xml
 vim.keymap.set("v", "<leader>xf", [[:'<,'> !python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>]], { remap = true, silent = true })
 
