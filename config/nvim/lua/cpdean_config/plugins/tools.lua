@@ -8,15 +8,4 @@ return {
   { "kristijanhusak/vim-dadbod-completion", lazy = false },
   { "tpope/vim-scriptease", lazy = false },
   { "ambv/black", lazy = false },
-  {
-    "github/copilot.vim",
-    lazy = false,
-    init = function()
-      -- must be set before copilot loads, or it grabs <Tab>
-      vim.g.copilot_no_tab_map = true
-    end,
-    config = function()
-      vim.keymap.set("i", "<C-j>", 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false, silent = true })
-    end,
-  },
 }
