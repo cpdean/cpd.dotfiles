@@ -143,6 +143,14 @@ local function open_in_buffer(text)
   vim.bo.swapfile = false
   vim.bo.filetype = "markdown"
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+
+  -- normal-mode q: yank the whole buffer (snippet + whatever you typed) to the
+  -- system clipboard, then close the scratch buffer/split.
+  vim.keymap.set("n", "q", function()
+    vim.fn.setreg("+", table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n"))
+    vim.cmd("bdelete!")
+  end, { buffer = true, desc = "yank whole buffer to clipboard and close" })
+
   vim.api.nvim_win_set_cursor(0, { #lines, 0 })
   vim.cmd("startinsert")
 end
