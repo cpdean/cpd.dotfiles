@@ -157,3 +157,27 @@ end
 
 vim.keymap.set("v", "<leader>cy", visual_yank(yank_markdown), { desc = "yank selection + context (markdown) to clipboard" })
 vim.keymap.set("v", "<leader>cx", visual_yank(yank_xml), { desc = "yank selection + context (xml) to clipboard" })
+
+-- <leader>cc: open a scratch buffer in a right vertical split, prefilled with
+-- the context-wrapped snippet, cursor at the end in insert mode -- ready to
+-- write a message/prompt around the code.
+local function compose_with_context()
+  local c = selection_context()
+  local lines = { string.format("%s:%d-%d", c.path, c.sl, c.el), "```" .. c.ft }
+  for _, l in ipairs(vim.split(c.snippet, "\n")) do
+    lines[#lines + 1] = l
+  end
+  lines[#lines + 1] = "```"
+  lines[#lines + 1] = "" -- blank line to start typing on
+
+  vim.cmd("botright vnew") -- new empty buffer in a far-right vertical split
+  vim.bo.buftype = "nofile"
+  vim.bo.bufhidden = "hide"
+  vim.bo.swapfile = false
+  vim.bo.filetype = "markdown"
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+  vim.api.nvim_win_set_cursor(0, { #lines, 0 })
+  vim.cmd("startinsert")
+end
+
+vim.keymap.set("v", "<leader>cc", visual_yank(compose_with_context), { desc = "compose: scratch split prefilled with selection context" })
