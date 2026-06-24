@@ -108,8 +108,9 @@ vim.keymap.set("n", "<Leader>h", function()
   end
 end, { silent = true })
 
--- yank the visual selection (whole lines) to the system clipboard with its
--- "repo-relative-path:start-end" provenance, for pasting into a chat as context.
+-- open the visual selection (whole lines) wrapped with its
+-- "repo-relative-path:start-end" provenance in a scratch right-split, cursor at
+-- the end in insert mode -- ready to write a message/prompt around the code.
 -- two formats: <leader>cy markdown fence, <leader>cx xml tag.
 
 -- gather the selection + location. '< '> reflect the selection once we've left
@@ -129,22 +130,33 @@ local function selection_context()
   return { path = path, sl = sl, el = el, snippet = snippet, ft = vim.bo.filetype }
 end
 
-local function copy_block(block, c)
-  local loc = string.format("%s:%d-%d", c.path, c.sl, c.el)
-  vim.fn.setreg("+", block)
-  vim.notify("yanked " .. loc .. " to clipboard")
+-- open the given text in a scratch buffer in a far-right vertical split, with a
+-- trailing blank line, cursor there in insert mode.
+local function open_in_buffer(text)
+  local lines = vim.split(text, "\n")
+  if lines[#lines] ~= "" then
+    lines[#lines + 1] = ""
+  end
+  vim.cmd("botright vnew")
+  vim.bo.buftype = "nofile"
+  vim.bo.bufhidden = "hide"
+  vim.bo.swapfile = false
+  vim.bo.filetype = "markdown"
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+  vim.api.nvim_win_set_cursor(0, { #lines, 0 })
+  vim.cmd("startinsert")
 end
 
 -- markdown: path:start-end header + fenced code block
 local function yank_markdown()
   local c = selection_context()
-  copy_block(string.format("%s:%d-%d\n```%s\n%s\n```\n", c.path, c.sl, c.el, c.ft, c.snippet), c)
+  open_in_buffer(string.format("%s:%d-%d\n```%s\n%s\n```\n", c.path, c.sl, c.el, c.ft, c.snippet))
 end
 
 -- xml: <file path="..." lines="..."> wrapper (anthropic's delimit-with-tags guidance)
 local function yank_xml()
   local c = selection_context()
-  copy_block(string.format('<file path="%s" lines="%d-%d">\n%s\n</file>\n', c.path, c.sl, c.el, c.snippet), c)
+  open_in_buffer(string.format('<file path="%s" lines="%d-%d">\n%s\n</file>\n', c.path, c.sl, c.el, c.snippet))
 end
 
 -- run a formatter from visual mode: exit visual so '< '> are set, then format
@@ -155,29 +167,5 @@ local function visual_yank(fn)
   end
 end
 
-vim.keymap.set("v", "<leader>cy", visual_yank(yank_markdown), { desc = "yank selection + context (markdown) to clipboard" })
-vim.keymap.set("v", "<leader>cx", visual_yank(yank_xml), { desc = "yank selection + context (xml) to clipboard" })
-
--- <leader>cc: open a scratch buffer in a right vertical split, prefilled with
--- the context-wrapped snippet, cursor at the end in insert mode -- ready to
--- write a message/prompt around the code.
-local function compose_with_context()
-  local c = selection_context()
-  local lines = { string.format("%s:%d-%d", c.path, c.sl, c.el), "```" .. c.ft }
-  for _, l in ipairs(vim.split(c.snippet, "\n")) do
-    lines[#lines + 1] = l
-  end
-  lines[#lines + 1] = "```"
-  lines[#lines + 1] = "" -- blank line to start typing on
-
-  vim.cmd("botright vnew") -- new empty buffer in a far-right vertical split
-  vim.bo.buftype = "nofile"
-  vim.bo.bufhidden = "hide"
-  vim.bo.swapfile = false
-  vim.bo.filetype = "markdown"
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-  vim.api.nvim_win_set_cursor(0, { #lines, 0 })
-  vim.cmd("startinsert")
-end
-
-vim.keymap.set("v", "<leader>cc", visual_yank(compose_with_context), { desc = "compose: scratch split prefilled with selection context" })
+vim.keymap.set("v", "<leader>cy", visual_yank(yank_markdown), { desc = "selection + context (markdown) in a scratch split" })
+vim.keymap.set("v", "<leader>cx", visual_yank(yank_xml), { desc = "selection + context (xml) in a scratch split" })
