@@ -74,13 +74,24 @@ function cpdean_nvm_lsp.start_lsp_client()
   local clangd_attach = function(client, bufnr)
     common.common_on_attach(client, bufnr)
     local opts = { noremap=true, silent=true }
+    -- clangd switch source/header. call the lsp method directly so this
+    -- doesn't depend on the lspconfig-registered user command.
+    vim.api.nvim_buf_create_user_command(bufnr, 'ClangdSwitchSourceHeader', function()
+      local c = vim.lsp.get_clients({ bufnr = bufnr, name = 'clangd' })[1]
+      if not c then return vim.notify('clangd not attached') end
+      local params = vim.lsp.util.make_text_document_params(bufnr)
+      c.request('textDocument/switchSourceHeader', params, function(err, result)
+        if err then error(tostring(err)) end
+        if not result then return vim.notify('no corresponding file') end
+        vim.cmd.edit(vim.uri_to_fname(result))
+      end, bufnr)
+    end, {})
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<Cmd>ClangdSwitchSourceHeader<CR>', opts)
-    -- TODO: autocmd to disable when in $HOME/dev/foss/cpp
-    if true then
-      vim.api.nvim_exec([[
-        autocmd BufWritePre *.cpp,*.h lua vim.lsp.buf.formatting_sync(nil, 1000)
-      ]], false)
-    end
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      buffer = bufnr,
+      pattern = { '*.cpp', '*.h' },
+      callback = function() vim.lsp.buf.format({ async = false, timeout_ms = 1000 }) end,
+    })
   end
   vim.lsp.config('clangd', { on_attach = clangd_attach })
 
