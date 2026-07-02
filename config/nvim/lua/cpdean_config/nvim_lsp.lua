@@ -89,7 +89,6 @@ function cpdean_nvm_lsp.start_lsp_client()
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<Cmd>ClangdSwitchSourceHeader<CR>', opts)
     vim.api.nvim_create_autocmd('BufWritePre', {
       buffer = bufnr,
-      pattern = { '*.cpp', '*.h' },
       callback = function() vim.lsp.buf.format({ async = false, timeout_ms = 1000 }) end,
     })
   end
