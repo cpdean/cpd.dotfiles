@@ -111,7 +111,6 @@ end, { silent = true })
 -- open the visual selection (whole lines) wrapped with its
 -- "repo-relative-path:start-end" provenance in a scratch right-split, cursor at
 -- the end in insert mode -- ready to write a message/prompt around the code.
--- two formats: <leader>cy markdown fence, <leader>cx xml tag.
 
 -- gather the selection + location. '< '> reflect the selection once we've left
 -- visual mode (the maps feed <Esc> first).
@@ -155,12 +154,6 @@ local function open_in_buffer(text)
   vim.cmd("startinsert")
 end
 
--- markdown: path:start-end header + fenced code block
-local function yank_markdown()
-  local c = selection_context()
-  open_in_buffer(string.format("%s:%d-%d\n```%s\n%s\n```\n", c.path, c.sl, c.el, c.ft, c.snippet))
-end
-
 -- xml: <file path="..." lines="..."> wrapper (anthropic's delimit-with-tags guidance)
 local function yank_xml()
   local c = selection_context()
@@ -175,5 +168,4 @@ local function visual_yank(fn)
   end
 end
 
-vim.keymap.set("v", "<leader>cy", visual_yank(yank_markdown), { desc = "selection + context (markdown) in a scratch split" })
-vim.keymap.set("v", "<leader>cx", visual_yank(yank_xml), { desc = "selection + context (xml) in a scratch split" })
+vim.keymap.set("v", "<leader>yc", visual_yank(yank_xml), { desc = "selection + context (xml) in a scratch split" })
