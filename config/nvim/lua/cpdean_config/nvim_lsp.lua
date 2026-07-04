@@ -146,7 +146,10 @@ function cpdean_nvm_lsp.start_lsp_client()
   -- brew install zls
   vim.lsp.config('zls', { on_attach = common.common_on_attach })
 
-  vim.lsp.enable({ 'rust_analyzer', 'clangd', 'pyright', 'lua_ls', 'gopls', 'ts_ls', 'zls' })
+  -- nu --lsp (built into nushell)
+  vim.lsp.config('nushell', { on_attach = common.common_on_attach })
+
+  vim.lsp.enable({ 'rust_analyzer', 'clangd', 'pyright', 'lua_ls', 'gopls', 'ts_ls', 'zls', 'nushell' })
 
 end
 

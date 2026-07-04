@@ -1,6 +1,12 @@
--- treesitter, migrated from vim-plug (gradual-refactor phase 2).
--- no setup() call, matching the previous config. add `build = ":TSUpdate"` and
--- a require("nvim-treesitter.configs").setup{} later if you want highlighting.
+-- new nvim-treesitter rewrite (requires nvim 0.12+): no configs module,
+-- no ensure_installed. parsers installed via build hook; highlight is neovim
+-- built-in, enabled per-filetype in after/ftplugin/.
 return {
-  { "nvim-treesitter/nvim-treesitter", lazy = false },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = function()
+      require("nvim-treesitter").install({ "nu" }):wait()
+    end,
+  },
 }
