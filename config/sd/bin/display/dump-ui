@@ -1,0 +1,60 @@
+#!/usr/bin/env osascript
+
+-- dumps the ui tree of the system settings displays pane so we can find
+-- the right selectors for the "use as" popup and the external-display thumbnail.
+
+on run
+	tell application "System Settings"
+		activate
+		reveal pane id "com.apple.Displays-Settings.extension"
+	end tell
+	delay 1.2
+
+	tell application "System Events"
+		tell process "System Settings"
+			set frontmost to true
+			delay 0.3
+			return my dump(window 1, "", 0)
+		end tell
+	end tell
+end run
+
+on dump(el, path, depth)
+	set out to ""
+	if depth > 12 then return out
+	tell application "System Events"
+		try
+			set r to role of el as string
+		on error
+			set r to "?"
+		end try
+		try
+			set d to description of el as string
+		on error
+			set d to ""
+		end try
+		try
+			set v to value of el as string
+		on error
+			set v to ""
+		end try
+		try
+			set t to title of el as string
+		on error
+			set t to ""
+		end try
+	end tell
+	set out to out & path & " [" & r & "] title=" & t & " val=" & v & " desc=" & d & linefeed
+
+	try
+		tell application "System Events"
+			set subs to UI elements of el
+		end tell
+		set i to 0
+		repeat with c in subs
+			set i to i + 1
+			set out to out & my dump(c, path & "/" & i, depth + 1)
+		end repeat
+	end try
+	return out
+end dump
