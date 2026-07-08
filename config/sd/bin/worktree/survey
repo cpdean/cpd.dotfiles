@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+# survey git worktrees and report anything that isn't committed.
+# for each worktree it lists untracked files, modified/staged files, and the
+# contents of the worktree's _etc dir. clean worktrees with no _etc are skipped.
+#
+# usage  : sd worktree survey -- [path]
+# example: sd worktree survey -- ~/dev/myrepo
+#          sd worktree survey --            (defaults to the current dir)
+
+set -euo pipefail
+
+# sd injects a leading `--` before positional args; drop it if present.
+[ "${1:-}" = "--" ] && shift
+
+path="${1:-.}"
+
+if [ ! -d "$path" ]; then
+    echo "not a directory: $path" >&2
+    exit 1
+fi
+
+# figure out which worktrees to look at.
+# - if the path is (inside) a git worktree, enumerate all worktrees of that repo.
+# - otherwise treat it as a container and scan its immediate subdirs.
+worktrees=()
+if git -C "$path" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    while IFS= read -r line; do
+        worktrees+=("${line#worktree }")
+    done < <(git -C "$path" worktree list --porcelain | grep '^worktree ')
+else
+    for d in "$path"/*/; do
+        [ -d "$d" ] || continue
+        if git -C "$d" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+            worktrees+=("${d%/}")
+        fi
+    done
+fi
+
+if [ "${#worktrees[@]}" -eq 0 ]; then
+    echo "no git worktrees found under: $path" >&2
+    exit 1
+fi
+
+reported=0
+for wt in "${worktrees[@]}"; do
+    untracked="$(git -C "$wt" status --porcelain 2>/dev/null | grep '^??' | sed 's/^?? //' || true)"
+    modified="$(git -C "$wt" status --porcelain 2>/dev/null | grep -v '^??' | sed 's/^...//' || true)"
+
+    etc=""
+    if [ -d "$wt/_etc" ]; then
+        etc="$(cd "$wt/_etc" && find . -mindepth 1 | sed 's|^\./||' | sort || true)"
+    fi
+
+    # task 7: skip a worktree that is clean and has nothing in _etc.
+    if [ -z "$untracked" ] && [ -z "$modified" ] && [ -z "$etc" ]; then
+        continue
+    fi
+
+    [ "$reported" -eq 1 ] && echo
+    reported=1
+    echo "=== $wt ==="
+
+    if [ -n "$modified" ]; then
+        echo "  modified/staged:"
+        while IFS= read -r f; do echo "    $f"; done <<< "$modified"
+    fi
+    if [ -n "$untracked" ]; then
+        echo "  untracked:"
+        while IFS= read -r f; do echo "    $f"; done <<< "$untracked"
+    fi
+    if [ -n "$etc" ]; then
+        echo "  _etc:"
+        while IFS= read -r f; do echo "    $f"; done <<< "$etc"
+    fi
+done
+
+if [ "$reported" -eq 0 ]; then
+    echo "all worktrees clean, no _etc contents."
+fi
