@@ -43,8 +43,23 @@ on dump(el, path, depth)
 		on error
 			set t to ""
 		end try
+		try
+			set nm to name of el as string
+		on error
+			set nm to ""
+		end try
+		try
+			set hp to (get value of attribute "AXHelp" of el) as string
+		on error
+			set hp to ""
+		end try
+		try
+			set lbl to (get value of attribute "AXLabel" of el) as string
+		on error
+			set lbl to ""
+		end try
 	end tell
-	set out to out & path & " [" & r & "] title=" & t & " val=" & v & " desc=" & d & linefeed
+	set out to out & path & " [" & r & "] title=" & t & " name=" & nm & " label=" & lbl & " help=" & hp & " val=" & v & " desc=" & d & linefeed
 
 	try
 		tell application "System Events"

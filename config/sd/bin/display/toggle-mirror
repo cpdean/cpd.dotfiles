@@ -1,176 +1,143 @@
 #!/usr/bin/env osascript
 
--- toggles mirroring between the built-in display and the external display
--- by ui-scripting system settings > displays.
+-- toggles mirroring on the external (non built-in) display via ui-scripting system settings.
+-- uses direct AX paths for speed. thumbnail switching uses CGEvent click since SwiftUI
+-- buttons don't respond to System Events' `click`.
 
 on run
-	-- ensure a clean start: system settings ignores url-scheme pane switches
-	-- when it's already running with another pane visible.
-	try
-		tell application "System Settings" to quit
-	end try
-	delay 0.3
+	set t0 to current date
+	set alreadyOpen to false
+	tell application "System Settings"
+		if it is running then set alreadyOpen to true
+	end tell
 
-	do shell script "open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
-	tell application "System Settings" to activate
-
-	-- wait for the Displays pane to actually appear.
-	set thumbArea to missing value
-	repeat with i from 1 to 40
-		delay 0.2
-		try
-			tell application "System Events"
-				tell process "System Settings"
-					set thumbArea to my findScrollByDesc(window 1, "Displays")
-				end tell
-			end tell
-		on error errMsg
-			-- window may not exist yet; keep polling. save last error for diagnosis.
-			set lastErr to errMsg
-		end try
-		if thumbArea is not missing value then exit repeat
-	end repeat
-
-	-- fallback: click the "Displays" row in the sidebar.
-	if thumbArea is missing value then
-		try
-			tell application "System Events"
-				tell process "System Settings"
-					click (first static text of outline 1 of scroll area 1 of group 1 of splitter group 1 of group 1 of window 1 whose value is "Displays")
-				end tell
-			end tell
-			repeat with i from 1 to 30
-				delay 0.15
-				try
-					tell application "System Events"
-						tell process "System Settings"
-							set thumbArea to my findScrollByDesc(window 1, "Displays")
-						end tell
-					end tell
-					if thumbArea is not missing value then exit repeat
-				end try
-			end repeat
-		end try
+	if not alreadyOpen then
+		do shell script "open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
+	else
+		tell application "System Settings" to reveal pane id "com.apple.Displays-Settings.extension"
 	end if
+	tell application "System Settings" to activate
+	log "opened settings: " & ((current date) - t0) & "s"
 
 	tell application "System Events"
 		tell process "System Settings"
+			-- poll for both scroll areas. recurse from the split group (skips sidebar/toolbar tree
+			-- but still covers the content pane wherever it lands).
+			set t1 to current date
+			set thumbArea to missing value
+			set detailArea to missing value
+			repeat with i from 1 to 40
+				try
+					-- last group of split group is the content pane; skips the huge sidebar tree.
+					set root to last group of splitter group 1 of group 1 of window 1
+					set thumbArea to my findScrollByDesc(root, "Displays")
+					set detailArea to my findScrollByDescPrefix(root, "Display settings for")
+				end try
+				if thumbArea is not missing value and detailArea is not missing value then exit repeat
+				delay 0.15
+			end repeat
+			log "found scroll areas: " & ((current date) - t1) & "s"
+
+			if thumbArea is missing value or detailArea is missing value then
+				log "displays pane never appeared"
+				return
+			end if
+
 			set frontmost to true
 
-			if thumbArea is missing value then
-				-- dump the ui tree to /tmp so we can see what description the scroll area uses now.
-				try
-					set treeText to my dumpTree(window 1, "", 0)
-					do shell script "cat > /tmp/toggle-mirror-tree.txt <<'EOF'
-" & treeText & "
-EOF"
-				end try
-				display notification "thumbnail area not found — tree at /tmp/toggle-mirror-tree.txt" with title "toggle-mirror"
+			-- switch to external display if built-in is currently showing.
+			-- the scroll area's `description` re-reads live, so no need to re-find each poll.
+			if (description of detailArea as string) contains "Built-in" then
+				set t2 to current date
+				repeat with b in (buttons of thumbArea)
+					set pos to position of b
+					set sz to size of b
+					set cx to (item 1 of pos) + ((item 1 of sz) div 2)
+					set cy to (item 2 of pos) + ((item 2 of sz) div 2)
+					do shell script "$HOME/.config/sd/bin/display/click-at " & cx & " " & cy
+					repeat with j from 1 to 10
+						delay 0.08
+						if (description of detailArea as string) does not contain "Built-in" then exit repeat
+					end repeat
+					if (description of detailArea as string) does not contain "Built-in" then exit repeat
+				end repeat
+				log "switched to external: " & ((current date) - t2) & "s"
+			end if
+
+			if (description of detailArea as string) contains "Built-in" then
+				log "could not switch to external display"
 				return
 			end if
 
-			-- the "Use as" popup on either detail pane offers Main / Extended / Mirror-for options,
-			-- so just flip whichever pane is currently showing.
-			set detailArea to my findScrollByDescPrefix(window 1, "Display settings for")
-			set usePopup to missing value
-			try
-				-- popup sits right after the "Use as" label in the first group.
-				set usePopup to first pop up button of group 1 of detailArea
-			end try
-			if usePopup is missing value then
-				display notification "'Use as' popup not found" with title "toggle-mirror"
-				return
-			end if
-
+			-- toggle the "Use as" popup on the external display's detail pane.
+			set t3 to current date
+			set usePopup to first pop up button of group 1 of detailArea
 			set currentValue to (value of usePopup as string)
 			click usePopup
-			delay 0.25
 
-			-- flip main <-> mirror. preserves the currently-selected display's role.
 			set targetPrefix to "Mirror"
-			if currentValue starts with "Mirror" then set targetPrefix to "Main"
+			if currentValue starts with "Mirror" then set targetPrefix to "Stop"
 
 			set picked to false
-			repeat with mi in menu items of menu 1 of usePopup
+			-- wait for the menu to render, then pick.
+			repeat with j from 1 to 10
+				delay 0.05
 				try
-					set nm to (name of mi as string)
-					if nm starts with targetPrefix then
-						click mi
-						set picked to true
-						exit repeat
-					end if
+					repeat with mi in menu items of menu 1 of usePopup
+						set nm to (name of mi as string)
+						if nm starts with targetPrefix then
+							click mi
+							set picked to true
+							exit repeat
+						end if
+					end repeat
 				end try
+				if picked then exit repeat
 			end repeat
 
 			if not picked then
-				-- close the menu if we could not find a target.
-				key code 53 -- escape
-				display notification "could not find '" & targetPrefix & "' menu item" with title "toggle-mirror"
+				key code 53
+				log "could not find '" & targetPrefix & "' menu item"
 				return
 			end if
+			log "toggled popup: " & ((current date) - t3) & "s"
 		end tell
 	end tell
+	log "total: " & ((current date) - t0) & "s"
 
-	delay 0.3
-	tell application "System Settings" to quit
+	if not alreadyOpen then
+		delay 0.15
+		tell application "System Settings" to quit
+	end if
 end run
 
+-- recursive descent over `root`. matches the first scroll area whose description matches.
 on findScrollByDesc(root, targetDesc)
 	tell application "System Events"
-		set allEls to entire contents of root
-		repeat with el in allEls
-			try
-				if (role of el as string) is "AXScrollArea" and (description of el as string) is targetDesc then
-					return contents of el
-				end if
-			end try
-		end repeat
+		try
+			if (class of root) is scroll area and (description of root as string) is targetDesc then return root
+		end try
+		try
+			repeat with c in (UI elements of root)
+				set found to my findScrollByDesc(c, targetDesc)
+				if found is not missing value then return found
+			end repeat
+		end try
 	end tell
 	return missing value
 end findScrollByDesc
 
 on findScrollByDescPrefix(root, prefix)
 	tell application "System Events"
-		set allEls to entire contents of root
-		repeat with el in allEls
-			try
-				if (role of el as string) is "AXScrollArea" and ((description of el as string) starts with prefix) then
-					return contents of el
-				end if
-			end try
-		end repeat
+		try
+			if (class of root) is scroll area and ((description of root as string) starts with prefix) then return root
+		end try
+		try
+			repeat with c in (UI elements of root)
+				set found to my findScrollByDescPrefix(c, prefix)
+				if found is not missing value then return found
+			end repeat
+		end try
 	end tell
 	return missing value
 end findScrollByDescPrefix
-
-on dumpTree(el, path, depth)
-	set out to ""
-	if depth > 12 then return out
-	tell application "System Events"
-		try
-			set r to role of el as string
-		on error
-			set r to "?"
-		end try
-		try
-			set d to description of el as string
-		on error
-			set d to ""
-		end try
-		try
-			set v to value of el as string
-		on error
-			set v to ""
-		end try
-	end tell
-	set out to out & path & " [" & r & "] val=" & v & " desc=" & d & linefeed
-	try
-		tell application "System Events" to set subs to UI elements of el
-		set i to 0
-		repeat with c in subs
-			set i to i + 1
-			set out to out & my dumpTree(c, path & "/" & i, depth + 1)
-		end repeat
-	end try
-	return out
-end dumpTree

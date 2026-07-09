@@ -1,0 +1,18 @@
+#!/usr/bin/env osascript -l JavaScript
+
+// posts a synthesized left-click at absolute screen coordinates.
+// usage: click-at <x> <y>
+
+function run(argv) {
+    ObjC.import('CoreGraphics');
+    const x = parseFloat(argv[0]);
+    const y = parseFloat(argv[1]);
+    const point = $.CGPointMake(x, y);
+
+    // kCGEventLeftMouseDown = 1, kCGEventLeftMouseUp = 2,
+    // kCGMouseButtonLeft = 0, kCGHIDEventTap = 0.
+    const down = $.CGEventCreateMouseEvent($(), 1, point, 0);
+    $.CGEventPost(0, down);
+    const up = $.CGEventCreateMouseEvent($(), 2, point, 0);
+    $.CGEventPost(0, up);
+}

@@ -1,0 +1,61 @@
+#!/usr/bin/env osascript
+
+-- dumps all AX attributes and actions of both thumbnail buttons in the Displays scroll area.
+
+on run
+	try
+		tell application "System Settings" to quit
+	end try
+	delay 0.4
+	do shell script "open 'x-apple.systempreferences:com.apple.Displays-Settings.extension'"
+	tell application "System Settings" to activate
+	delay 2.0
+
+	tell application "System Events"
+		tell process "System Settings"
+			set out to "windows: " & (count of windows) & linefeed
+			set out to out & "window title: " & (title of window 1 as string) & linefeed
+			set thumbArea to missing value
+			set allScrolls to ""
+			repeat with el in (entire contents of window 1)
+				try
+					if (role of el as string) is "AXScrollArea" then
+						set allScrolls to allScrolls & "  scroll area desc=" & (description of el as string) & linefeed
+						if (description of el as string) is "Displays" then set thumbArea to contents of el
+					end if
+				end try
+			end repeat
+			if thumbArea is missing value then return out & "no thumbnail area found. all scroll areas:" & linefeed & allScrolls
+
+			set idx to 0
+			repeat with b in (buttons of thumbArea)
+				set idx to idx + 1
+				set out to out & "=== button " & idx & " ===" & linefeed
+				try
+					set attrList to attributes of b
+					repeat with a in attrList
+						try
+							set aname to name of a as string
+							try
+								set aval to (value of a) as string
+							on error
+								set aval to "<unreadable>"
+							end try
+							set out to out & "  " & aname & " = " & aval & linefeed
+						end try
+					end repeat
+				end try
+				try
+					set actList to actions of b
+					set out to out & "  actions:" & linefeed
+					repeat with a in actList
+						try
+							set out to out & "    " & (name of a as string) & linefeed
+						end try
+					end repeat
+				end try
+			end repeat
+			return out
+		end tell
+	end tell
+end run
