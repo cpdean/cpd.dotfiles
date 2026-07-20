@@ -450,3 +450,6 @@ require("notification_center").setup({
         close    = { "escape", "q" },
     },
 })
+
+-- toggle external-display mirroring (see display_mirror.lua)
+require("display_mirror").setup({ mods = usual, key = "m" })
