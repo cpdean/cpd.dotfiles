@@ -7,6 +7,9 @@
 --end)
 
 
+-- keep the `hs` command-line message port alive across config reloads
+require("hs.ipc")
+
 local intense = {"ctrl", "shift", "alt"}
 local usual = {"ctrl", "shift"}
 
@@ -432,3 +435,18 @@ create_mjm_switcher("u")
 create_mjm_switcher("i")
 create_mjm_switcher("o")
 create_mjm_switcher("p")
+
+-- notification center keyboard control (see notification_center.lua)
+-- ctrl+shift+N reveals it and grabs the keyboard; then j/k move, x clears,
+-- shift+C clears all, enter opens, esc/q closes.
+require("notification_center").setup({
+    toggle = "ctrl+shift+n",
+    keys = {
+        next     = "j",
+        prev     = "k",
+        clear    = { "x", "d" },
+        clearAll = "shift+c",
+        open     = "return",
+        close    = { "escape", "q" },
+    },
+})
