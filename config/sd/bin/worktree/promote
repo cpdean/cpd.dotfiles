@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+# promote a worktree's _etc files up into the parent (main) repo's _etc.
+# lists what would move and asks before doing anything. per-file collisions
+# with the destination are handled: identical files just get the worktree copy
+# deleted, files that differ are left alone for you to sort out by hand.
+#
+# with --all-untracked it also promotes every untracked file in the worktree
+# (respecting gitignore) into the matching path under the main repo.
+#
+# usage  : sd worktree promote -- [worktree-path] [--all-untracked]
+# example: sd worktree promote -- ~/dev/repo-featureX
+#          sd worktree promote -- --all-untracked      (worktree = current dir)
+
+set -euo pipefail
+
+# sd injects a leading `--` before positional args; drop it if present.
+[ "${1:-}" = "--" ] && shift
+
+all_untracked=0
+path=""
+for arg in "$@"; do
+    case "$arg" in
+        --all-untracked) all_untracked=1 ;;
+        --*) echo "unknown flag: $arg" >&2; exit 1 ;;
+        *) path="$arg" ;;
+    esac
+done
+path="${path:-.}"
+
+if ! git -C "$path" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "not a git worktree: $path" >&2
+    exit 1
+fi
+
+# resolve the worktree root and the main working tree (first `git worktree list`
+# entry is always the main one).
+wt="$(git -C "$path" rev-parse --show-toplevel)"
+main="$(git -C "$path" worktree list --porcelain | awk '/^worktree /{print substr($0,10); exit}')"
+
+if [ "$wt" = "$main" ]; then
+    echo "$wt is the main worktree — nothing to promote into." >&2
+    exit 1
+fi
+
+# categorised plan.
+mv_src=(); mv_dst=()      # no collision -> move
+same_src=()               # identical to dest -> delete worktree copy
+diff_src=(); diff_dst=()  # differ from dest -> skip, leave for manual fix
+
+classify() { # $1 = source file (abs), $2 = destination file (abs)
+    if [ ! -e "$2" ]; then
+        mv_src+=("$1"); mv_dst+=("$2")
+    elif cmp -s "$1" "$2"; then
+        same_src+=("$1")
+    else
+        diff_src+=("$1"); diff_dst+=("$2")
+    fi
+}
+
+# source 1: everything under the worktree's _etc -> main/_etc/<same rel>
+if [ -d "$wt/_etc" ]; then
+    while IFS= read -r -d '' f; do
+        rel="${f#"$wt"/_etc/}"
+        classify "$f" "$main/_etc/$rel"
+    done < <(find "$wt/_etc" -type f -print0)
+fi
+
+# source 2 (optional): untracked files anywhere in the worktree -> main/<same rel>
+if [ "$all_untracked" -eq 1 ]; then
+    while IFS= read -r -d '' rel; do
+        [ -z "$rel" ] && continue
+        classify "$wt/$rel" "$main/$rel"
+    done < <(git -C "$wt" ls-files -z --others --exclude-standard)
+fi
+
+total=$(( ${#mv_src[@]} + ${#same_src[@]} + ${#diff_src[@]} ))
+if [ "$total" -eq 0 ]; then
+    echo "nothing to promote from $wt"
+    exit 0
+fi
+
+echo "worktree: $wt"
+echo "into    : $main"
+echo
+
+if [ "${#mv_src[@]}" -gt 0 ]; then
+    echo "will move (${#mv_src[@]}):"
+    for i in "${!mv_src[@]}"; do
+        echo "    ${mv_src[$i]#"$wt"/}  ->  ${mv_dst[$i]#"$main"/}"
+    done
+    echo
+fi
+if [ "${#same_src[@]}" -gt 0 ]; then
+    echo "identical at destination, worktree copy will be deleted (${#same_src[@]}):"
+    for f in "${same_src[@]}"; do echo "    ${f#"$wt"/}"; done
+    echo
+fi
+if [ "${#diff_src[@]}" -gt 0 ]; then
+    echo "COLLISION — differ from destination, will be SKIPPED (resolve by hand) (${#diff_src[@]}):"
+    for i in "${!diff_src[@]}"; do
+        echo "    ${diff_src[$i]#"$wt"/}  vs  ${diff_dst[$i]#"$main"/}"
+    done
+    echo
+fi
+
+printf 'proceed? (y/n) '
+read -r answer
+answer="$(echo "$answer" | tr '[:upper:]' '[:lower:]')"
+if [ "$answer" != "y" ]; then
+    echo "aborted, nothing changed."
+    exit 1
+fi
+
+moved=0
+if [ "${#mv_src[@]}" -gt 0 ]; then
+    for i in "${!mv_src[@]}"; do
+        mkdir -p "$(dirname "${mv_dst[$i]}")"
+        mv "${mv_src[$i]}" "${mv_dst[$i]}"
+        moved=$((moved + 1))
+    done
+fi
+
+deleted=0
+if [ "${#same_src[@]}" -gt 0 ]; then
+    for f in "${same_src[@]}"; do
+        rm "$f"
+        deleted=$((deleted + 1))
+    done
+fi
+
+echo "moved $moved, deleted $deleted identical worktree copies, skipped ${#diff_src[@]} collisions."
