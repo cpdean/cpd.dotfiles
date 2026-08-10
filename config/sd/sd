@@ -24,7 +24,7 @@ sd git sync -a
 # edit (or create) a script
 sd git sync --edit
 # TODO: maybe like this?
-sd git --edit sync 
+sd git --edit sync
 """
 
 def bin_dir():
@@ -90,10 +90,70 @@ def run_command(path_to_bin, args_to_bin):
         print(f"script not found, no file: '{path_to_bin}'")
         raise
 
+def read_summary(path):
+    """pull a one-line description out of a script: the first comment line
+    after the shebang, or the first line of a python triple-quoted docstring."""
+    try:
+        with open(path, "r", errors="replace") as f:
+            lines = f.read().splitlines()
+    except OSError:
+        return ""
+    i = 0
+    if i < len(lines) and lines[i].startswith("#!"):
+        i += 1
+    while i < len(lines) and lines[i].strip() == "":
+        i += 1
+    if i >= len(lines):
+        return ""
+    line = lines[i].strip()
+    if line.startswith("#"):
+        return line.lstrip("#").strip()
+    for quote in ('"""', "'''"):
+        if line.startswith(quote):
+            body = line[len(quote):]
+            if body.strip().endswith(quote) and body.strip() != "":
+                body = body.strip()[:-len(quote)]
+            if body.strip():
+                return body.strip()
+            if i + 1 < len(lines):
+                return lines[i + 1].strip()
+    return ""
+
+def print_tree(dir_path, prefix=""):
+    """recursively print the scripts under a group as a tree, annotating each
+    leaf script with its summary comment."""
+    try:
+        names = sorted(n for n in os.listdir(dir_path) if not n.startswith("."))
+    except OSError:
+        return
+    for idx, name in enumerate(names):
+        full = os.path.join(dir_path, name)
+        last = idx == len(names) - 1
+        connector = "└── " if last else "├── "
+        if os.path.isdir(full):
+            print(f"{prefix}{connector}{name}/")
+            print_tree(full, prefix + ("    " if last else "│   "))
+        else:
+            summary = read_summary(full)
+            line = f"{prefix}{connector}{name}"
+            if summary:
+                line += f"  —  {summary}"
+            print(line)
+
+def list_group(dir_path):
+    """print the subcommands under a group directory. this is what `sd <group>`
+    shows when <group> resolves to a directory rather than a runnable script."""
+    coords = os.path.relpath(dir_path, bin_dir()).split(os.sep)
+    print(f"sd {' '.join(coords)}  (group)")
+    print_tree(dir_path)
+    return exit(0)
+
 def main(args):
     (_sd, path_to_bin, args_to_bin, edit_mode) = parse_args(args)
     if edit_mode:
         return open_for_editing(path_to_bin)
+    elif os.path.isdir(path_to_bin):
+        return list_group(path_to_bin)
     else:
         try:
             return run_command(path_to_bin, args_to_bin)
@@ -112,3 +172,22 @@ def test_parse_args():
     assert sd == "sd"
     assert path_to_bin.endswith("bin/git/sync")
     assert args_to_bin == ["--all", "--source", "gitlab.com"]
+
+def test_read_summary():
+    import tempfile
+    d = tempfile.mkdtemp()
+    # first comment line after the shebang, blank line skipped.
+    bash = os.path.join(d, "bash_script")
+    with open(bash, "w") as f:
+        f.write("#!/usr/bin/env bash\n\n# does a bash thing.\n# more detail.\necho hi\n")
+    assert read_summary(bash) == "does a bash thing."
+    # python triple-quoted docstring on its own line.
+    py = os.path.join(d, "py_script")
+    with open(py, "w") as f:
+        f.write('#!/usr/bin/env python3\n"""does a python thing."""\nprint(1)\n')
+    assert read_summary(py) == "does a python thing."
+    # no leading comment -> empty summary.
+    bare = os.path.join(d, "bare")
+    with open(bare, "w") as f:
+        f.write("#!/usr/bin/env bash\necho hi\n")
+    assert read_summary(bare) == ""
