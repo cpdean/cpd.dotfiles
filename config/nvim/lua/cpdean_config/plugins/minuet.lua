@@ -126,9 +126,17 @@ return {
           suffix = false,
         },
         optional = {
-          -- ghost text only needs a line or three. this is also the real
-          -- backstop against runaway generation.
-          max_tokens = 56,
+          -- a ceiling, not a target — the model stops when it stops, and a
+          -- higher cap costs nothing on short completions (a 4-token suggestion
+          -- took 0.14s at cap 56 and 0.11s at cap 256). 56 was too low and
+          -- silently clipped real work: a retry-with-backoff body needed 61
+          -- tokens, so both the 1.5b and qwen3.5-4b came back mid-expression
+          -- with finish=length. 128 clears every case measured with headroom.
+          --
+          -- NB this is not what stops runaway generation — the `\n\n` entry in
+          -- STOP is. every model hit finish=stop on the no-suffix probe at cap
+          -- 128, so nothing here is load-bearing for safety.
+          max_tokens = 128,
           top_p = 0.9,
           -- IMPORTANT: temperature 0, not omitted. leave it out and LM Studio
           -- applies its own default, which made the same cursor position
@@ -146,6 +154,12 @@ return {
 
     -- swap between the local models with <leader>mm (:Minuet change_preset).
     -- every preset sets the same keys so 'force' merging fully overrides.
+    --
+    -- NB LM Studio keeps only ONE model resident — requesting the 3b evicted the
+    -- 1.5b and vice versa, confirmed both directions via /api/v0/models. so a
+    -- preset switch is not free: the first suggestion afterwards pays a ~2s cold
+    -- load for the small models, ~4s for the 7b, and there is no way to keep two
+    -- warm. pick one and stay on it; the switcher is for experiments.
     presets = {
       -- benchmarked warm over the four fim probes (median / min / max):
       --   coder1_5b  0.40s / 0.12s / 1.11s   all four correct
@@ -164,7 +178,7 @@ return {
           openai_fim_compatible = {
             model = "qwen2.5-coder-3b-instruct",
             stream = false,
-            optional = { max_tokens = 56, top_p = 0.9, temperature = 0, stop = STOP },
+            optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 1024,
@@ -180,7 +194,7 @@ return {
           openai_fim_compatible = {
             model = "qwen2.5-coder-1.5b-instruct",
             stream = false,
-            optional = { max_tokens = 56, top_p = 0.9, temperature = 0, stop = STOP },
+            optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 1024,
@@ -195,7 +209,7 @@ return {
           openai_fim_compatible = {
             model = "qwen2.5-coder-7b",
             stream = false,
-            optional = { max_tokens = 56, top_p = 0.9, temperature = 0, stop = STOP },
+            optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 1024,
@@ -214,7 +228,7 @@ return {
           openai_fim_compatible = {
             model = "qwen3.5-4b",
             stream = false,
-            optional = { max_tokens = 48, top_p = 0.9, temperature = 0, stop = STOP },
+            optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 768,
