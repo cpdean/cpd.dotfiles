@@ -1,8 +1,8 @@
 -- global keymaps, migrated from backup.init.vim (gradual-refactor phase 1).
 -- filetype-local maps live in after/ftplugin/<lang>.lua, not here. maps that
 -- call backup-local script functions (<SID>show_documentation) stay until those
--- functions migrate. plugin-coupled maps (neotest, copilot) move with their
--- plugins in phase 2.
+-- functions migrate. plugin-coupled maps (neotest) move with their plugins in
+-- phase 2.
 
 -- faster save
 vim.keymap.set("n", "<Leader>w", ":w<CR>", { silent = true })
