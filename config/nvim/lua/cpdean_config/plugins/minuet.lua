@@ -75,8 +75,31 @@ return {
     n_completions = 1,
 
     -- characters of surrounding code sent, split 3:1 before/after the cursor.
-    -- start small and raise it once you know how fast your box actually is.
-    context_window = 1024,
+    --
+    -- IMPORTANT: do not shrink this. minuet's readme suggests starting local
+    -- models around 512 and creeping up; on this box that advice is actively
+    -- harmful. tested against a module whose dataclass uses deliberately
+    -- unguessable field names, with the definition parked at measured distances
+    -- above the cursor, the score is a clean staircase — you get the fields
+    -- right exactly when the window reaches back far enough to see them:
+    --
+    --   cursor-to-definition |  512  1024  2048  4096  8192 16000
+    --      522 chars         |  0/3   3/3   3/3   3/3   3/3   3/3
+    --     2034 chars         |  0/3   0/3   1/3   3/3   3/3   3/3
+    --     4065 chars         |  0/3   0/3   0/3   1/3   3/3   3/3
+    --     7125 chars         |  0/3   0/3   0/3   0/3   3/3   3/3
+    --    10440 chars         |  0/3   0/3   0/3   0/3   0/3   3/3
+    --
+    -- and the failure is the bad kind. out of range it does not decline, it
+    -- invents: `acct.enabled and acct.root and acct.confirmed` — fluent, wrong,
+    -- and none of those fields exist. in range: `acct.acct_enabled_flag and
+    -- acct.has_root_grant and acct.addr_confirmed_at`.
+    --
+    -- the cost is about 200ms (252ms -> 478ms median on the 1.5b), which is
+    -- worth it. going past 16000 bought nothing. 16000 chars is ~4000 tokens,
+    -- comfortably inside the ~10k the models are loaded with — check LM Studio's
+    -- per-model context length if you raise it further.
+    context_window = 16000,
     context_ratio = 0.75,
 
     -- default is 3 seconds, which is too tight. a warm request is ~325ms, but a
@@ -186,7 +209,7 @@ return {
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
-        context_window = 1024,
+        context_window = 16000,
         request_timeout = 10,
       },
 
@@ -201,7 +224,7 @@ return {
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
-        context_window = 1024,
+        context_window = 16000,
         request_timeout = 10,
       },
 
@@ -216,7 +239,7 @@ return {
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
-        context_window = 1024,
+        context_window = 16000,
         request_timeout = 10,
       },
 
@@ -235,7 +258,7 @@ return {
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
-        context_window = 768,
+        context_window = 16000,
         request_timeout = 10,
       },
     },
