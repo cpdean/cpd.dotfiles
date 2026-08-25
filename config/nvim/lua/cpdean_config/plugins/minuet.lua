@@ -79,9 +79,10 @@ return {
     context_window = 1024,
     context_ratio = 0.75,
 
-    -- default is 3 seconds, which is too tight: a multi-line completion from
-    -- qwen2.5-coder-7b measured 4.17s here, and qwen3.5-4b measured 4.57s.
-    -- streaming is on, so a partial result still shows up before this fires.
+    -- default is 3 seconds, which is too tight. a warm request is ~325ms, but a
+    -- cold one pays for LM Studio loading the model off disk first — measured at
+    -- 3.66s for coder7b and 11.23s for a 1.5b that had been unloaded. streaming
+    -- is off, so a timeout means no suggestion at all rather than a partial one.
     request_timeout = 10,
 
     debounce = 400,
@@ -111,16 +112,12 @@ return {
         -- a harmless placeholder.
         api_key = "TERM",
         model = "qwen2.5-coder-3b-instruct",
-        -- IMPORTANT: streaming off on purpose. with stream = true the final SSE
-        -- chunk gets dropped, so completions come back a character or two
-        -- short — the same request returned "session.add(u" streamed vs
-        -- "session.merge(u)" unstreamed. losing the closing paren every time is
-        -- worse than waiting. it's also just faster here (610ms vs 815ms),
-        -- because max_tokens is only 56 and there's nothing to stream.
-        --
-        -- the tradeoff: with streaming off, a request that outruns
-        -- request_timeout yields no completion at all instead of a partial one.
-        -- that's why the timeout below is 10s rather than the stock 3s.
+        -- streaming off, but only as a mild preference: measured at temperature
+        -- 0 it makes no difference to either the text (byte-identical output) or
+        -- the latency (325ms vs 328ms median over 6 runs each). off means the
+        -- suggestion appears complete rather than growing in place. the one cost
+        -- is that a request outrunning request_timeout yields nothing instead of
+        -- a partial, which is why the timeout below is 10s not the stock 3s.
         stream = false,
         template = {
           prompt = fim_prompt,
@@ -133,39 +130,72 @@ return {
           -- backstop against runaway generation.
           max_tokens = 56,
           top_p = 0.9,
+          -- IMPORTANT: temperature 0, not omitted. leave it out and LM Studio
+          -- applies its own default, which made the same cursor position
+          -- suggest `session.add(user)` three times, then `session.add(users)`
+          -- with a duplicated commit, then a version with a print appended —
+          -- five runs, four different answers. code completion wants the
+          -- likeliest continuation, and identical context should give identical
+          -- ghost text. this also makes the thing debuggable: without it,
+          -- comparing two configs is comparing two samples.
+          temperature = 0,
           stop = STOP,
         },
       },
     },
 
-    -- swap between the two local models with <leader>mm (:Minuet change_preset).
+    -- swap between the local models with <leader>mm (:Minuet change_preset).
     -- every preset sets the same keys so 'force' merging fully overrides.
     presets = {
-      -- the default, and the fastest of the three by a wide margin: 0.36s-1.02s
-      -- across the four fim probes vs 0.6-4.6s for coder7b. despite being an
+      -- benchmarked warm over the four fim probes (median / min / max):
+      --   coder1_5b  0.40s / 0.12s / 1.11s   all four correct
+      --   coder3b    0.43s / 0.29s / 1.07s   all four correct
+      --   coder7b    0.97s / 0.50s / 2.08s   botched the rust one
+      --   qwen4b     1.07s / 0.32s / 1.68s   referenced an unbound name
+      -- measure before switching: warmup time in a cold LM Studio reflects load
+      -- state, not model speed, and it swamps everything else.
+
+      -- the default. tied with the 1.5b on speed and the only model that got
+      -- all four probes right with nothing to quibble over. despite being an
       -- "instruct" variant its fim training is intact — clean output, no fences,
-      -- and it hit finish=stop on all four probes including the no-suffix case
-      -- that makes the other two ramble. small enough to stay resident.
+      -- no <think> blocks.
       coder3b = {
         provider_options = {
           openai_fim_compatible = {
             model = "qwen2.5-coder-3b-instruct",
             stream = false,
-            optional = { max_tokens = 56, top_p = 0.9, stop = STOP },
+            optional = { max_tokens = 56, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 1024,
         request_timeout = 10,
       },
 
-      -- bigger, slower, no more accurate on these probes. worth a try on
-      -- gnarlier code where the 3b might not have the context to reason.
+      -- smallest and quickest off the mark — 0.12s on a mid-line completion,
+      -- the fastest single result of anything measured. got all four probes
+      -- right too. reach for this if the 3b ever feels laggy while typing; the
+      -- only cost is less context to reason over on gnarlier code.
+      coder1_5b = {
+        provider_options = {
+          openai_fim_compatible = {
+            model = "qwen2.5-coder-1.5b-instruct",
+            stream = false,
+            optional = { max_tokens = 56, top_p = 0.9, temperature = 0, stop = STOP },
+          },
+        },
+        context_window = 1024,
+        request_timeout = 10,
+      },
+
+      -- bigger and slower with nothing to show for it: it was the one model
+      -- that flubbed the rust probe, opening the loop and never closing it.
+      -- kept around in case it does better on real code than on toy snippets.
       coder7b = {
         provider_options = {
           openai_fim_compatible = {
             model = "qwen2.5-coder-7b",
             stream = false,
-            optional = { max_tokens = 56, top_p = 0.9, stop = STOP },
+            optional = { max_tokens = 56, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 1024,
@@ -173,17 +203,18 @@ return {
       },
 
       -- the general-purpose instruct model, same one opencode and crush use for
-      -- chat. its fim training survived the instruct tune — no markdown fences,
-      -- no <think> blocks — but it rambles when there's no suffix, so it leans
-      -- harder on the `\n\n` stop and the token cap. it's also much slower:
-      -- ~5.9s end to end vs ~610ms for coder7b. fine for a comparison, not for
-      -- typing.
+      -- chat. its fim training survived the instruct tune. it used to run off
+      -- the end on the no-suffix case, inventing a call site and fake output
+      -- comments until it hit the token cap — the `\n\n` stop is what fixed
+      -- that, and it now terminates cleanly on every probe. still the slowest of
+      -- the four, and the only one that emitted code referencing an unbound
+      -- name, so it's here for comparison rather than for typing.
       qwen4b = {
         provider_options = {
           openai_fim_compatible = {
             model = "qwen3.5-4b",
             stream = false,
-            optional = { max_tokens = 48, top_p = 0.9, stop = STOP },
+            optional = { max_tokens = 48, top_p = 0.9, temperature = 0, stop = STOP },
           },
         },
         context_window = 768,
