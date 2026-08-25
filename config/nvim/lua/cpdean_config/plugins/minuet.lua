@@ -1,12 +1,13 @@
 -- minuet-ai.nvim — copilot-style ghost text from the local LM Studio server.
--- same endpoint as plugins/avante.lua and plugins/gen.lua, different job: this
--- one is fill-in-the-middle completion only. no tools, no agent, no sidebar.
--- you type, it suggests the middle, you hit <A-y>.
+-- same endpoint as config/opencode/opencode.json and config/crush/crush.json,
+-- different job: this one is fill-in-the-middle completion only. no tools, no
+-- agent, no sidebar. you type, it suggests the middle, you hit <A-y>.
 --
--- why FIM and not the agent: avante sends ~45kb of request body and 27 tool
--- schemas for a one-line edit, which a small local model can't steer through.
--- FIM sends the code around your cursor and nothing else, so a 4b-7b model
--- does fine.
+-- this replaced avante.nvim and gen.nvim, both since removed. why FIM and not
+-- an agent: avante sent ~45kb of request body and 27 tool schemas for a
+-- one-line edit, which a small local model can't steer through — it reached for
+-- write_to_file and clobbered a function. FIM sends the code around your cursor
+-- and nothing else, so a 4b-7b model does fine.
 --
 -- IMPORTANT: LM Studio's /v1/completions silently ignores the `suffix` field.
 -- verified by sending the same prompt with no suffix, with "return s", and with
@@ -155,11 +156,12 @@ return {
         request_timeout = 10,
       },
 
-      -- the general-purpose instruct model avante and gen.nvim use. its fim
-      -- training survived the instruct tune — no markdown fences, no <think>
-      -- blocks — but it rambles when there's no suffix, so it leans harder on
-      -- the `\n\n` stop and the token cap. it's also much slower: ~5.9s end to
-      -- end vs ~610ms for coder7b. usable for a comparison, not for typing.
+      -- the general-purpose instruct model, same one opencode and crush use for
+      -- chat. its fim training survived the instruct tune — no markdown fences,
+      -- no <think> blocks — but it rambles when there's no suffix, so it leans
+      -- harder on the `\n\n` stop and the token cap. it's also much slower:
+      -- ~5.9s end to end vs ~610ms for coder7b. fine for a comparison, not for
+      -- typing.
       qwen4b = {
         provider_options = {
           openai_fim_compatible = {
