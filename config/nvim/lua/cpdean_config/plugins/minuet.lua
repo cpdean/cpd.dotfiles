@@ -110,7 +110,7 @@ return {
         -- header built from an env var name. TERM is always set, so it acts as
         -- a harmless placeholder.
         api_key = "TERM",
-        model = "qwen2.5-coder-7b",
+        model = "qwen2.5-coder-3b-instruct",
         -- IMPORTANT: streaming off on purpose. with stream = true the final SSE
         -- chunk gets dropped, so completions come back a character or two
         -- short — the same request returned "session.add(u" streamed vs
@@ -141,9 +141,25 @@ return {
     -- swap between the two local models with <leader>mm (:Minuet change_preset).
     -- every preset sets the same keys so 'force' merging fully overrides.
     presets = {
-      -- purpose-built for code completion. self-terminates cleanly even with no
-      -- suffix, got all four fim probes right, and measured ~610ms end to end
-      -- through minuet. this is the default and the one to reach for.
+      -- the default, and the fastest of the three by a wide margin: 0.36s-1.02s
+      -- across the four fim probes vs 0.6-4.6s for coder7b. despite being an
+      -- "instruct" variant its fim training is intact — clean output, no fences,
+      -- and it hit finish=stop on all four probes including the no-suffix case
+      -- that makes the other two ramble. small enough to stay resident.
+      coder3b = {
+        provider_options = {
+          openai_fim_compatible = {
+            model = "qwen2.5-coder-3b-instruct",
+            stream = false,
+            optional = { max_tokens = 56, top_p = 0.9, stop = STOP },
+          },
+        },
+        context_window = 1024,
+        request_timeout = 10,
+      },
+
+      -- bigger, slower, no more accurate on these probes. worth a try on
+      -- gnarlier code where the 3b might not have the context to reason.
       coder7b = {
         provider_options = {
           openai_fim_compatible = {
