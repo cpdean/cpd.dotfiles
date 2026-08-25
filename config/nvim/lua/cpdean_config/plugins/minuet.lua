@@ -111,7 +111,7 @@ return {
         -- header built from an env var name. TERM is always set, so it acts as
         -- a harmless placeholder.
         api_key = "TERM",
-        model = "qwen2.5-coder-3b-instruct",
+        model = "qwen2.5-coder-1.5b-instruct",
         -- streaming off, but only as a mild preference: measured at temperature
         -- 0 it makes no difference to either the text (byte-identical output) or
         -- the latency (325ms vs 328ms median over 6 runs each). off means the
@@ -155,28 +155,33 @@ return {
     -- swap between the local models with <leader>mm (:Minuet change_preset).
     -- every preset sets the same keys so 'force' merging fully overrides.
     --
-    -- NB LM Studio keeps only ONE model resident — requesting the 3b evicted the
-    -- 1.5b and vice versa, confirmed both directions via /api/v0/models. so a
-    -- preset switch is not free: the first suggestion afterwards pays a ~2s cold
-    -- load for the small models, ~4s for the 7b, and there is no way to keep two
-    -- warm. pick one and stay on it; the switcher is for experiments.
+    -- a switch costs a cold load for any model LM Studio doesn't currently have
+    -- resident — roughly 2s for the small ones, 4s for the 7b. how many stay
+    -- resident is an LM Studio setting, not a fixed limit: with it turned up,
+    -- the 1.5b and 3b sat loaded together through a whole benchmark run. if you
+    -- see repeated cold loads, that setting is capped at one.
     presets = {
-      -- benchmarked warm over the four fim probes (median / min / max):
-      --   coder1_5b  0.40s / 0.12s / 1.11s   all four correct
-      --   coder3b    0.43s / 0.29s / 1.07s   all four correct
-      --   coder7b    0.97s / 0.50s / 2.08s   botched the rust one
-      --   qwen4b     1.07s / 0.32s / 1.68s   referenced an unbound name
-      -- measure before switching: warmup time in a cold LM Studio reflects load
-      -- state, not model speed, and it swamps everything else.
+      -- scored over a 22-case suite spanning python, rust, lua, bash, fish, sql,
+      -- js and go — graded on bracket balance, suffix duplication, token-cap
+      -- truncation and a required-substring check per case:
+      --   coder1_5b  17/22 clean   0.42s median   failures all cosmetic
+      --   coder3b    16/22 clean   0.60s median   two failures wouldn't run
+      -- the 3b dropped the `Op::` qualifier off rust match arms and ignored a
+      -- `local ok, mod =` prefix so pcall never got called. the 1.5b's five
+      -- misses were all re-emitting text that already sat below the cursor.
+      -- the 7b and qwen4b were measured on an earlier, smaller probe set: 0.97s
+      -- and 1.07s median, both slower than either small model.
+      --
+      -- warmup time in a cold LM Studio measures load state, not model speed —
+      -- ignore it when comparing.
 
-      -- the default. tied with the 1.5b on speed and the only model that got
-      -- all four probes right with nothing to quibble over. despite being an
-      -- "instruct" variant its fim training is intact — clean output, no fences,
-      -- no <think> blocks.
-      coder3b = {
+      -- the default: fastest measured and the best score on the big suite. a 1.5b
+      -- beating a 3b was not the expected result, but it held up over 22 cases in
+      -- nine languages, and its failure mode is the harmless one.
+      coder1_5b = {
         provider_options = {
           openai_fim_compatible = {
-            model = "qwen2.5-coder-3b-instruct",
+            model = "qwen2.5-coder-1.5b-instruct",
             stream = false,
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
@@ -185,14 +190,13 @@ return {
         request_timeout = 10,
       },
 
-      -- smallest and quickest off the mark — 0.12s on a mid-line completion,
-      -- the fastest single result of anything measured. got all four probes
-      -- right too. reach for this if the 3b ever feels laggy while typing; the
-      -- only cost is less context to reason over on gnarlier code.
-      coder1_5b = {
+      -- a step up in size that did not buy accuracy. still a good model and
+      -- worth switching to on code the 1.5b visibly fumbles — it wrote a better
+      -- dataclass and docstring than the 1.5b did.
+      coder3b = {
         provider_options = {
           openai_fim_compatible = {
-            model = "qwen2.5-coder-1.5b-instruct",
+            model = "qwen2.5-coder-3b-instruct",
             stream = false,
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
           },
