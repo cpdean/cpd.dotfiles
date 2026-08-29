@@ -52,26 +52,53 @@ function M.close()
   state.win = nil
 end
 
--- the suggestion itself is not wired to the LLM yet; for now say what we know
--- about the buffer we'd be asking about.
-function M.suggestion_for(buf)
+-- path of the buffer, relative to cwd, or a stand-in when it has no file
+function M.buffer_name(buf)
   local name = vim.api.nvim_buf_get_name(buf)
   if name == "" then
-    name = "[no name]"
+    return "[no name]"
   end
+  return vim.fn.fnamemodify(name, ":~:.")
+end
+
+-- the lines currently on screen in `win`, so the model sees what the user sees
+-- rather than a whole 4000-line file
+function M.visible_text(win)
+  local buf = vim.api.nvim_win_get_buf(win)
+  local first = vim.fn.line("w0", win)
+  local last = vim.fn.line("w$", win)
+  local lines = vim.api.nvim_buf_get_lines(buf, first - 1, last, false)
+  return table.concat(lines, "\n"), first, last
+end
+
+-- what we hand the model: the goal, where the user is, and what they're looking
+-- at. no file contents beyond the viewport.
+function M.build_prompt(win)
+  win = win or vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_win_get_buf(win)
   local goal = require("cpdean_config.goal").get()
-  return {
-    "# advice",
-    "",
+  local text, first, last = M.visible_text(win)
+  return table.concat({
     "goal: " .. (goal or "(none set)"),
-    "file: " .. vim.fn.fnamemodify(name, ":~:."),
+    "file: " .. M.buffer_name(buf),
+    ("visible lines: %d-%d"):format(first, last),
     "",
-    "(no suggestion yet — the local LLM isn't wired up)",
-  }
+    "```",
+    text,
+    "```",
+  }, "\n")
+end
+
+-- the suggestion itself is not wired to the LLM yet; for now show the prompt
+-- we would send.
+function M.suggestion_for(win)
+  local lines = { "# advice", "", "(no suggestion yet — the local LLM isn't wired up)", "", "## prompt" }
+  vim.list_extend(lines, vim.split(M.build_prompt(win), "\n"))
+  return lines
 end
 
 function M.advise()
-  M.render(M.suggestion_for(vim.api.nvim_get_current_buf()))
+  M.render(M.suggestion_for(vim.api.nvim_get_current_win()))
 end
 
 vim.api.nvim_create_user_command("Advice", function()
