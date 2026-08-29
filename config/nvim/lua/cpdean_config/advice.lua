@@ -24,8 +24,9 @@ M.config = {
 }
 
 -- the scratch buffer/window we reuse, so repeated :Advice calls don't pile up
--- splits
-local state = { buf = nil, win = nil }
+-- splits. `job` is the in-flight curl, `seq` bumps per request so a slow reply
+-- can't overwrite a newer one.
+local state = { buf = nil, win = nil, job = nil, seq = 0 }
 
 local function scratch_buf()
   if state.buf and vim.api.nvim_buf_is_valid(state.buf) then
@@ -152,7 +153,9 @@ function M.request(prompt, cb)
     "--data-binary",
     "@-",
   }
-  vim.system(cmd, { stdin = body, text = true }, function(res)
+  -- vim.system is non-blocking: :Advice returns immediately and the callback
+  -- lands whenever curl finishes.
+  return vim.system(cmd, { stdin = body, text = true }, function(res)
     local text, err
     if res.code ~= 0 then
       -- curl couldn't reach it at all: server down, wrong port, timeout
@@ -197,7 +200,18 @@ function M.advise()
   table.insert(lines, "asking " .. M.config.model .. "...")
   M.render(lines)
 
-  M.request(M.build_prompt(win), function(text, err)
+  -- a second :Advice supersedes the first; drop the old request's answer
+  if state.job then
+    pcall(function() state.job:kill("sigterm") end)
+  end
+  state.seq = state.seq + 1
+  local seq = state.seq
+
+  state.job = M.request(M.build_prompt(win), function(text, err)
+    if seq ~= state.seq then
+      return
+    end
+    state.job = nil
     local out = header(win)
     if err then
       table.insert(out, "could not get advice:")
