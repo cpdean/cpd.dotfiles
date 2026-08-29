@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# stop routing through a tailscale exit node — back to the plain connection.
+#
+# usage: sd network off
+
+set -euo pipefail
+
+tailscale set --exit-node=
+echo "exit node: off"

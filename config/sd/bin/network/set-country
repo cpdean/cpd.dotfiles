@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# route all traffic through a mullvad exit node in the given country.
+# picks the country-level ("Any" city) node, which tailscale lists first.
+#
+# usage  : sd network set-country -- <country>
+# example: sd network set-country -- Japan
+#          sd network set-country -- "Czech Republic"
+
+set -euo pipefail
+
+# sd injects a leading `--` before positional args; drop it if present.
+[ "${1:-}" = "--" ] && shift
+
+country="${1:-}"
+if [ -z "$country" ]; then
+    echo "usage: sd network set-country -- <country>" >&2
+    exit 1
+fi
+
+# data rows start with the node's ip; the header and any banner don't.
+ip_row='$1 ~ /^[0-9]+(\.[0-9]+){3}$/'
+
+# an unknown country makes the filter fail, which is fine — we handle the empty
+# result below.
+node="$(tailscale exit-node list --filter="$country" 2>/dev/null | awk "$ip_row { print \$2; exit }" || true)"
+
+if [ -z "$node" ]; then
+    echo "no exit node for '$country'. countries on offer:" >&2
+    # country is a fixed-width column, so read its bounds off the header rather
+    # than counting fields — plenty of countries and cities have spaces in them.
+    tailscale exit-node list | awk '
+        /COUNTRY/ && !start { start = index($0, "COUNTRY"); stop = index($0, "CITY"); next }
+        start && $1 ~ /^[0-9]+(\.[0-9]+){3}$/ {
+            name = substr($0, start, stop - start)
+            sub(/ +$/, "", name)
+            print "  " name
+        }' | sort -u >&2
+    exit 1
+fi
+
+tailscale set --exit-node="$node"
+echo "exit node: $node"

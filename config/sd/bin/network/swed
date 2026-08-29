@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# route through a Swedish exit node.
+#
+# usage: sd network swed
+
+set -euo pipefail
+
+exec "$(dirname "$0")/set-country" Sweden

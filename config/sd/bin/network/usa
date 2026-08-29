@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# route through a US exit node.
+#
+# usage: sd network usa
+
+set -euo pipefail
+
+exec "$(dirname "$0")/set-country" USA
