@@ -183,6 +183,16 @@ end
 
 function M.advise()
   local win = vim.api.nvim_get_current_win()
+  -- without a goal there's nothing to give advice about, and the model would
+  -- just make one up
+  if not require("cpdean_config.goal").get() then
+    M.render({
+      "# advice",
+      "",
+      "no goal set. run :Goal <what you're trying to do> first.",
+    })
+    return
+  end
   local lines = header(win)
   table.insert(lines, "asking " .. M.config.model .. "...")
   M.render(lines)
