@@ -3,9 +3,24 @@
 -- split, never in your real buffer.
 local M = {}
 
+-- endpoint/model knobs mirror the other local-LLM plugins (plugins/gen.lua and
+-- plugins/avante.lua): the same LM Studio openai-compatible server. keep the
+-- three in sync when the model or port changes.
 M.config = {
   -- height of the advice split, in lines
   height = 12,
+  host = "127.0.0.1",
+  port = "1234",
+  model = "qwen3.5-4b",
+  -- seconds to wait on the server before giving up
+  timeout = 60,
+  system_prompt = table.concat({
+    "you are a terse pair programmer looking over someone's shoulder in neovim.",
+    "given their goal and the code on screen, say what they should do in this",
+    "window next. if this file is the wrong place to work, say so and name the",
+    "file or the kind of file they should open instead. a few sentences, plain",
+    "text, no code blocks unless a one-liner helps.",
+  }, " "),
 }
 
 -- the scratch buffer/window we reuse, so repeated :Advice calls don't pile up
@@ -89,16 +104,100 @@ function M.build_prompt(win)
   }, "\n")
 end
 
--- the suggestion itself is not wired to the LLM yet; for now show the prompt
--- we would send.
-function M.suggestion_for(win)
-  local lines = { "# advice", "", "(no suggestion yet — the local LLM isn't wired up)", "", "## prompt" }
-  vim.list_extend(lines, vim.split(M.build_prompt(win), "\n"))
-  return lines
+function M.endpoint()
+  return ("http://%s:%s/v1/chat/completions"):format(M.config.host, M.config.port)
+end
+
+-- pull the assistant text out of an openai-shaped response body. returns
+-- nil plus a reason when the body isn't what we expect.
+function M.parse_response(body)
+  local ok, decoded = pcall(vim.json.decode, body)
+  if not ok or type(decoded) ~= "table" then
+    return nil, "could not parse the server's response"
+  end
+  if decoded.error then
+    local msg = type(decoded.error) == "table" and decoded.error.message or decoded.error
+    return nil, "server said: " .. tostring(msg)
+  end
+  local choice = decoded.choices and decoded.choices[1]
+  local content = choice and choice.message and choice.message.content
+  if type(content) ~= "string" or content == "" then
+    return nil, "the server returned no message"
+  end
+  return content
+end
+
+-- POST the prompt to the local server and hand the text (or an error string)
+-- to `cb`. cb always runs on the main loop.
+function M.request(prompt, cb)
+  local body = vim.json.encode({
+    model = M.config.model,
+    stream = false,
+    messages = {
+      { role = "system", content = M.config.system_prompt },
+      { role = "user", content = prompt },
+    },
+  })
+  local cmd = {
+    "curl",
+    "--silent",
+    "--show-error",
+    "--max-time",
+    tostring(M.config.timeout),
+    "-X",
+    "POST",
+    M.endpoint(),
+    "-H",
+    "Content-Type: application/json",
+    "--data-binary",
+    "@-",
+  }
+  vim.system(cmd, { stdin = body, text = true }, function(res)
+    local text, err
+    if res.code ~= 0 then
+      -- curl couldn't reach it at all: server down, wrong port, timeout
+      err = ("could not reach the LLM at %s (curl exit %d)"):format(M.endpoint(), res.code)
+      local stderr = vim.trim(res.stderr or "")
+      if stderr ~= "" then
+        err = err .. "\n" .. stderr
+      end
+    else
+      text, err = M.parse_response(res.stdout or "")
+    end
+    vim.schedule(function()
+      cb(text, err)
+    end)
+  end)
+end
+
+local function header(win)
+  local buf = vim.api.nvim_win_get_buf(win)
+  return {
+    "# advice",
+    "",
+    "goal: " .. (require("cpdean_config.goal").get() or "(none set)"),
+    "file: " .. M.buffer_name(buf),
+    "",
+  }
 end
 
 function M.advise()
-  M.render(M.suggestion_for(vim.api.nvim_get_current_win()))
+  local win = vim.api.nvim_get_current_win()
+  local lines = header(win)
+  table.insert(lines, "asking " .. M.config.model .. "...")
+  M.render(lines)
+
+  M.request(M.build_prompt(win), function(text, err)
+    local out = header(win)
+    if err then
+      table.insert(out, "could not get advice:")
+      table.insert(out, "")
+      vim.list_extend(out, vim.split(err, "\n"))
+    else
+      vim.list_extend(out, vim.split(vim.trim(text), "\n"))
+    end
+    M.render(out)
+  end)
 end
 
 vim.api.nvim_create_user_command("Advice", function()
