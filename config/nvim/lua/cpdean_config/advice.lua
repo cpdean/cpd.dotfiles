@@ -1,4 +1,4 @@
--- advice window. :Advice asks what should happen in this window to move the
+-- advice window. :GoalAdvice asks what should happen in this window to move the
 -- current goal (see cpdean_config.goal) forward. the answer lands in a scratch
 -- split, never in your real buffer.
 local M = {}
@@ -23,7 +23,7 @@ M.config = {
   }, " "),
 }
 
--- the scratch buffer/window we reuse, so repeated :Advice calls don't pile up
+-- the scratch buffer/window we reuse, so repeated :GoalAdvice calls don't pile up
 -- splits. `job` is the in-flight curl, `seq` bumps per request so a slow reply
 -- can't overwrite a newer one.
 local state = { buf = nil, win = nil, job = nil, seq = 0 }
@@ -42,7 +42,7 @@ local function scratch_buf()
 end
 
 -- render lines into the advice split, opening it if it isn't up. returns to
--- the window you came from so :Advice never steals the cursor.
+-- the window you came from so :GoalAdvice never steals the cursor.
 function M.render(lines)
   local buf = scratch_buf()
   vim.bo[buf].modifiable = true
@@ -153,7 +153,7 @@ function M.request(prompt, cb)
     "--data-binary",
     "@-",
   }
-  -- vim.system is non-blocking: :Advice returns immediately and the callback
+  -- vim.system is non-blocking: :GoalAdvice returns immediately and the callback
   -- lands whenever curl finishes.
   return vim.system(cmd, { stdin = body, text = true }, function(res)
     local text, err
@@ -192,7 +192,7 @@ function M.advise()
     M.render({
       "# advice",
       "",
-      "no goal set. run :Goal <what you're trying to do> first.",
+      "no goal set. run :GoalSet <what you're trying to do> first.",
     })
     return
   end
@@ -200,7 +200,7 @@ function M.advise()
   table.insert(lines, "asking " .. M.config.model .. "...")
   M.render(lines)
 
-  -- a second :Advice supersedes the first; drop the old request's answer
+  -- a second :GoalAdvice supersedes the first; drop the old request's answer
   if state.job then
     pcall(function() state.job:kill("sigterm") end)
   end
@@ -224,11 +224,11 @@ function M.advise()
   end)
 end
 
-vim.api.nvim_create_user_command("Advice", function()
+vim.api.nvim_create_user_command("GoalAdvice", function()
   M.advise()
 end, { desc = "show advice for the current window in a scratch split" })
 
-vim.api.nvim_create_user_command("AdviceClose", function()
+vim.api.nvim_create_user_command("GoalAdviceClose", function()
   M.close()
 end, { desc = "close the advice split" })
 

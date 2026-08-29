@@ -1,5 +1,5 @@
--- tiny "current goal" scratchpad. :Goal <text> stores a string, :Goal with no
--- args echoes it back, :GoalClear forgets it. session-local, nothing on disk.
+-- tiny "current goal" scratchpad. :GoalSet <text> stores a string, :GoalShow
+-- echoes it back, :GoalClear forgets it. session-local, nothing on disk.
 local M = {}
 
 M.goal = nil
@@ -24,12 +24,14 @@ function M.show()
   end
 end
 
-vim.api.nvim_create_user_command("Goal", function(opts)
-  if opts.args ~= "" then
-    M.set(opts.args)
-  end
+vim.api.nvim_create_user_command("GoalSet", function(opts)
+  M.set(opts.args)
   M.show()
-end, { nargs = "*", desc = "set the current goal, or show it when given no args" })
+end, { nargs = "+", desc = "set the current goal" })
+
+vim.api.nvim_create_user_command("GoalShow", function()
+  M.show()
+end, { desc = "show the current goal" })
 
 vim.api.nvim_create_user_command("GoalClear", function()
   M.clear()
