@@ -16,6 +16,8 @@ vim.opt.rtp:prepend(lazypath)
 -- core editor config (options/autocmds/providers/keymaps). loaded before lazy
 -- so options like background are set before plugin colorschemes load.
 require('cpdean_config.core')
+require('cpdean_config.goal')
+require('cpdean_config.advice')
 
 require("lazy").setup("cpdean_config.plugins")
 
