@@ -26,10 +26,46 @@
 --   <leader>mm                 -> switch model (picker)
 --   <leader>mt                 -> toggle auto-suggest on/off
 
+local ENDPOINT = "http://127.0.0.1:1234/v1/completions"
+local DEFAULT_MODEL = "qwen2.5-coder-1.5b-instruct"
+
 -- qwen fim markers. qwen2.5-coder and qwen3.5 both use this scheme.
 local FIM_PREFIX = "<|fim_prefix|>"
 local FIM_SUFFIX = "<|fim_suffix|>"
 local FIM_MIDDLE = "<|fim_middle|>"
+
+-- ask LM Studio what it has. returns a list of model ids, or nil plus a reason.
+local function probe_backend()
+  local url = ENDPOINT:gsub("/completions$", "/models")
+  -- 1s cap so a wedged or unroutable host can't stall startup. against
+  -- localhost this lands in ~10ms whether the server is up or refusing.
+  local res = vim.system(
+    { "curl", "-s", "-m", "1", "-w", "\n%{http_code}", url },
+    { text = true }
+  ):wait()
+  if res.code ~= 0 then
+    return nil, ("cannot reach %s (curl exit %d)"):format(url, res.code)
+  end
+  local body, status = (res.stdout or ""):match("^(.*)\n(%d+)%s*$")
+  if status ~= "200" then
+    return nil, ("%s returned HTTP %s"):format(url, status or "?")
+  end
+  local ok, decoded = pcall(vim.json.decode, body)
+  if not ok or type(decoded) ~= "table" or type(decoded.data) ~= "table" then
+    return nil, ("%s returned something that isn't a model list"):format(url)
+  end
+  local ids = {}
+  for _, entry in ipairs(decoded.data) do
+    if entry.id then ids[#ids + 1] = entry.id end
+  end
+  return ids
+end
+
+-- notify after startup settles; messages emitted during spec resolution get
+-- swallowed before the UI is up.
+local function warn_later(msg, level)
+  vim.schedule(function() vim.notify(msg, level or vim.log.levels.ERROR) end)
+end
 
 -- one shared stop list, used verbatim by every preset below.
 --
@@ -63,6 +99,35 @@ return {
   "milanglacier/minuet-ai.nvim",
   event = "InsertEnter",
   dependencies = { "nvim-lua/plenary.nvim" },
+
+  -- don't load at all if the LM Studio server isn't answering. without this the
+  -- plugin loads fine and then just never suggests anything, which looks
+  -- identical to the model being slow — there's nothing to tell you the backend
+  -- is simply down.
+  --
+  -- lazy evaluates `cond` during spec resolution, so this runs once per nvim
+  -- start. measured ~10ms against localhost whether the server is up or
+  -- refusing the connection; the 1s curl cap bounds the bad cases.
+  --
+  -- NB the consequence of returning false: minuet stays off for the whole
+  -- session, keymaps included. start LM Studio first, or restart nvim after.
+  cond = function()
+    local models, err = probe_backend()
+    if not models then
+      warn_later("minuet disabled: " .. err .. "\nstart LM Studio, then restart nvim.")
+      return false
+    end
+    if not vim.tbl_contains(models, DEFAULT_MODEL) then
+      -- endpoint is fine, so still load — <leader>mm can reach the other
+      -- presets. but say so, because otherwise every request 404s in silence.
+      warn_later(
+        ("minuet: model %q is not on the LM Studio server.\navailable: %s")
+          :format(DEFAULT_MODEL, table.concat(models, ", ")),
+        vim.log.levels.WARN
+      )
+    end
+    return true
+  end,
   keys = {
     { "<leader>mm", "<cmd>Minuet change_preset<cr>", desc = "minuet: switch model" },
     { "<leader>mt", "<cmd>Minuet virtualtext toggle<cr>", desc = "minuet: toggle ghost text" },
@@ -129,12 +194,12 @@ return {
     provider_options = {
       openai_fim_compatible = {
         name = "LMStudio",
-        end_point = "http://127.0.0.1:1234/v1/completions",
+        end_point = ENDPOINT,
         -- LM Studio does no auth, but minuet always sends an Authorization
         -- header built from an env var name. TERM is always set, so it acts as
         -- a harmless placeholder.
         api_key = "TERM",
-        model = "qwen2.5-coder-1.5b-instruct",
+        model = DEFAULT_MODEL,
         -- streaming off, but only as a mild preference: measured at temperature
         -- 0 it makes no difference to either the text (byte-identical output) or
         -- the latency (325ms vs 328ms median over 6 runs each). off means the
@@ -204,6 +269,8 @@ return {
       coder1_5b = {
         provider_options = {
           openai_fim_compatible = {
+            -- spelled out rather than DEFAULT_MODEL so every preset reads the
+            -- same way and moving the default doesn't silently rename one.
             model = "qwen2.5-coder-1.5b-instruct",
             stream = false,
             optional = { max_tokens = 128, top_p = 0.9, temperature = 0, stop = STOP },
