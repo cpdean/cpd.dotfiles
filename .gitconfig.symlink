@@ -65,6 +65,9 @@
     # like the above but takes the url as an arg instead of getting it from clipboard
     work-on = "!f() { git checkout -b $(echo \"$1\" | rev | cut -d/ -f1 | rev | cut -d'?' -f1); }; f"
 
+    # show a count of adds/deletes in the past N commits
+    lines-changes-in-last = "!f() { git log -n \"${1:-10}\" --numstat --format= | awk '{a+=$1; d+=$2} END {print \"+\"a\" -\"d}'; }; f"
+
 
 
     # different repos have different trunks
